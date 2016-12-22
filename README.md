@@ -1,6 +1,7 @@
 # phpmaker-plugins
 --> Adicionar al inicio de Server Events/Global/All Pages/Page_Head
-//Agregando los plugins para todas las páginas
+
+//Agregando los plugins para todas las pÃ¡ginas
 	addPlg("plg_main,plg_coolui","all");
 //incluyendo los encabezados de los "plugins"
 	includePlg(); //sin parametros asume que la seccion es "header"
@@ -9,6 +10,7 @@
 	include_once "plgmngr.php";
 
 --> Adicionar al inicio de Client Scripts/Global/Pages with header|footer/StartUp Script
+
 </script> 
 <?php
 	includePlg("footer");
@@ -16,6 +18,7 @@
 <script type="text/javascript" >
 
 --> Para agregar el plugin "autosizetextarea" por ejemplo en la pagina Edit, 
-		adicionar en la funcion de Server Events/Table-Specific/Edit Page/Page_Render
+	adicionar en la funcion de Server Events/Table-Specific/Edit Page/Page_Render
+		
 		
 	addPlg("plg_autosizetextarea");
