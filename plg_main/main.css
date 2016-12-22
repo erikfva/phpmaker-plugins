@@ -1,0 +1,91 @@
+	@media only screen and (max-width: 700px) {
+	 .modal { left:initial;margin-left:4%; max-width:90%; top:40px;height:80%;overflow:auto;min-height:505px}
+	}
+
+	/*ocultando el encabezado y columna de menu*/
+	#ewHeaderRow,#ewMenuColumn,.ewToolbar{display:none}
+	.ewContentColumn{padding:0px}
+	.ewSiteTitle{display:none}
+
+body{
+	background-image: url("images/top_bar.jpg"); background-position: 50% 0px; background-repeat: repeat-x;
+}
+.ewContentColumn {background:transparent}
+.ewFooterRow {
+  background-color: transparent;
+  color: #FFF;
+  text-align: center;
+  width: 97%;
+}
+/**************************************
+	Barra de menú izquierda
+**************************************/
+
+#leftmenu .ui-state-hover{ background-color:black; background-image:none}
+#leftmenu{
+	min-height:500px;
+	min-width: 90px;
+	z-index:2;
+	text-align:center;
+	position:fixed;
+	left:0;top:0px;height:100%;background-color: #004B8B;
+	border-radius:1px;
+}
+	@media only screen and (min-height: 0px) {
+	  #leftmenu { position:absolute}
+	} 
+	@media only screen and (min-height: 500px) {
+	  #leftmenu { position:fixed}
+	}
+
+	
+/**************************************
+	 Motor de busqueda estilo Google
+**************************************/
+	@media only screen and (min-width: 0px) {
+	  #formulario-buscar { position:inherit}
+	} 
+	@media only screen and (min-width: 700px) {
+	  #formulario-buscar { position:absolute}
+	}  
+
+/**************************************
+MENU ESTILO ANDROID
+**************************************/
+<style>
+		ul {
+			padding: 0px;
+			margin: 0px;
+		}
+		li {
+			list-style: none;
+		}
+		#slidx_menu {
+			background-color: #f4f4f4;
+		}
+		#slidx_menu a {
+			padding: 15px 0px 15px 15px;
+			//display: block;
+			background:#f1f1f1;
+			color:#999;
+		}
+		#slidx_menu a:hover {
+			background-color: #004B8B;
+			cursor: pointer;
+			color:#fff;
+			border-top:#E3F2FD solid 1px;
+			text-decoration:none;
+		}
+		#slidx_button:hover {
+			cursor: pointer;
+		}
+		.l_drillDown, .displayed.active{padding-left:0px}
+		.l_drillDown li,.l_drillDown li:last-child {
+			//border-bottom: 2px solid #777
+		}
+		.goHome,.l_ddbc{background:#000 !important; padding:5px !important; color:white; font-size:18px;}
+		/*.l_drillDownWrapper, #slidx_menu a.goHome{color:#31708f;background:none; border:none}*/
+		.l_caret{background:none; color:#fff; padding-right:20px}
+		.l_drillDown li.hasSubs:hover .l_caret{background:#009933}
+		.l_drillDownWrapper{overflow: auto; overflow-x: hidden;height:100% !important}
+    

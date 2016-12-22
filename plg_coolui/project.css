@@ -1,0 +1,327 @@
+@media (max-width: 600px) {
+		.modal-body{ padding:0px}
+	.form-horizontal .form-group {
+    margin-left: 7px; 
+    margin-right: initial; 
+	}
+}		
+
+@media (max-width: 350px) {
+	.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    padding-left: 0px;
+    padding-right: 15px;
+	}
+	.modal-dialog{
+		margin-right : 0px;
+	}
+
+}
+@media (min-width: 768px){
+	#ewModalDialog .modal-dialog {
+    width: 85%;
+	}
+}
+body{background-color:transparent}
+.hide-empty{display:none}
+.ewAddEdit.ewAdd,
+.ewGridLink.ewInlineUpdate,
+.ewAddEdit.ewGridAdd,
+.ewAction.ewGridSave,
+.ewAction.ewGridInsert,
+.ewDetailAdd, /*Personalizando botones de opciones*/
+.btn-primary,.ewShowAll {
+	visibility:hidden;
+	opacity:0;
+  transition:opacity 0.5s linear;
+}
+
+/*checkbox y radio */
+.ewItemTable td {
+	padding-right: 3px;
+}
+.radio-inline, .checkbox-inline {
+    margin-left: 10px;
+}
+.checkbox,.checkbox input,
+.checkbox-inline,.checkbox-inline input,
+.radio-inline, .radio-inline input {
+  visibility: hidden;
+}
+.checkbox-inline.custom {
+	visibility: initial;
+}
+.checkbox.active,.checkbox-inline.active,.radio-inline.active {
+  border-bottom: blue solid 3px;
+}
+.btn-danger.checkbox.active,.btn-danger.checkbox-inline.active,.btn-danger.radio-inline.active {
+  border-bottom: red solid 3px;
+}
+.checkbox.active:before,.checkbox-inline.active:before,.radio-inline.active:before {
+  content: "\e013";
+  font-family: 'Glyphicons Halflings';
+  margin-right: 3px;
+}
+
+
+label {white-space:inherit !important}
+
+.ewItemList.yes-no {overflow:hidden;height:0px;width:0px;display:inline-block}
+/* checkbox estilo iOS7 */
+input.iOS7 {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  /* box-shadow: inset 0 0 0px 1px #d5d5d5; */
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: #d5d5d5;
+  box-sizing: border-box;
+  text-indent: -5000px;
+  height: 19px;
+  width: 50px;
+  border-radius: 15.5px;
+  -webkit-appearance: none;
+}
+input.iOS7:checked {
+  border-color: #167ac6;
+  -webkit-transition: 0.25s cubic-bezier(0.77, 0, 0.175, 1);
+}
+/* background OFF */
+input.iOS7:before {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 18px;
+  width: 28px;
+  border-radius: 14px;
+  top: 0px;
+  left: 0px;
+  background: rgba(19, 191, 17, 0);
+  box-sizing: border-box;
+  -webkit-transition: 0.25s cubic-bezier(0.77, 0, 0.175, 1);
+}
+/* button OFF */
+input.iOS7:after {
+content: "";
+  position: absolute;
+  display: block;
+  height: 16px;
+  width: 16px;
+  top: 0px;
+  left: 0px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 0px 1px rgba(0, 0, 0, 0.4), 0 4px 2px rgba(0, 0, 0, 0.1);
+  -webkit-transition: 0.2s cubic-bezier(0.77, 0, 0.175, 1);
+}
+/* background ON */
+input.iOS7:checked:before {
+ 
+  width: 48px;
+  background: #008dfd;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #008dfd 0%, #167ac6 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #008dfd), color-stop(100%, #167ac6));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #008dfd 0%, #167ac6 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #008dfd 0%, #167ac6 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #008dfd 0%, #167ac6 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #008dfd 0%, #167ac6 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#008dfd', endColorstr='#167ac6', GradientType=0);
+  /* IE6-9 */
+}
+/* button ON */
+input.iOS7:checked:after {
+  left: 31px;
+}
+input.iOS7:focus,
+input.iOS7:active {
+  outline: 0px !important;
+  -webkit-appearance: none;
+}
+/* FIN : checkbox estilo iOS7 */
+
+/*checkbox estilo youtube */
+
+.yt-uix-checkbox-on-off {
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  padding-right: 2px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.yt-uix-checkbox-on-off input[type=checkbox] {
+  position: absolute;
+  opacity: 0;
+  width: 37px;
+  height: 15px;
+  margin: 0;
+}
+.yt-uix-checkbox-on-off input[type=checkbox]:checked+label {
+  background-color: #167ac6;
+}
+.yt-uix-checkbox-on-off label {
+  display: inline-block;
+  border: 1px solid transparent;
+  height: 15px;
+  width: 100%;
+  background: #b8b8b8;
+  cursor: pointer;
+  border-radius: 20px;
+  -webkit-transition: 0.2s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.yt-uix-checkbox-on-off input[type=checkbox]:checked+label .checked {
+  display: inline-block;
+  margin-top: 3px;
+  margin-left: 6px;
+  background: no-repeat url(//s.ytimg.com/yts/imgbin/www-hitchhiker-vflQ02J6M.webp) -64px -429px;
+  background-size: auto;
+  width: 10px;
+  height: 7px;
+}
+.yt-uix-checkbox-on-off input[type=checkbox]:checked+label .unchecked {
+  display: none;
+}
+.yt-uix-checkbox-on-off label .unchecked {
+  display: inline-block;
+  float: right;
+  padding-right: 3px;
+}
+.yt-uix-checkbox-on-off input[type=checkbox]:checked+label .toggle {
+  float: right;
+}
+.yt-uix-checkbox-on-off label .toggle {
+  float: left;
+  background: #fbfbfb;
+  height: 13px;
+  width: 13px;
+  border-radius: 13px;
+}
+
+/*jqueryfileupload */
+.ewUploadTable{
+	margin-top : 0px !important;
+	min-height:150px;
+	min-width:150px;
+	display:block;
+	background: url('images/pictures.png') no-repeat;
+	background-position : 10px 10px;
+	float:none !important;
+}
+
+.template-download {
+	position:relative;
+	max-width:220px;
+	min-width:210px;
+	min-height:220px;
+	display:block
+}
+.template-download td{
+	display: list-item;
+	list-style-type: none; 
+	position:absolute;
+	right:0px;
+	top:70px;
+}
+
+.template-download td.preview{
+	right:initial;
+	top:0px;
+}
+.template-download .name{
+	top:0px;
+}
+.template-download .size{
+	top:32px;
+}
+.template-download .name a{
+background: url('images/download32.png') no-repeat;
+border:none;
+width: 32px;
+height: 32px;
+margin-left:32px;
+color: transparent;
+display: block;
+overflow: hidden;
+}
+
+.template-download .delete:before {
+    content: "\e020";
+    font-family: 'Glyphicons Halflings';
+    color:red;
+}
+.template-download .delete{
+	background-image:inherit;
+	text-shadow: 0 0px 0;
+	background: #e0e0e0;
+	color:#e0e0e0;
+	width:35px;
+  overflow: hidden;
+  z-index:2;
+}
+/* Estilos */
+.outlookbutton:hover,
+.outlookbutton {
+  background-color: #004b8b;
+  display: inline-block;
+  color: #fff;
+  padding: 8px 12px 8px 12px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.outlookbutton:hover {
+  background: #0072C6;
+}
+.goobutton {
+  background: #0370ea;
+  background: -moz-linear-gradient(top, #008dfd 0, #0370ea 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #008dfd), color-stop(100%, #0370ea));
+  background: -webkit-linear-gradient(top, #008dfd 0, #0370ea 100%);
+  background: -o-linear-gradient(top, #008dfd 0, #0370ea 100%);
+  background: -ms-linear-gradient(top, #008dfd 0, #0370ea 100%);
+  background: linear-gradient(top, #008dfd 0, #0370ea 100%);
+  border: 1px solid #076bd2;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: #fff !important;
+  display: inline-block;
+  font-size: 13px;
+  line-height: 1.3;
+  padding: 8px 25px;
+  text-decoration: none !important;
+  text-shadow: 1px 1px 1px #076bd2;
+}
+.goobutton:hover {
+  background: -moz-linear-gradient(top, #008dfd 30%, #0370ea 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(30%, #008dfd), color-stop(100%, #0370ea));
+  background: -webkit-linear-gradient(top, #008dfd 30%, #0370ea 100%);
+  background: -o-linear-gradient(top, #008dfd 30%, #0370ea 100%);
+  background: -ms-linear-gradient(top, #008dfd 30%, #0370ea 100%);
+  background: linear-gradient(top, #008dfd 30%, #0370ea 100%);
+  cursor: pointer;
+}
+/*placeholders*/
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #008dfd !important;
+  opacity: 0.6;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #008dfd !important;
+  opacity: 0.6;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #008dfd !important;
+  opacity: 0.6;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #008dfd !important;
+  opacity: 0.6;
+}
+/**/
+.text-del{color:red;text-decoration: line-through;}

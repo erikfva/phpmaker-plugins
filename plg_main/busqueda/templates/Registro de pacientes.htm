@@ -1,0 +1,97 @@
+<style type="text/css">
+<!--
+.Estilo1 {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #FF0000;
+	font-weight: bold;
+	font-size: large;
+}
+.Estilo2 {
+	color: #003;
+	font-style: italic;
+	font-weight: bold;
+}
+-->
+</style>
+
+<div class="modal-content modal-body">
+  <div>
+  	<a class=" paciente-edit" href="#" onclick="if(top){ top.$('#marco-pacientelist').attr('src','pacienteedit.php?opciones=resetall&numeroexpediente=[numeroexpediente]'); top.$('div.metro-pivot').data('metro-pivot').goToItemByName(top.ewLanguage.obj.label_paciente); }  return false;">
+  	<span style="text-decoration:underline" class="responsive lead btn-link">[nombre]</span> 
+  	</a>
+  	<span class=" nombre-paciente responsive lead">[nombre]</span>
+  	[?[sexo]!^
+  	<span class="sex pull-left" style="display:none">[sexo]</span>
+  	?]	
+  	<span style="white-space:normal;margin-right:10px;width:60px" class="x_edad pull-left label label-info" >[fechanacimiento]</span>	
+  	<a style="width: 100px;white-space: normal;" class="pull-right btn-xs ewGridLink btn btnHistoria" href="#" onclick="if(top){ top.$('#marco-pacientelist').attr('src','pacienteview.php?opciones=resetall&numeroexpediente=[numeroexpediente]'); top.$('div.metro-pivot').data('metro-pivot').goToItemByName(top.ewLanguage.obj.label_paciente); }  return false;">
+ 		<img src="images/historia.png" align="top" border="0" style="margin:5px;width:64px;height:64px">
+ 		<span class="">Historia cl&iacute;nica</span>
+ 		</a>
+  	<div class="clearfix"></div>
+  	[?[observacion]!^ <div class="line-warning small responsive alert alert-warning" style="max-width:300px"><strong>[observacion]</strong></div> ?]
+  	<div class="clearfix"></div>
+  	<div class="text-info">
+  	[?[fecha]!^ <h4 class="lead modal-title">Ultima consulta</h4> ?]
+  	<dl class="dl-horizontal">
+   		[?[fecha]!^
+    	<dt>Fecha</dt>
+    	<dd>[fecha]</dd>
+    	<dt>M&eacute;dico</dt>
+    	<dd>[nombre_medico]</dd> 
+    	?]
+    	[?[sintomas]!^	 	
+    	<dt class="text-warning">Sintomas</dt>
+    	<dd class="text-warning">[sintomas]</dd>
+    	?]
+    	[?[signos]!^	
+    	<dt class="text-warning">Signos</dt>
+    	<dd class="text-warning">[signos]</dd>
+    	?]  
+    	[?[diagnostico]!^		
+    	<dt class="text-danger">Diagnostico</dt>
+    	<dd class="text-danger">[diagnostico]</dd>
+    	?]
+     	[?[tratamiento]!^	
+     	<dt class="text-success">Tratamiento</dt>
+    	<dd class="text-success">[tratamiento]</dd> 
+    	?]
+     	[?[evolucion]!^	
+     	<dt class="text-success">Evoluci&oacute;n</dt>
+    	<dd class="text-success">[evolucion]</dd> 
+    	?]    		
+  	</dl>	
+  </div>
+  
+  </div>	 
+	<div class="btn-group btn-group-xs pull-right" align="right">
+  	<a class="ewGridLink btn btn-info btncitaadd" href="javascript:top.citaadd('[numeroexpediente]')">
+  		<img src="images/icon-48-contacts.png" title="Agenda de citas médicas" align="middle" border="0" style="width:32px;margin-right:5px"><span class="">Nueva cita</span>
+  	</a>
+  	<a class="btn btn-success btn-small ewGridLink btn btnconsultaadd" href="javascript:top.consultaadd('[numeroexpediente]')" style="position:relative">
+  		<img src="images/estetoscopio.png" title="Consulta" align="middle" border="0" style="width:32px;">
+  		<span class="">Nueva consulta</span>
+  	</a>		
+	</div>
+	<div class="clearfix"></div>
+</div>
+<hr>
+
+<script>
+jQuery(document).ready(function($){
+	$('.x_edad').each(function(){
+		$(this).html(getAge($(this).text(),'aaaa/mm/dd'));
+	});
+	$('.sex').each(function(){
+		$(this).html('<img src="images/' + ($(this).text()=='M'?'masculino':'femenino') + '.png" align="absmiddle" border="0" style="margin:5px;width:16px;height:32px">').show();
+	});
+})
+</script>
+<if>
+	sintomas|signos|diagnostico|tratamiento|evolucion~
+	IsSysAdmin() ||	(CurrentUserInfo("idmedico") && CurrentUserInfo("idmedico") == $textos_valores["[idmedico]"] || $textos_valores["[publicar_consultas]"] == 1) 
+</if>
+<if>
+sexo~
+$textos_valores["[sexo]"] != "N"
+</if>
