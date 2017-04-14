@@ -53,17 +53,11 @@ jQuery(document).ready(function(){
 				htmlmenu.appendTo('#slidx_menu').linkesDrillDown({lbHome:'<i class="glyphicon glyphicon-home goHome ewIcon"></i>',cssCaret:'glyphicon glyphicon-play-circle'});
 				$('#user_info').prependTo('#slidx_menu ul:first').show();	
 				
-				window.urlContent = function(url){
-					if($('#marco-contenido').is(':visible')){ 
-						$('#marco-contenido').attr('src',url + '?cmd=resetall&opciones=reset'); 
-					} 
-					$('#marco-contenido').data('url',url + '?cmd=resetall&opciones=reset'); 
-					$('div.metro-pivot').data('metro-pivot').goToItemByName('contenido'); 
-					$('.pageload-overlay').show();
-				}
 //**************************************
 //PANTALLAS ESTILO ANDROID
 //**************************************
+
+/*
 	ewLanguage.obj.label_paciente = 'pacientelist';
 	$('#marco-pacientelist').on('load',function(){	$(this).removeClass('empty') }).attr('src',$('#marco-pacientelist').data('url'));
 	//Pagina resultados de busqueda
@@ -78,6 +72,7 @@ jQuery(document).ready(function(){
 	$('#marco-analisis_resultadoslist').on('load',function(){ $(this).removeClass('empty') }).attr('src',$('#marco-analisis_resultadoslist').data('url'));
 	
 	ewLanguage.obj.label_listado_prueba = 'listado_pruebalist';
+*/
 
 	//Pagina links del menu principal
 	ewLanguage.obj.label_contenido = 'contenido';
@@ -98,34 +93,36 @@ jQuery(document).ready(function(){
 					//this.headers.children(":contains(Inicio)").hide();
 				},
 				beforeItemChanged: function(index){
+					
 					var iframe = this.find('.pivot-item:eq(' + index + ')').find('iframe');
-					if(iframe.length && (iframe.attr('id')=='marco-contenido' || iframe.is('.empty')) ){
+
+					if(iframe.length && (iframe.attr('id')=='frame-content' || iframe.is('.empty')) ){
 						$('.pageload-overlay').show();
-						iframe.attr('src', iframe.data('url') );
+						iframe.attr('src', iframe.data('url') ).removeClass('empty');
 					}
 					
 				},
 				selectedItemChanged: function(index){
 
-					//this.headers.children(":contains(Inicio)").hide();
+					
 					if(this.items != undefined){
 						var iframe = this.find('.pivot-item:eq(' + index + ')').find('iframe');
 
 						if(iframe.length){ 
-							if (iframe.is('.empty')){
-  								iframe.one('load',function(){ $(this).removeClass('empty'); $('.pageload-overlay').hide(); }).attr('src', iframe.data('url') ); 
-							}else{
+							
 								if(iframe[0].contentWindow && iframe[0].contentWindow.doResize)
 									iframe[0].contentWindow.doResize();
-								if(iframe[0].contentWindow && iframe[0].contentWindow.refreshContent)
+								if(iframe[0].contentWindow && typeof iframe[0].contentWindow.refreshContent === 'function'){
 									iframe[0].contentWindow.refreshContent();
-							}
+								}
   					}
 					}
 				}
 			};	
 			$('#mainbody').css('margin-left', $('#leftmenu').width() + 'px' );
+
 			$("div.metro-pivot").metroPivot(defaults);
+			$('.pivot-item iframe:not(.lazyload)').each(function(){ $(this).attr('src', $(this).data('url') ).removeClass('empty'); });
 			$('.headers .header:last').addClass('hidden');
 })
 
@@ -159,27 +156,3 @@ var isScrolling = false;
 })( jQuery );
 
 $('.pageload-overlay').fadeOut();
-
-function clienteadd(op){
-	if(iframe = $('#marco-pacientelist')){
-		iframe.attr('src','pacienteadd.php?showdetail=analisis' + (typeof op != 'undefined'? '&' + op : '') );
-		$('div.metro-pivot').data('metro-pivot').goToItemByName(ewLanguage.obj.label_paciente);
-		$('.pageload-overlay').show();  
-	} 
-}
-
-function analisis_solicitudview(op){
-	if(iframe = $('#marco-analisis_solicitudlist')){
-		iframe.attr('src','analisis_solicitudview.php?showdetail=&' + (typeof op != 'undefined'? op : '') );
-		$('div.metro-pivot').data('metro-pivot').goToItemByName(ewLanguage.obj.label_analisis_solicitud);
-		$('.pageload-overlay').show();  
-	} 
-}
-
-function analisis_resultadosview(op){
-	if(iframe = $('#marco-analisis_resultadoslist')){
-		iframe.attr('src','analisis_resultadosview.php?showdetail=&' + (typeof op != 'undefined'? op : '') );
-		$('div.metro-pivot').data('metro-pivot').goToItemByName(ewLanguage.obj.label_analisis_resultados);
-		$('.pageload-overlay').show();  
-	} 
-}

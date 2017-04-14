@@ -81,6 +81,7 @@ ew_OnError = function (frm, el, msg) {
 	setTimeout(function(){ splashLoadingOff(); }, 200);
 	PHPMaker_ew_OnError(frm, el, msg);
 }
+
 PHPMaker_ew_ModalDialogShow =  ew_ModalDialogShow;
 ew_ModalDialogShow = function(args) {
 
@@ -120,7 +121,9 @@ ew_ModalDialogShow = function(args) {
 			$dlg.modal("hide");
 			var result = results[0];
 			var url = result.url;
-			console.log(url);
+			
+			//console.log(url);
+			//AJAX refresh content -> The user must be declarate the function refreshContent in this context!!!
 			if(!$.isUndefined(window.refreshContent)){
 				refreshContent();
 			} else {
@@ -181,6 +184,7 @@ ew_ModalDialogShow = function(args) {
 		var $data = $(data), $lnk = $(args.lnk);
 		$dlg.find(".modal-title").html($lnk.data("caption") || $lnk.data("original-title"));
 		var footer = "";
+		//var header = '<button type="button" class="close" data-dismiss="modal">&times;</button>';
 		if (args.url && args.caption)
 			footer += "<button type=\"button\" class=\"btn btn-primary ewButton\">" + args.caption + "</button>";
 		if (footer != "")
@@ -188,6 +192,11 @@ ew_ModalDialogShow = function(args) {
 		else
 			footer = "<button type=\"button\" class=\"btn btn-default ewButton\" data-dismiss=\"modal\">" + ewLanguage.Phrase("CloseBtn") + "</button>";
 		$dlg.find(".modal-footer").html(footer);
+		
+		//Inyectando controles del footer en el header
+		$dlg.find(".modal-title").prepend('<div class="pull-right btn-group btn-group-xs">' + footer + '</div>');
+		$dlg.find(".modal-header .btn-primary").click(_submit).focus();
+		
 		var body = ew_StripScript(data).match(/<body[\s\S]*>[\s\S]*<\/body>/i);
 		$dlg.find(".modal-body").append($(body[0]).not("div[id^=ew].modal, #ewTooltip"));
 		$dlg.find(".modal-body form").keypress(function(e) {
@@ -225,3 +234,72 @@ jQuery(document).ready(function(){
 		splashLoadingOff();
 	}); 
 })
+
+//+++++ FUNCIONES PARA REFRESCAR EL CONTENIDO DEL LISTADO MEDIANTE AJAX
+
+//USO => En la seccion Client Script/ Table-Specific/ List Page/ StartUp Script invocar a la funcion de la sgte. manera:
+//function refreshContent(t){	
+//	refreshTableOn({
+//		time:(!$.isUndefined(t)?t:0),
+//		oncomplete:function(){
+//			ew_ApplyTemplate("tpd_pacientelist", "tpm_pacientelist");
+//			calcular_edad();
+//			hideEmpty();
+//		}
+//	});
+//}
+
+//jQuery(window).ready(function(){
+//	refreshContent(7000);
+//});
+
+function ApplyTemplateTable(containerTable){
+	containerTable.find("table." + EW_TABLE_CLASSNAME + ":not(.ewExportTable):not(#" + EW_REPORT_CONTAINER_ID + " table)").each(ew_SetupTable); // Init tables
+	containerTable.find("table." + EW_GRID_CLASSNAME + ":not(.ewExportTable):not(#" + EW_REPORT_CONTAINER_ID + " table)").each(ew_SetupGrid); // Init grids
+	coolTemplate(containerTable);
+}
+
+function refreshTable(options){
+	var referencia = '#' + options.containerTable.attr('id');
+	if(!$.isUndefined(top) && !$.isUndefined(top.isScrolling) && !top.isScrolling)
+	if(( options.condition.call() && !$('.pageload-overlay:visible').length && $(window.frameElement?window.frameElement:window).is(':visible') && $(referencia).is(':visible:not(.updating)') && options.containerTable.find('input:checkbox:checked').length === 0)|| options.forceRefresh ){
+		$(referencia).addClass('updating');
+		options.onbefore.call(this,options);	
+		$.get( options.url + ( options.params != null?(options.url.indexOf('?')==-1 ? '?' : '&') + jQuery.param( options.params ):'') + ' #' + options.containerTable.attr('id') , function(data) {
+		$(referencia).empty().append($(data).find(referencia).html());
+			options.oncomplete.call();
+			ApplyTemplateTable($(referencia));
+			resizeIFRM(3000);
+			$(referencia).removeClass('updating');
+		});
+		$('.ewpagerform').load(location.href + ' .ewpagerform .ewPager', function(){ $(this).form(); });
+	}    
+	if(options.time > 0) //si se desea refrescar en periodos de tiempo
+		setTimeout(function(){refreshTable(options);},options.time);
+}
+
+function refreshTableOn(options){
+	var defaultopt = {
+		time: 10000, //10 segundos
+		onbefore : function(){},
+		oncomplete : function(){},
+		containerTable : $('div[id*="gmp_"]'),
+		condition : function(){return true},
+		params : null,
+		forceRefresh : false,
+		url : (location.href.indexOf('about:blank')!=-1?$(window.frameElement).data('url'):location.href)    
+	}
+	if(typeof options  !== 'undefined' ) $.extend(defaultopt, options);
+	ApplyTemplateTable(defaultopt.containerTable);
+	setTimeout(function(){refreshTable(defaultopt)}, defaultopt.time );
+}
+
+function urlContent(url){
+					if($('#frame-content').is(':visible')){ 
+						$('#frame-content').attr('src',url + '?cmd=resetall&opciones=reset'); 
+					} 
+					$('#frame-content').data('url',url + '?cmd=resetall&opciones=reset'); 
+
+					$('div.metro-pivot').data('metro-pivot').goToItemByName('contenido'); 
+					$('.pageload-overlay').show();
+}
