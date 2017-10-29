@@ -259,23 +259,61 @@ function ApplyTemplateTable(containerTable){
 	coolTemplate(containerTable);
 }
 
+/*
 function refreshTable(options){
+
 	var referencia = '#' + options.containerTable.attr('id');
 	if(!$.isUndefined(top) && !$.isUndefined(top.isScrolling) && !top.isScrolling)
 	if(( options.condition.call() && !$('.pageload-overlay:visible').length && $(window.frameElement?window.frameElement:window).is(':visible') && $(referencia).is(':visible:not(.updating)') && options.containerTable.find('input:checkbox:checked').length === 0)|| options.forceRefresh ){
 		$(referencia).addClass('updating');
 		options.onbefore.call(this,options);	
-		$.get( options.url + ( options.params != null?(options.url.indexOf('?')==-1 ? '?' : '&') + jQuery.param( options.params ):'') + ' #' + options.containerTable.attr('id') , function(data) {
-		$(referencia).empty().append($(data).find(referencia).html());
-			options.oncomplete.call();
-			ApplyTemplateTable($(referencia));
-			resizeIFRM(3000);
-			$(referencia).removeClass('updating');
+		
+		$.get( options.url + ( options.params != null?(options.url.indexOf('?')==-1 ? '?' : '&') + jQuery.param( options.params ):'') , function(data) {
+
+
+			//$(referencia).empty().append($(data).find(referencia).html());
+			$(referencia).find('table.ewTable').html($(data).find('table.ewTable').html());
+			//console.log($(data).find('table.ewTable'));
+			ew_ApplyTemplate("tpd_pacientelist", "tpm_pacientelist");
+			//options.oncomplete.call();
+			//ApplyTemplateTable($(referencia));
+			//resizeIFRM(3000);
+			$(referencia).removeClass('updating'); //.css('visibility','initial');
+			
 		});
+		
 		$('.ewpagerform').load(location.href + ' .ewpagerform .ewPager', function(){ $(this).form(); });
 	}    
 	if(options.time > 0) //si se desea refrescar en periodos de tiempo
 		setTimeout(function(){refreshTable(options);},options.time);
+}
+*/
+/*
+function refreshTable(options){
+	var opt = options;
+	var referencia = '#' + opt.containerTable.attr('id');
+	if($(window.frameElement?window.frameElement:window).is(':visible') && $(referencia).is(':visible:not(.updating)') && opt.containerTable.find('input:checkbox:checked').length === 0){
+		$(referencia).addClass('updating');
+		opt.onbefore.call();
+		$(referencia).load(location.href + ' ' + referencia, function(){
+			ew_ApplyTemplate("tpd_pacientelist", "tpm_pacientelist");
+			//ApplyTemplateTable($(this));
+			//resizeIFRM(3000);
+			//opt.oncomplete.call();
+			$(this).removeClass('updating');
+		});
+		$('#ewpagerform').load(location.href + ' #ewpagerform .ewPager', function(){ $(this).form(); });
+	}  
+	//setTimeout(function(){refreshTable(opt);},opt.time);
+}
+*/
+
+function isScrolledIntoView(el) {
+    var elemTop = el.getBoundingClientRect().top;
+    var elemBottom = el.getBoundingClientRect().bottom;
+
+    var isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+    return isVisible;
 }
 
 function refreshTableOn(options){
@@ -290,7 +328,9 @@ function refreshTableOn(options){
 		url : (location.href.indexOf('about:blank')!=-1?$(window.frameElement).data('url'):location.href)    
 	}
 	if(typeof options  !== 'undefined' ) $.extend(defaultopt, options);
+	if(!isScrolledIntoView(defaultopt.containerTable.get(0))) return;
 	ApplyTemplateTable(defaultopt.containerTable);
+	console.log(defaultopt);
 	setTimeout(function(){refreshTable(defaultopt)}, defaultopt.time );
 }
 
