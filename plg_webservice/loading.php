@@ -1,4 +1,5 @@
 <?php
+
   global $opciones;
 
   $_SESSION[CurrentPage()->PageObjName."_opciones"] = !empty($opciones)? $opciones:

@@ -19,6 +19,9 @@ while ( list($key, $value) = each($_POST) ){
 //***procesando el parámetro de opciones adicionales
 //--------------------------------------------------//
 	global $opciones,$_GET,$_POST;
+	if (@$GLOBALS["_SERVER"]["REQUEST_METHOD"] == "POST" && empty($_POST)){
+	  $_POST = json_decode(trim(file_get_contents('php://input')), true);
+	}	
 	$opciones = isset($_GET["opciones"])?$_GET["opciones"]:( isset($_POST["opciones"])? $_POST["opciones"]:'');
 
   //----------------------------------------------------------------------//

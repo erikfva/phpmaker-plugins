@@ -1,4 +1,5 @@
 <?php
+
 if (@$GLOBALS["_SERVER"]["REQUEST_METHOD"] == "OPTIONS"){
   header('Access-Control-Allow-Origin: *'); //Permitir cross-domain
   header("Content-Type: application/json");
@@ -6,6 +7,7 @@ if (@$GLOBALS["_SERVER"]["REQUEST_METHOD"] == "OPTIONS"){
 }
 
 if(chkopt("webservice")){
+
 //verificando webservice.
   if (ob_get_length()) ob_end_clean();// Clean output buffer
   header('Access-Control-Allow-Origin: *'); //Permitir cross-domain
