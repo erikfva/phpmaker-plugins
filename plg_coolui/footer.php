@@ -1,3 +1,3 @@
 <?php
-	ew_AddClientScript($EW_RELATIVE_PATH."plg_coolui/main.js");
+	ew_AddClientScript($plgConf["plugins_path"]."plg_coolui/main.js");
 ?>

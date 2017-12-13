@@ -4,18 +4,20 @@
 	 Motor de busqueda estilo Google
 **************************************
 !-->
-<?php ew_AddClientScript($EW_RELATIVE_PATH."plg_main/busqueda/main.js"); ?>
+<?php ew_AddClientScript($plgConf["plugins_path"]."plg_main/busqueda/main.js"); ?>
  <div id="formulario-buscar" class="open" align="center" style="top:10px;height:50px;right:0">
 	<form id="form-busqueda" name="f">
 			<div class="pull-right input-group input-group-lg" style="z-index:2; margin-right:70px">
-		  <input id="texto-busqueda" type="text" class="form-control" name="q" size="20" placeholder="Buscar..." title="Busqueda">
+		  <input id="texto-busqueda"
+
+       type="text" class="form-control" name="q" size="20" placeholder="Buscar..." title="Busqueda">
 		  <span class="input-group-btn">
 		  	<button class="btn btn-default" type="button" onclick="$('#texto-busqueda').val('').focus();">&times;</button>
 			<button id="btnBuscar" name="btnBuscar" class="btn btn-primary goobutton" type="button"><span class="glyphicon glyphicon-search"></span></button>
 		  </span>
 	  </div>
    </form>
-<span class="responsive dropdown-menu dropdown-submenu" id="mensaje-buscando" style="color:#4CC3EC; text-align:center; display:none">Buscando...<img src="<?php echo $EW_RELATIVE_PATH; ?>plg_main/busqueda/img/loading.gif"></span>
+<span class="responsive dropdown-menu dropdown-submenu" id="mensaje-buscando" style="color:#4CC3EC; text-align:center; display:none">Buscando...<img src="<?php echo $plgConf["plugins_path"]; ?>plg_main/busqueda/img/loading.gif"></span>
 </div>
 <?php }?>
 <!--
@@ -29,14 +31,14 @@
 <div id="leftmenu" class="modal-content">
 	<div style="width: 100%; text-align: center;">
 		<a href="">
-			<!--<img width="87px" src="<?php echo $EW_RELATIVE_PATH."plg_main/";?>images/logo.png">-->
+			<!--<img width="87px" src="<?php echo $plgConf["plugins_path"]."plg_main/";?>images/logo.png">-->
 		</a>
 	</div>
 	<br>
 	<center id="slidx_button" class=" glyphicon glyphicon-list" style="color:white;font-size:24px;font-weight: lighter;cursor:pointer;width:32px;margin:5px 5px"></center>
 <?php
 	$__LeftBarButton = isset($__LeftBarButton)? $__LeftBarButton:array();
-?>	
+?>
 
 <?php	foreach($__LeftBarButton as $__Button){ ?>
 <br>
@@ -51,12 +53,12 @@
 
 
 	<div align="center" style="position:absolute; bottom:0px; width:100%">
-		<div style="display:inline-block;margin-bottom:13px">					
+		<div style="display:inline-block;margin-bottom:13px">
 			<a href="logout.php" class="close  glyphicon glyphicon-off" style="color:#FFF;font-size: 30px;"></a>
-		</div>	
+		</div>
 	</div>
 </div>
-<!--     
+<!--
 **************************************
 MENU ESTILO ANDROID
 **************************************
@@ -64,12 +66,12 @@ MENU ESTILO ANDROID
 <nav id="slidx_menu">
 <div id="user_info" style="display:none" class="well-sm media">
   <div class="media-left media-middle">
-	  <img class="img-circle media-object" src="<?php echo $EW_RELATIVE_PATH."plg_main/";?>images/foto.jpg" alt="..." style="width:64px">
+	  <img class="img-circle media-object" src="<?php echo $plgConf["plugins_path"]."plg_main/";?>images/foto.jpg" alt="..." style="width:64px">
   </div>
   <div class="media-middle media-body">
 	<span class="h4 media-heading"><?php echo CurrentUserInfo("nombre")?CurrentUserInfo("nombre"):(IsSysAdmin()?"Administrador":"???"); ?></span>
   </div>
-</div>	
+</div>
 </nav>
 
 <!--
@@ -91,11 +93,11 @@ MENU ESTILO ANDROID
 !-->
 <?php
 	$__Pages = isset($__Pages)?$__Pages:array();
-?>	
-		
+?>
+
 <div id="mainbody" style="margin-top:5px;">
 	<div class="metro-pivot">
-<?php	
+<?php
 	$scriptLoadPage = '';
 	foreach($__Pages as $__Page){ ?>
 	<div class="pivot-item">
@@ -106,16 +108,16 @@ MENU ESTILO ANDROID
 			<span style="display:none"><?php echo $__Page["nombre"];?></span>
 		</h3>
 
-		<?php if(!empty($__Page["content"])){ 
+		<?php if(!empty($__Page["content"])){
 			echo ($__Page["content"]);
 		} else { ?>
-	
+
 			<iframe id="frame-<?php echo $__Page["id"];?>" style="<?php if(!empty($__Page["iframe_style"])) echo $__Page["iframe_style"];?>" class="empty <?php if(!empty($__Page["iframe_class"])) echo $__Page["iframe_class"];?>" scrolling="no" src="" data-url="<?php if(!empty($__Page["iframe_url"])) echo $__Page["iframe_url"];?>" frameborder="0" marginheight="0" marginwidth="0"  ></iframe>
 
-		<?php 
+		<?php
 			$scriptLoadPage .= "ewLanguage.obj.label_".$__Page["nombre"]." = '".$__Page["nombre"]."';";
-			
-			if(!empty($__Page["iframe_onload"])) 
+
+			if(!empty($__Page["iframe_onload"]))
 				$scriptLoadPage .= $scriptLoadPage .= "$('#frame-".$__Page["id"]."').on('load',function(){ ".$__Page["iframe_onload"]." });";
 		} ?>
 
@@ -126,7 +128,7 @@ MENU ESTILO ANDROID
 		<script>
 		$scriptLoadPage
 		</script>";
-	} 
-?>	
-  </div>   
+	}
+?>
+  </div>
 </div>

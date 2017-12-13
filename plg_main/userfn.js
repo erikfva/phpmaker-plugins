@@ -1,30 +1,44 @@
-function resizeIFRM(delay){
+function mainwin(w){
+	if(!w.frameElement) return w;
+	if(w.frameElement.className == 'ui-dialog-frame') return w;
+	return mainwin(w.parent);
+}
 
-	if(!window.frameElement || $(window.frameElement).hasClass('iframe-resizing') ) return;
-	
-	delay = typeof delay == "undefined"?100:delay;
+function resizeIFRM(delay){
+	delay = typeof delay == "undefined"?0:delay;
 	setTimeout(function(){
-		$(window.frameElement).addClass('iframe-resizing');
-		if (window.self != window.top) {
-			$(parent.document).find('iframe').each(function() {
-			if (this.contentWindow.document == window.document) {
-					var ifrm = this;
-					var h = $('.modal-dialog:visible').outerHeight();
-					h = h && h > $('body').height()+30? h + $('.modal-dialog:visible').offset().top * 2 : $('body').height()+30;
-					$(ifrm).css({ height: h + 'px'});
-					if(!$(ifrm).hasClass('fixedwidth') && (document.body.scrollWidth - 15 > $(ifrm).width())) $(ifrm).css({'width':document.body.scrollWidth + 'px'});
-				}
-			});
-		}	
-		$(window.frameElement).removeClass('iframe-resizing');
-	},delay);	
+  	if(window.frameElement && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
+  		w = mainwin(window);
+  		w.$(w).data('curscroll',w.$(w.document).scrollTop());
+  		iframe = $(window.frameElement);
+  		iframe.css({'height':'5px'});
+  		maxwidth = iframe[0].contentWindow.document.body.scrollWidth;
+  		maxheight = iframe[0].contentWindow.document.body.scrollHeight;
+  		if(maxheight > 5){
+  			iframe.addClass('iframe-resizing');
+  			iframe.css('height',maxheight + 10 + 'px');
+  			setTimeout(function(){iframe.css('height',iframe[0].contentWindow.document.body.scrollHeight + 10 + 'px') },200);
+  			if(!iframe.hasClass('fixedwidth') ){ iframe.css('width',maxwidth + 'px') }
+  			iframe.removeClass('iframe-resizing');
+  			w = mainwin(window);
+  			w.$(w.document).scrollTop( w.$(w).data('curscroll') );
+  			if (window.top !== window && window.parent.frameElement){
+  				window.parent.resizeIFRM();
+  			}
+  		}else{
+  			setTimeout(function(){
+  					resizeIFRM();
+  				},200);
+  		}
+  	}
+	},delay);
 }
 
 function resizeIFRMto($el,deltaxy){
 	var deltax = typeof deltaxy == "undefined"?0:(typeof deltaxy.x == "undefined"?0: parseInt(deltaxy.x));
 	var deltay = typeof deltaxy == "undefined"?0:(typeof deltaxy.y == "undefined"?0: parseInt(deltaxy.y));
 
-			if (window.frameElement && window.innerHeight < $el.height() + deltay ) {					
+			if (window.frameElement && window.innerHeight < $el.height() + deltay ) {
   				$(parent.document).find('iframe').each(function() {
 						if (this.contentWindow.document == window.document) {
 							$(this).css({ height: $el.height() + deltay + 'px'});
@@ -37,17 +51,17 @@ function resizeIFRMto($el,deltaxy){
 //********
 function doResize(){
 	if(!window.frameElement || $(window.frameElement).hasClass('iframe-resizing') ) return;
-	if(!$(window.frameElement).hasClass('fixedwidth')) $(window.frameElement).css({'width':'98%'}); 
+	if(!$(window.frameElement).hasClass('fixedwidth')) $(window.frameElement).css({'width':'98%'});
 	resizeIFRM();
 }
 
 if(window.frameElement){
-	$(window).load(function(){ 
-		
-		setTimeout(function(){ 
+	$(window).load(function(){
+
+		setTimeout(function(){
 			doResize();
-		},250) 
-		
+		},250)
+
 		$('.collapse').on('shown.bs.collapse hidden.bs.collapse', function(){
 			resizeIFRM();
 		});
@@ -56,10 +70,10 @@ if(window.frameElement){
 			var $dlg = $(this).find('.modal-content');
 			resizeIFRMto($dlg ,{'y':70});
 		})
-		.on("hidden.bs.modal",function(){ 
+		.on("hidden.bs.modal",function(){
 			resizeIFRM();
-		});	  
-		
+		});
+
 		$('.ewAddBlankRow').on('click',function(){ resizeIFRM(); });
 	});
 
@@ -74,10 +88,10 @@ if(window.frameElement){
 
 function splashLoadingOff(){
 	if(top) top.$('.pageload-overlay').fadeOut();
-	 $('.pageload-overlay').fadeOut();        
+	 $('.pageload-overlay').fadeOut();
 }
 PHPMaker_ew_OnError =  ew_OnError;
-ew_OnError = function (frm, el, msg) {	
+ew_OnError = function (frm, el, msg) {
 	setTimeout(function(){ splashLoadingOff(); }, 200);
 	PHPMaker_ew_OnError(frm, el, msg);
 }
@@ -121,7 +135,7 @@ ew_ModalDialogShow = function(args) {
 			$dlg.modal("hide");
 			var result = results[0];
 			var url = result.url;
-			
+
 			//console.log(url);
 			//AJAX refresh content -> The user must be declarate the function refreshContent in this context!!!
 			if(!$.isUndefined(window.refreshContent)){
@@ -167,7 +181,7 @@ ew_ModalDialogShow = function(args) {
 		frm.UpdateTextArea();
 		var action = e && e.data ? e.data.action : null;
 		var input = form.a_add || form.a_edit || form.a_update;
-	
+
 		if (action && input)
 			input.value = action; // Update action
 		if (frm.Validate()) {
@@ -192,11 +206,11 @@ ew_ModalDialogShow = function(args) {
 		else
 			footer = "<button type=\"button\" class=\"btn btn-default ewButton\" data-dismiss=\"modal\">" + ewLanguage.Phrase("CloseBtn") + "</button>";
 		$dlg.find(".modal-footer").html(footer);
-		
+
 		//Inyectando controles del footer en el header
 		$dlg.find(".modal-title").prepend('<div class="pull-right btn-group btn-group-xs">' + footer + '</div>');
 		$dlg.find(".modal-header .btn-primary").click(_submit).focus();
-		
+
 		var body = ew_StripScript(data).match(/<body[\s\S]*>[\s\S]*<\/body>/i);
 		$dlg.find(".modal-body").append($(body[0]).not("div[id^=ew].modal, #ewTooltip"));
 		$dlg.find(".modal-body form").keypress(function(e) {
@@ -225,20 +239,20 @@ ew_ModalDialogShow = function(args) {
 
 jQuery(window).on('load', function(){
 	splashLoadingOff();
-	if(top.jQuery.fn.block) top.jQuery.unblockUI();  
+	if(top.jQuery.fn.block) top.jQuery.unblockUI();
 })
 
 jQuery(document).ready(function(){
 	$('.ewDetailAddGroup , .ewBreadcrumbs a, .ewListOptionBody .btn:not(.ewGridLink)').on('click',function(){ $('.pageload-overlay').show(); });
 	$("#ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog").on("hide.bs.modal",function(){
 		splashLoadingOff();
-	}); 
+	});
 })
 
 //+++++ FUNCIONES PARA REFRESCAR EL CONTENIDO DEL LISTADO MEDIANTE AJAX
 
 //USO => En la seccion Client Script/ Table-Specific/ List Page/ StartUp Script invocar a la funcion de la sgte. manera:
-//function refreshContent(t){	
+//function refreshContent(t){
 //	refreshTableOn({
 //		time:(!$.isUndefined(t)?t:0),
 //		oncomplete:function(){
@@ -266,8 +280,8 @@ function refreshTable(options){
 	if(!$.isUndefined(top) && !$.isUndefined(top.isScrolling) && !top.isScrolling)
 	if(( options.condition.call() && !$('.pageload-overlay:visible').length && $(window.frameElement?window.frameElement:window).is(':visible') && $(referencia).is(':visible:not(.updating)') && options.containerTable.find('input:checkbox:checked').length === 0)|| options.forceRefresh ){
 		$(referencia).addClass('updating');
-		options.onbefore.call(this,options);	
-		
+		options.onbefore.call(this,options);
+
 		$.get( options.url + ( options.params != null?(options.url.indexOf('?')==-1 ? '?' : '&') + jQuery.param( options.params ):'') , function(data) {
 
 
@@ -279,11 +293,11 @@ function refreshTable(options){
 			//ApplyTemplateTable($(referencia));
 			//resizeIFRM(3000);
 			$(referencia).removeClass('updating'); //.css('visibility','initial');
-			
+
 		});
-		
+
 		$('.ewpagerform').load(location.href + ' .ewpagerform .ewPager', function(){ $(this).form(); });
-	}    
+	}
 	if(options.time > 0) //si se desea refrescar en periodos de tiempo
 		setTimeout(function(){refreshTable(options);},options.time);
 }
@@ -303,7 +317,7 @@ function refreshTable(options){
 			$(this).removeClass('updating');
 		});
 		$('#ewpagerform').load(location.href + ' #ewpagerform .ewPager', function(){ $(this).form(); });
-	}  
+	}
 	//setTimeout(function(){refreshTable(opt);},opt.time);
 }
 */
@@ -316,6 +330,22 @@ function isScrolledIntoView(el) {
     return isVisible;
 }
 
+function refreshTable(options){
+	var referencia = '#' + options.containerTable.attr('id');
+	if($(window.frameElement?window.frameElement:window).is(':visible') && $(referencia).is(':visible:not(.updating)') && options.containerTable.find('input:checkbox:checked').length === 0){
+		$(referencia).addClass('updating');
+		options.onbefore.call();
+		$(referencia).load(location.href + ' ' + referencia, function(){
+			ApplyTemplateTable($(this));
+			resizeIFRM(2000);
+			options.oncomplete.call();
+			$(this).removeClass('updating');
+		});
+		$('#ewpagerform').load(location.href + ' #ewpagerform .ewPager', function(){ $(this).form(); });
+	}
+	setTimeout(function(){refreshTable(options);},options.time);
+}
+
 function refreshTableOn(options){
 	var defaultopt = {
 		time: 10000, //10 segundos
@@ -325,7 +355,7 @@ function refreshTableOn(options){
 		condition : function(){return true},
 		params : null,
 		forceRefresh : false,
-		url : (location.href.indexOf('about:blank')!=-1?$(window.frameElement).data('url'):location.href)    
+		url : (location.href.indexOf('about:blank')!=-1?$(window.frameElement).data('url'):location.href)
 	}
 	if(typeof options  !== 'undefined' ) $.extend(defaultopt, options);
 	if(!isScrolledIntoView(defaultopt.containerTable.get(0))) return;
@@ -335,11 +365,11 @@ function refreshTableOn(options){
 }
 
 function urlContent(url){
-					if($('#frame-content').is(':visible')){ 
-						$('#frame-content').attr('src',url + '?cmd=resetall&opciones=reset'); 
-					} 
-					$('#frame-content').data('url',url + '?cmd=resetall&opciones=reset'); 
+					if($('#frame-content').is(':visible')){
+						$('#frame-content').attr('src',url + '?cmd=resetall&opciones=reset');
+					}
+					$('#frame-content').data('url',url + '?cmd=resetall&opciones=reset');
 
-					$('div.metro-pivot').data('metro-pivot').goToItemByName('contenido'); 
+					$('div.metro-pivot').data('metro-pivot').goToItemByName('contenido');
 					$('.pageload-overlay').show();
 }
