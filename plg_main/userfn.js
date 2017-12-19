@@ -56,7 +56,7 @@ function doResize(){
 }
 
 if(window.frameElement){
-	$(window).load(function(){
+	$(window).on('load',function(){
 
 		setTimeout(function(){
 			doResize();
@@ -343,7 +343,9 @@ function refreshTable(options){
 		});
 		$('#ewpagerform').load(location.href + ' #ewpagerform .ewPager', function(){ $(this).form(); });
 	}
-	setTimeout(function(){refreshTable(options);},options.time);
+	console.log(options.time, $(window.frameElement?window.frameElement:window).is(':visible') );
+	if($(window.frameElement?window.frameElement:window).is(':visible'))
+		setTimeout(function(){refreshTable(options);},options.time>0 ? options.time : 7000 );
 }
 
 function refreshTableOn(options){

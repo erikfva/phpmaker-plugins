@@ -7,7 +7,7 @@
 <?php ew_AddClientScript($plgConf["plugins_path"]."plg_main/busqueda/main.js"); ?>
  <div id="formulario-buscar" class="open" align="center" style="top:10px;height:50px;right:0">
 	<form id="form-busqueda" name="f">
-			<div class="pull-right input-group input-group-lg" style="z-index:2; margin-right:70px">
+			<div class="pull-right input-group input-group-sm" style="z-index:2; margin-right:70px">
 		  <input id="texto-busqueda"
 
        type="text" class="form-control" name="q" size="20" placeholder="Buscar..." title="Busqueda">
@@ -35,7 +35,9 @@
 		</a>
 	</div>
 	<br>
+  <!--
 	<center id="slidx_button" class=" glyphicon glyphicon-list" style="color:white;font-size:24px;font-weight: lighter;cursor:pointer;width:32px;margin:5px 5px"></center>
+  -->
 <?php
 	$__LeftBarButton = isset($__LeftBarButton)? $__LeftBarButton:array();
 ?>
@@ -62,7 +64,7 @@
 **************************************
 MENU ESTILO ANDROID
 **************************************
-!-->
+
 <nav id="slidx_menu">
 <div id="user_info" style="display:none" class="well-sm media">
   <div class="media-left media-middle">
@@ -73,15 +75,13 @@ MENU ESTILO ANDROID
   </div>
 </div>
 </nav>
+!-->
 
 <!--
 **************************************
 	Barra de men� superior
 **************************************
 !-->
-<?php
-
-?>
 <span style="z-index:1001;right:20px;top:0px;padding-bottom:5px" class="btnTopMenu close open affix outlookbutton" onclick="topbarToggle(this);">
 	<span class="glyphicon glyphicon-chevron-up"></span>
 </span>

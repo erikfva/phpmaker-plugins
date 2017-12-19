@@ -10,6 +10,12 @@
 //incluyendo los encabezados de los "plugins"
 	includePlg(); //sin parametros asume que la seccion es "header"
 ```
+--> Adicionar al inicio de Client Scripts/Global/Pages with header|footer/Client Script
+```sh
+<?php    
+	includePlg("client_script");
+?>
+```
 --> Adicionar al inicio de Client Scripts/Global/Pages with header|footer/StartUp Script
 ```sh
 </script>

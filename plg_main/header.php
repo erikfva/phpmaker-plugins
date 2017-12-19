@@ -3,7 +3,9 @@ echo "<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, m
 
 global $Breadcrumb,$Language;
 
+
 if(isset($Breadcrumb->Links)){
+
 	//Quitando el link de "inicio" del path
 	if($Breadcrumb->Links[0][0]=="home"){array_splice($Breadcrumb->Links, 0, 1);}
 
@@ -30,18 +32,21 @@ if(isset($Breadcrumb->Links)){
 
 }
 
+
 //Para mostrar solo la tabla de datos sin encabezado y pie de pagina
 global $gbSkipHeaderFooter;
 global $EW_RELATIVE_PATH;
 global $Page;
 
+
 $gbSkipHeaderFooter = TRUE;
 
+
 if(!empty($Page) && $Page->PageObjName == "main_php"){
-	ew_AddStylesheet($plgConf["plugins_path"]."plg_main/drilldownmenu/linkes_drilldown.css"); // MENU ESTILO ANDROID
 	ew_AddStylesheet($plgConf["plugins_path"]."plg_main/metro/jquery.metro.css");
 	ew_AddStylesheet($plgConf["plugins_path"]."plg_main/main.css");
-
+	global $customstyle;
+	$customstyle.= ".content-header{display:none}.content-wrapper,.wrapper.ewLayout{background-color:transparent}";
 	$gbSkipHeaderFooter = FALSE;
 }
 ew_AddClientScript($plgConf["plugins_path"]."plg_main/userfn.js");
