@@ -9,7 +9,7 @@ function resizeIFRM(delay){
 	setTimeout(function(){
   	if(window.frameElement && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
   		w = mainwin(window);
-  		w.$(w).data('curscroll',w.$(w.document).scrollTop());
+  		//w.$(w).data('curscroll',w.$(w.document).scrollTop());
   		iframe = $(window.frameElement);
   		iframe.css({'height':'5px'});
   		maxwidth = iframe[0].contentWindow.document.body.scrollWidth;
@@ -21,7 +21,7 @@ function resizeIFRM(delay){
   			if(!iframe.hasClass('fixedwidth') ){ iframe.css('width',maxwidth + 'px') }
   			iframe.removeClass('iframe-resizing');
   			w = mainwin(window);
-  			w.$(w.document).scrollTop( w.$(w).data('curscroll') );
+  			//w.$(w.document).scrollTop( w.$(w).data('curscroll') );
   			if (window.top !== window && window.parent.frameElement){
   				window.parent.resizeIFRM();
   			}
@@ -360,7 +360,7 @@ function refreshTableOn(options){
 		url : (location.href.indexOf('about:blank')!=-1?$(window.frameElement).data('url'):location.href)
 	}
 	if(typeof options  !== 'undefined' ) $.extend(defaultopt, options);
-	if(!isScrolledIntoView(defaultopt.containerTable.get(0))) return;
+	//if(!isScrolledIntoView(defaultopt.containerTable.get(0))) return;
 	ApplyTemplateTable(defaultopt.containerTable);
 	console.log(defaultopt);
 	setTimeout(function(){refreshTable(defaultopt)}, defaultopt.time );

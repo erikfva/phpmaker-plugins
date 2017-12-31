@@ -45,11 +45,14 @@ function topbarToggle(el){
 
 
 jQuery(document).ready(function(){
-
+	$('.main-header .navbar').addClass('navbar-fixed-top');
+})
 
 //**************************************
 //PANTALLAS ESTILO ANDROID
 //**************************************
+
+jQuery(document).ready(function(){
 
 /*
 	ewLanguage.obj.label_paciente = 'pacientelist';

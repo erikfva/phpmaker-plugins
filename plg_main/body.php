@@ -5,9 +5,9 @@
 **************************************
 !-->
 <?php ew_AddClientScript($plgConf["plugins_path"]."plg_main/busqueda/main.js"); ?>
- <div id="formulario-buscar" class="open" align="center" style="top:10px;height:50px;right:0">
+ <div id="formulario-buscar" class="open" align="center" style="top:10px;height:50px;right:50px">
 	<form id="form-busqueda" name="f">
-			<div class="pull-right input-group input-group-sm" style="z-index:2; margin-right:70px">
+			<div class="pull-right input-group input-group-sm" style="z-index:2;">
 		  <input id="texto-busqueda"
 
        type="text" class="form-control" name="q" size="20" placeholder="Buscar..." title="Busqueda">
@@ -95,7 +95,7 @@ MENU ESTILO ANDROID
 	$__Pages = isset($__Pages)?$__Pages:array();
 ?>
 
-<div id="mainbody" style="margin-top:5px;">
+<div id="mainbody" style="margin-top:25px;">
 	<div class="metro-pivot">
 <?php
 	$scriptLoadPage = '';
