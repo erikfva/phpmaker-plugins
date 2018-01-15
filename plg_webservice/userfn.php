@@ -78,7 +78,7 @@ while ( list($key, $value) = each($_POST) ){
 
   		// Load recordset
   		if ($bSelectLimit) {
-  			$page->TotalRecs = $page->SelectRecordCount();
+  			$page->TotalRecs = $page->ListRecordCount();
   		} else {
   			if (!$page->Recordset)
   				$page->Recordset = $page->LoadRecordset();
@@ -99,7 +99,7 @@ while ( list($key, $value) = each($_POST) ){
   		  }
   	  }
   	  if ($bSelectLimit){
-  		  $sSql = !empty($page->customSQL)? $page->customSQL : $page->SelectSQL();
+  		  $sSql = !empty($page->customSQL)? $page->customSQL : $page->ListSQL();
   		  $offset = $page->StartRec-1;
   		  $rowcnt = $page->DisplayRecs <= 0 ? $page->TotalRecs : $page->DisplayRecs;
   		  $sSql .= " LIMIT $rowcnt OFFSET $offset";

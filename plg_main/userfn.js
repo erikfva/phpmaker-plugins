@@ -256,7 +256,6 @@ jQuery(document).ready(function(){
 //	refreshTableOn({
 //		time:(!$.isUndefined(t)?t:0),
 //		oncomplete:function(){
-//			ew_ApplyTemplate("tpd_pacientelist", "tpm_pacientelist");
 //			calcular_edad();
 //			hideEmpty();
 //		}
@@ -273,55 +272,6 @@ function ApplyTemplateTable(containerTable){
 	coolTemplate(containerTable);
 }
 
-/*
-function refreshTable(options){
-
-	var referencia = '#' + options.containerTable.attr('id');
-	if(!$.isUndefined(top) && !$.isUndefined(top.isScrolling) && !top.isScrolling)
-	if(( options.condition.call() && !$('.pageload-overlay:visible').length && $(window.frameElement?window.frameElement:window).is(':visible') && $(referencia).is(':visible:not(.updating)') && options.containerTable.find('input:checkbox:checked').length === 0)|| options.forceRefresh ){
-		$(referencia).addClass('updating');
-		options.onbefore.call(this,options);
-
-		$.get( options.url + ( options.params != null?(options.url.indexOf('?')==-1 ? '?' : '&') + jQuery.param( options.params ):'') , function(data) {
-
-
-			//$(referencia).empty().append($(data).find(referencia).html());
-			$(referencia).find('table.ewTable').html($(data).find('table.ewTable').html());
-			//console.log($(data).find('table.ewTable'));
-			ew_ApplyTemplate("tpd_pacientelist", "tpm_pacientelist");
-			//options.oncomplete.call();
-			//ApplyTemplateTable($(referencia));
-			//resizeIFRM(3000);
-			$(referencia).removeClass('updating'); //.css('visibility','initial');
-
-		});
-
-		$('.ewpagerform').load(location.href + ' .ewpagerform .ewPager', function(){ $(this).form(); });
-	}
-	if(options.time > 0) //si se desea refrescar en periodos de tiempo
-		setTimeout(function(){refreshTable(options);},options.time);
-}
-*/
-/*
-function refreshTable(options){
-	var opt = options;
-	var referencia = '#' + opt.containerTable.attr('id');
-	if($(window.frameElement?window.frameElement:window).is(':visible') && $(referencia).is(':visible:not(.updating)') && opt.containerTable.find('input:checkbox:checked').length === 0){
-		$(referencia).addClass('updating');
-		opt.onbefore.call();
-		$(referencia).load(location.href + ' ' + referencia, function(){
-			ew_ApplyTemplate("tpd_pacientelist", "tpm_pacientelist");
-			//ApplyTemplateTable($(this));
-			//resizeIFRM(3000);
-			//opt.oncomplete.call();
-			$(this).removeClass('updating');
-		});
-		$('#ewpagerform').load(location.href + ' #ewpagerform .ewPager', function(){ $(this).form(); });
-	}
-	//setTimeout(function(){refreshTable(opt);},opt.time);
-}
-*/
-
 function isScrolledIntoView(el) {
     var elemTop = el.getBoundingClientRect().top;
     var elemBottom = el.getBoundingClientRect().bottom;
@@ -331,25 +281,64 @@ function isScrolledIntoView(el) {
 }
 
 function refreshTable(options){
-	var referencia = '#' + options.containerTable.attr('id');
-	if($(window.frameElement?window.frameElement:window).is(':visible') && $(referencia).is(':visible:not(.updating)') && options.containerTable.find('input:checkbox:checked').length === 0){
-		$(referencia).addClass('updating');
+	if(typeof options.containerTable  == 'undefined' ) return;
+	let ref = '#' + options.containerTable.attr('id');
+
+	if($(window.frameElement?window.frameElement:window).is(':visible') && $(ref).is(':visible:not(.updating)') && options.containerTable.find('input:checkbox:checked').length === 0){
+		
 		options.onbefore.call();
+		
+		/*
 		$(referencia).load(location.href + ' ' + referencia, function(){
 			ApplyTemplateTable($(this));
 			resizeIFRM(2000);
 			options.oncomplete.call();
 			$(this).removeClass('updating');
 		});
+		*/
+	var pageID = CurrentForm.ID.substring(1);
+	$(ref).addClass('updating');
+	$('#tbl_' + pageID).load(location.href + ' ' + '#tbl_' + pageID + '>*', function(){
+		
+		if ($("#tpd_" + pageID).length) //Has template definition?
+			ew_ApplyTemplate("tpd_" + pageID, "tpm_" + pageID, pageID, "", ewVar.templateData);
+		ApplyTemplateTable(options.containerTable);
+		resizeIFRM(500);
+		options.oncomplete.call();
+		$(ref).removeClass('updating');
+		if(options.time>0 )
+			setTimeout(function(){refreshTable(options)},options.time);
+	});
+		
+	/*
+	$(referencia).addClass('updating');
+	$.ajax({
+  	url: location.href + '&opciones=webservices',
+  	dataType: "json",
+  	cache: false
+	}).done(function( data ) {
+    
+   // ewVar.templateData.rows = data.rows;
+    var pageID = CurrentForm.ID.substring(1);
+    //console.log(pageID,ewVar.templateData, data);
+    //console.log( $( "#tpm_" + pageID).render(data) )
+    ew_ApplyTemplate("tpd_" + pageID, "tpm_" + pageID, pageID, "", data);
+
+    options.oncomplete.call();
+		$(referencia).removeClass('updating');
 		$('#ewpagerform').load(location.href + ' #ewpagerform .ewPager', function(){ $(this).form(); });
+  });
+		*/
+		
+	}else{
+	
+		if(options.time>0)
+			setTimeout(function(){refreshTable(options);}, options.time );
 	}
-	console.log(options.time, $(window.frameElement?window.frameElement:window).is(':visible') );
-	if($(window.frameElement?window.frameElement:window).is(':visible'))
-		setTimeout(function(){refreshTable(options);},options.time>0 ? options.time : 7000 );
 }
 
 function refreshTableOn(options){
-	var defaultopt = {
+	let defaultopt = {
 		time: 10000, //10 segundos
 		onbefore : function(){},
 		oncomplete : function(){},
@@ -360,18 +349,11 @@ function refreshTableOn(options){
 		url : (location.href.indexOf('about:blank')!=-1?$(window.frameElement).data('url'):location.href)
 	}
 	if(typeof options  !== 'undefined' ) $.extend(defaultopt, options);
+	
 	//if(!isScrolledIntoView(defaultopt.containerTable.get(0))) return;
-	ApplyTemplateTable(defaultopt.containerTable);
-	console.log(defaultopt);
+	//console.log(options.containerTable.attr('id'));
+	//ApplyTemplateTable(defaultopt.containerTable);
+	//console.log(defaultopt.time);
 	setTimeout(function(){refreshTable(defaultopt)}, defaultopt.time );
 }
 
-function urlContent(url){
-					if($('#frame-content').is(':visible')){
-						$('#frame-content').attr('src',url + '?cmd=resetall&opciones=reset');
-					}
-					$('#frame-content').data('url',url + '?cmd=resetall&opciones=reset');
-
-					$('div.metro-pivot').data('metro-pivot').goToItemByName('contenido');
-					$('.pageload-overlay').show();
-}

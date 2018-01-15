@@ -43,6 +43,11 @@ container.find('.ewGridLink.ewGridDelete, .ewRowLink.ewDelete, .ewAction.ewMulti
 container.find('.ewAddOptBtn').removeClass('btn-default').addClass('btn-primary');
 container.find('.ewShowAll').removeClass('btn-default').addClass('btn-warning').css({'visibility':'inherit','opacity':'1'});
 container.find('.ewExportLink.ewPrint').attr('target','_blank');
+
+	if(typeof $.fn.tableHeadFixer === 'function' ){ //If table-fixed-header load?
+   	container.find('.ewTable:not(.hidden)').find('thead').addClass('well').end().tableHeadFixer()
+ 	}
+
 coolRadioCheckBtn(container);
 return true;
 }

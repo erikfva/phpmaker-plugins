@@ -325,4 +325,5 @@ overflow: hidden;
 }
 /**/
 .text-del{color:red;text-decoration: line-through;}
-.ewBreadcrumbs{background-color:transparent;}
+.ewBreadcrumbs{background-color:transparent;float:left}
+.ewEditForm, .ewAddForm{clear : left}

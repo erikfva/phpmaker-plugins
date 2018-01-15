@@ -93,9 +93,10 @@ jQuery(document).ready(function(){
 
 					var iframe = this.find('.pivot-item:eq(' + index + ')').find('iframe');
 
-					if(iframe.length && (iframe.attr('id')=='frame-content' || iframe.is('.empty')) ){
+					if(iframe.length && ( iframe.attr('id')=='frame-content' || iframe.is('.empty')) ){ //load left menu content					
 						$('.pageload-overlay').show();
 						iframe.attr('src', iframe.data('url') ).removeClass('empty');
+						
 					}
 
 				},
@@ -135,6 +136,16 @@ jQuery(document).ready(function(){
 			})
 })
 
+function urlContent(url){
+					if($('#frame-content').is(':visible')){
+						$('#frame-content').attr('src',url + '?cmd=resetall&opciones=reset');
+					}
+					$('#frame-content').data('url',url + '?cmd=resetall&opciones=reset');
+
+					$('div.metro-pivot').data('metro-pivot').goToItemByName('contenido');
+					$('[data-toggle="push-menu"]').pushMenu('toggle');
+					$('.pageload-overlay').show();
+}
 
 resizeTimer = 0;
 ToggleBarTimer = 0;
