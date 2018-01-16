@@ -18,7 +18,12 @@ function leftbarToggle(el){
 	$('.btnleftmenu').toggleClass('open').addClass('busy');
 	$('#leftmenu').animate({left: $('.btnleftmenu').hasClass('open')?'0px':'-' + $('#leftmenu').width()  },'fast',function(){
 		$('#mainbody').animate({'margin-left':($('.btnleftmenu').hasClass('open')?'90px':'0px')}, 200);
-		if($('.btnleftmenu').hasClass('open')){ $('html, body').animate({scrollTop:0,scrollLeft:0}, 'fast'); };
+		if($('.btnleftmenu').hasClass('open')){ 
+			$('html, body').animate({scrollTop:0,scrollLeft:0}, 'fast');
+			$('body').width( $('body').width() + 90 );
+		} else {
+			$('body').width( $('body').width() - 90 );
+		}
 		if( $('.btnleftmenu').hasClass('open') && $(window).width()<700 && $('.btnTopMenu').hasClass('open') )
 			$('.btnTopMenu').trigger('click');
 		$('.btnleftmenu').removeClass('busy');
@@ -131,8 +136,11 @@ jQuery(document).ready(function(){
 			$('[data-toggle="push-menu"]').pushMenu('toggle')
 			$(document).on('expanded.pushMenu', function(){
 				$('#mainbody').animate({'margin-left':'0px'}, 200);
+				$('body').width( $('body').width() + 220 );
+				$('html, body').animate({scrollTop:0,scrollLeft:0}, 'fast');
 			}).on('collapsed.pushMenu', function(){
 				$('#mainbody').animate({'margin-left':($('.btnleftmenu').hasClass('open')?'90px':'0px')}, 200);
+				$('body').width( $('body').width() - 220 );
 			})
 })
 
@@ -167,8 +175,8 @@ var isScrolling = false;
 	$(function() {
 			$( window ).scroll(function() {
 				isScrolling = true;
-				clearTimeout( $.data( this, "scrollCheck" ) );
-				$.data( this, "scrollCheck", setTimeout(function() {
+				clearTimeout( $.data( this, "checkScroll" ) );
+				$.data( this, "checkScroll", setTimeout(function() {
 					isScrolling = false;
 				}, 250) );
 			});

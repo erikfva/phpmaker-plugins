@@ -6,22 +6,30 @@ function mainwin(w){
 
 function resizeIFRM(delay){
 	delay = typeof delay == "undefined"?0:delay;
+
 	setTimeout(function(){
   	if(window.frameElement && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
   		w = mainwin(window);
-  		//w.$(w).data('curscroll',w.$(w.document).scrollTop());
+  		w.$(w).data('curscroll',w.$(w.document).scrollTop());
   		iframe = $(window.frameElement);
+  		iframe.css({'width':'2000px'});
   		iframe.css({'height':'5px'});
-  		maxwidth = iframe[0].contentWindow.document.body.scrollWidth;
+  		
   		maxheight = iframe[0].contentWindow.document.body.scrollHeight;
   		if(maxheight > 5){
   			iframe.addClass('iframe-resizing');
   			iframe.css('height',maxheight + 10 + 'px');
-  			setTimeout(function(){iframe.css('height',iframe[0].contentWindow.document.body.scrollHeight + 10 + 'px') },200);
-  			if(!iframe.hasClass('fixedwidth') ){ iframe.css('width',maxwidth + 'px') }
+  			maxwidth = $(iframe[0].contentWindow.document.body).find('.ewBox').width() || iframe[0].contentWindow.document.body.scrollWidth ;
+  			setTimeout(function(){ iframe.css('height',iframe[0].contentWindow.document.body.scrollHeight + 10 + 'px') },100);
+  			if(!iframe.hasClass('fixedwidth') ){ 
+  				$(w.document.body).each(function(){
+  					$(this).css('overflow-x','auto').css('width',maxwidth + 50 + (!$(this).hasClass('sidebar-collapse')?220: ( $(this).find('.btnleftmenu').hasClass('open')?90: 0) ) + 'px');
+  				}); 
+  				//console.log(maxwidth,w);
+  			}
   			iframe.removeClass('iframe-resizing');
-  			w = mainwin(window);
-  			//w.$(w.document).scrollTop( w.$(w).data('curscroll') );
+  			//w = mainwin(window);
+  			w.$(w.document).scrollTop( w.$(w).data('curscroll') );
   			if (window.top !== window && window.parent.frameElement){
   				window.parent.resizeIFRM();
   			}
@@ -283,8 +291,8 @@ function isScrolledIntoView(el) {
 function refreshTable(options){
 	if(typeof options.containerTable  == 'undefined' ) return;
 	let ref = '#' + options.containerTable.attr('id');
-
-	if($(window.frameElement?window.frameElement:window).is(':visible') && $(ref).is(':visible:not(.updating)') && options.containerTable.find('input:checkbox:checked').length === 0){
+	w = mainwin(window);
+	if(!(w.isScrolling || false) && $(window.frameElement?window.frameElement:window).is(':visible') && $(ref).is(':visible:not(.updating)') && options.containerTable.find('input:checkbox:checked').length === 0){
 		
 		options.onbefore.call();
 		
@@ -298,6 +306,7 @@ function refreshTable(options){
 		*/
 	var pageID = CurrentForm.ID.substring(1);
 	$(ref).addClass('updating');
+	
 	$('#tbl_' + pageID).load(location.href + ' ' + '#tbl_' + pageID + '>*', function(){
 		
 		if ($("#tpd_" + pageID).length) //Has template definition?
