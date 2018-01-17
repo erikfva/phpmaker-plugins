@@ -1,4 +1,4 @@
-	@media only screen and (max-width: 700px) {
+﻿	@media only screen and (max-width: 700px) {
 	 .modal { left:initial;margin-left:4%; max-width:90%; top:40px;height:80%;overflow:auto;min-height:505px}
 	}
 
@@ -17,7 +17,7 @@ body{
   text-align: center;
   width: 97%;
 }
-
+.pivot-item{padding:0px !important}
 /**************************************
 	Barra de men� izquierda
 **************************************/

@@ -133,7 +133,8 @@ jQuery(document).ready(function(){
 			/**************************************
 			AdminLTE
 			**************************************/
-			$('[data-toggle="push-menu"]').pushMenu('toggle')
+			if(  $('.main-sidebar').position().left >= 0 )
+				$('[data-toggle="push-menu"]').pushMenu('toggle');
 			$(document).on('expanded.pushMenu', function(){
 				$('#mainbody').animate({'margin-left':'0px'}, 200);
 				$('body').width( $('body').width() + 220 );
@@ -142,6 +143,8 @@ jQuery(document).ready(function(){
 				$('#mainbody').animate({'margin-left':($('.btnleftmenu').hasClass('open')?'90px':'0px')}, 200);
 				$('body').width( $('body').width() - 220 );
 			})
+			
+			$(window).trigger('resize');
 })
 
 function urlContent(url){
@@ -167,6 +170,8 @@ ToggleBarTimer = 0;
 	$(window).bind('resize', function () {
 				clearTimeout(ToggleBarTimer);
 				ToggleBarTimer = top.setTimeout(doToggleBar, 1000);
+				//update top margin for iframe div.
+				$('#mainbody').css('margin-top',$('.navbar-static-top').height() ); 
 	});
 
 var isScrolling = false;
@@ -184,3 +189,4 @@ var isScrolling = false;
 })( jQuery );
 
 $('.pageload-overlay').fadeOut();
+

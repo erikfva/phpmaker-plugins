@@ -10,7 +10,8 @@ function resizeIFRM(delay){
 	setTimeout(function(){
   	if(window.frameElement && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
   		w = mainwin(window);
-  		w.$(w).data('curscroll',w.$(w.document).scrollTop());
+  		if( (CurrentPageID || '') == 'list')
+  			w.$(w).data('curscroll',w.$(w.document).scrollTop());
   		iframe = $(window.frameElement);
   		iframe.css({'width':'2000px'});
   		iframe.css({'height':'5px'});
@@ -29,7 +30,8 @@ function resizeIFRM(delay){
   			}
   			iframe.removeClass('iframe-resizing');
   			//w = mainwin(window);
-  			w.$(w.document).scrollTop( w.$(w).data('curscroll') );
+  			if( (CurrentPageID || '') == 'list')
+  				w.$(w.document).scrollTop( w.$(w).data('curscroll') );
   			if (window.top !== window && window.parent.frameElement){
   				window.parent.resizeIFRM();
   			}
