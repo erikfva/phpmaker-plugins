@@ -8,7 +8,7 @@ function resizeIFRM(delay){
 	delay = typeof delay == "undefined"?0:delay;
 
 	setTimeout(function(){
-  	if(window.frameElement && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
+  	if(window.frameElement && $(window.frameElement).is(':visible') && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
   		w = mainwin(window);
   		if( (CurrentPageID || '') == 'list')
   			w.$(w).data('curscroll',w.$(w.document).scrollTop());
@@ -24,8 +24,13 @@ function resizeIFRM(delay){
   			setTimeout(function(){ iframe.css('height',iframe[0].contentWindow.document.body.scrollHeight + 10 + 'px') },100);
   			if(!iframe.hasClass('fixedwidth') ){ 
   				$(w.document.body).each(function(){
-  					$(this).css('overflow-x','auto').css('width',maxwidth + 50 + (!$(this).hasClass('sidebar-collapse')?220: ( $(this).find('.btnleftmenu').hasClass('open')?90: 0) ) + 'px');
-  				}); 
+  					var leftbarspace = w.$('.main-sidebar').length && w.$('.main-sidebar').position().left >= 0 ? w.$('.main-sidebar').width() : 0;
+  					leftbarspace = leftbarspace == 0 
+  												&& w.$('#leftmenu').length 
+  												&& ( w.$('#leftmenu').position().left == 0 || w.$('#leftmenu').position().left == 230) ? w.$('#leftmenu').width() : leftbarspace;
+  					//console.log(maxwidth, leftbarspace );
+  					$(this).css('overflow-x','auto').css('width', maxwidth + leftbarspace + 50 + 'px');
+  				})
   				//console.log(maxwidth,w);
   			}
   			iframe.removeClass('iframe-resizing');

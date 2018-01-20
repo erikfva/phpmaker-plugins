@@ -17,7 +17,8 @@ body{
   text-align: center;
   width: 97%;
 }
-.pivot-item{padding:0px !important}
+section.content, .pivot-item{padding:0px !important}
+
 /**************************************
 	Barra de men� izquierda
 **************************************/

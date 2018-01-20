@@ -34,7 +34,6 @@
 			<!--<img width="87px" src="<?php echo $plgConf["plugins_path"]."plg_main/";?>images/logo.png">-->
 		</a>
 	</div>
-	<br>
   <!--
 	<center id="slidx_button" class=" glyphicon glyphicon-list" style="color:white;font-size:24px;font-weight: lighter;cursor:pointer;width:32px;margin:5px 5px"></center>
   -->
@@ -43,8 +42,7 @@
 ?>
 
 <?php	foreach($__LeftBarButton as $__Button){ ?>
-<br>
-<a href="#" <?php echo !empty($__Button['action'])?'onclick="'.$__Button['action'].'"':''; ?> data-toggle="modal" style="margin-top:20px; display:block">
+<a href="#" <?php echo !empty($__Button['action'])?'onclick="'.$__Button['action'].'"':''; ?> data-toggle="modal" display:block">
 <div class="outlookbutton" style="width:90px; color:white">
 <img src="<?php echo $__Button['button_imagen']; ?>" style="width:48px" height="48" border="0">
 <br>
