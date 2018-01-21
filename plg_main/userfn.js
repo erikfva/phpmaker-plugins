@@ -36,7 +36,7 @@ function resizeIFRM(delay){
   			iframe.removeClass('iframe-resizing');
   			//w = mainwin(window);
   			if( (CurrentPageID || '') == 'list')
-  				//w.$(w.document).scrollTop( w.$(w).data('curscroll') );
+  				w.$(w.document).scrollTop( w.$(w).data('curscroll') );
   			if (window.top !== window && window.parent.frameElement){
   				window.parent.resizeIFRM();
   			}
