@@ -209,7 +209,6 @@ $('.pageload-overlay').fadeOut();
 function adjustAll(){
 	if ($('body').hasClass('adjusting')) return;
 	$('body').addClass('adjusting');
-  console.log($('.main-sidebar').position().left , $('#leftmenu').position().left );
   
   //leftmenu
 	if(  $('.main-sidebar').position().left >= 0 && ($('#leftmenu').position().left == 230 || $('#leftmenu').position().left == 0) ) //hide leftmenu
