@@ -28,6 +28,7 @@ while ( list($key, $value) = each($_POST) ){
   //***procesando respuestas especiales por webservice o solicitudes json
   //----------------------------------------------------------------------//
   if(strpos($opciones,"webservice")>-1 || strpos($opciones,"json")>-1 || strpos($opciones,"addjsn")>-1 ){
+  	  	
   	global $Language;
 
   	// Language object
@@ -121,15 +122,19 @@ while ( list($key, $value) = each($_POST) ){
   	  $rs->Close();
       $FieldList = Array();
 
+      $orderField = "";     
+      $orderBy = $page->getSessionOrderBy();
+      $orderType = strpos($orderBy, "ASC")!==false?"ASC":"DESC";
       foreach ($page->fields as $FldVar => $field) {
         $FieldList[] = array('id'=>$field->FldVar,'name' => $FldVar,
 				'caption' => $field->FldCaption() ,
 				'sortable' => ($page->SortUrl($field) == ""?false:true),
 				'visible' => $field->Visible);
+				$orderField = strpos($orderBy, $FldVar)!==false? $FldVar: $orderField;
       }
 
   	  $Allowed = '{"CanView":"'.$Security->CanView().'","CanEdit":"'.$Security->CanEdit().'","CanDelete":"'.$Security->CanDelete().'","CanAdd":"'.$Security->CanAdd().'","CanList":"'.$Security->CanList().'","CanAdmin":"'.$Security->CanAdmin().'","CanSearch":"'.$Security->CanSearch().'","CanReport":"'.$Security->CanReport().'"}';
-  	  return "{\"TableVar\":\"".$page->TableVar."\",\"Security\":".$Allowed.",\"PageUrl\":\"".$page->PageUrl()."\",\"pager\":".json_encode($Pager).", \"fieldList\":".json_encode($FieldList).",\"rows\": ".json_encode($res)."}" ;
+  	  return "{\"TableVar\":\"".$page->TableVar."\",\"Security\":".$Allowed.",\"PageUrl\":\"".$page->PageUrl()."\",\"pager\":".json_encode($Pager).", \"fieldList\":".json_encode($FieldList).", \"orderField\":\"".$orderField."\", \"orderType\":\"".$orderType."\",\"rows\": ".json_encode($res)."}" ;
     }
     if($page->PageID == 'edit'){
   		$sFilter = $page->KeyFilter();
