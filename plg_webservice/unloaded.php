@@ -3,6 +3,7 @@
 if (@$GLOBALS["_SERVER"]["REQUEST_METHOD"] == "OPTIONS"){
   header('Access-Control-Allow-Origin: *'); //Permitir cross-domain
   header("Content-Type: application/json");
+  header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method"); 
   exit();
 }
 
@@ -35,6 +36,7 @@ if(chkopt("webservice")){
   if (ob_get_length()) ob_end_clean();// Clean output buffer
   header('Access-Control-Allow-Origin: *'); //Permitir cross-domain
   header("Content-Type: application/json");
+  header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method"); 
   $msg = CurrentPage()->getFailureMessage();
   if ($msg != "") {
     CurrentPage()->ClearFailureMessage();
