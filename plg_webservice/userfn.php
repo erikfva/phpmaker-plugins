@@ -53,7 +53,6 @@ while ( list($key, $value) = each($_POST) ){
   //***Funciones de soporte
   //-------------------------//
   function chkopt($op){
-  	global $opciones;
   	return strpos(strtoupper(@$_SESSION[CurrentPage()->PageObjName."_opciones"]),strtoupper($op)) > -1 ||
   	strpos(strtoupper($opciones),strtoupper($op)) > -1;
   }
@@ -72,7 +71,7 @@ while ( list($key, $value) = each($_POST) ){
   }
 
   function toJSON($page){
-  	global $Security;
+	  global $Security;
   	$utf8 = (strtolower(EW_CHARSET) == "utf-8");
     if($page->PageID == 'list'){
   		$bSelectLimit = $page->UseSelectLimit;
@@ -133,8 +132,34 @@ while ( list($key, $value) = each($_POST) ){
 				$orderField = strpos($orderBy, $FldVar)!==false? $FldVar: $orderField;
       }
 
-  	  $Allowed = '{"CanView":"'.$Security->CanView().'","CanEdit":"'.$Security->CanEdit().'","CanDelete":"'.$Security->CanDelete().'","CanAdd":"'.$Security->CanAdd().'","CanList":"'.$Security->CanList().'","CanAdmin":"'.$Security->CanAdmin().'","CanSearch":"'.$Security->CanSearch().'","CanReport":"'.$Security->CanReport().'"}';
-  	  return "{\"TableVar\":\"".$page->TableVar."\",\"Security\":".$Allowed.",\"PageUrl\":\"".$page->PageUrl()."\",\"pager\":".json_encode($Pager).", \"fieldList\":".json_encode($FieldList).", \"orderField\":\"".$orderField."\", \"orderType\":\"".$orderType."\",\"rows\": ".json_encode($res)."}" ;
+		  $Allowed = array(
+			  'CanView'		=> $Security->CanView(),
+			  'CanEdit'		=> $Security->CanEdit(),
+			  'CanDelete'	=> $Security->CanDelete(),
+			  'CanAdd'		=> $Security->CanAdd(),
+			  'CanList'		=> $Security->CanList(),
+			  'CanAdmin'	=> $Security->CanAdmin(),
+			  'CanSearch'	=> $Security->CanSearch(),
+			  'CanReport'	=> $Security->CanReport()
+		  );
+		  //'{"CanView":"'.$Security->CanView().'","CanEdit":"'.$Security->CanEdit().'","CanDelete":"'.$Security->CanDelete().'","CanAdd":"'.$Security->CanAdd().'","CanList":"'.$Security->CanList().'","CanAdmin":"'.$Security->CanAdmin().'","CanSearch":"'.$Security->CanSearch().'","CanReport":"'.$Security->CanReport().'"}';
+		//$this->BasicSearch->Keyword = @$_GET[EW_TABLE_BASIC_SEARCH];
+		
+		return json_encode(
+			array(
+				'psearch'		=> $page->BasicSearch->Keyword,
+				'TableVar'		=> $page->TableVar,
+				'Security'		=> $Allowed,
+				'PageUrl'		=> $page->PageUrl(),
+				'pager'			=> $Pager,
+				'fieldList'		=> $FieldList,
+				'orderField'	=> $orderField,
+				'orderType'		=> $orderType,
+				'rows'			=> $res
+			)
+		); 
+		 
+		//return "{\"TableVar\":\"".$page->TableVar."\",\"Security\":".$Allowed.",\"PageUrl\":\"".$page->PageUrl()."\",\"pager\":".json_encode($Pager).", \"fieldList\":".json_encode($FieldList).", \"orderField\":\"".$orderField."\", \"orderType\":\"".$orderType."\",\"rows\": ".json_encode($res)."}" ;
     }
     if($page->PageID == 'edit'){
   		$sFilter = $page->KeyFilter();
