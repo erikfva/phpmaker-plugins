@@ -28,7 +28,7 @@ while ( list($key, $value) = each($_POST) ){
   //***procesando respuestas especiales por webservice o solicitudes json
   //----------------------------------------------------------------------//
   if(strpos($opciones,"webservice")>-1 || strpos($opciones,"json")>-1 || strpos($opciones,"addjsn")>-1 ){
-  	  	
+	  	
   	global $Language;
 
   	// Language object
@@ -40,11 +40,13 @@ while ( list($key, $value) = each($_POST) ){
 
   	if(!(strpos($opciones,"login")>-1) && !IsLoggedIn() && (@$_SESSION[EW_PROJECT_NAME . "_Username"] == "")){ //validando opciones de autologin
   			//autologin con parámetro 'session_key'
-  		$sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
+			    
+			  $sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
   		if($sessionid){
   			if (session_id() != "") @session_destroy();
   			session_id($sessionid);
-  			session_start();
+			  session_start();
+			
   		}
   	}
   }
@@ -54,7 +56,7 @@ while ( list($key, $value) = each($_POST) ){
   //-------------------------//
   function chkopt($op){
   	return strpos(strtoupper(@$_SESSION[CurrentPage()->PageObjName."_opciones"]),strtoupper($op)) > -1 ||
-  	strpos(strtoupper($opciones),strtoupper($op)) > -1;
+  	strpos(strtoupper(@$opciones),strtoupper($op)) > -1;
   }
 
   function setWSR($key,$value=null){ //Web Service Response

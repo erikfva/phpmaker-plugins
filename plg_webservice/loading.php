@@ -31,7 +31,9 @@
 				break;
       case "edit" :
         $_POST["t"] = CurrentPage()->TableName;
-        $_POST["a_edit"] = "U";
+				$_POST["a_edit"] = "U";
+				CurrentPage()->CreateToken(); 
+				$_POST[EW_TOKEN_NAME] = CurrentPage()->Token;
         break;
 		}
 		//setWSR($res ? $res : ('{"success":"0","msg":"'.getMsg(113).'"}'));
