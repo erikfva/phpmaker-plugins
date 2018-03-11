@@ -11,10 +11,20 @@
 ```
 --> Adicionar al inicio de Server Events/Global/All Pages/Page_Head
 ```sh
-//Agregando los plugins para todas las páginas
-	addPlg("plg_main,plg_coolui","all");
 //incluyendo los encabezados de los "plugins"
 	includePlg(); //sin parametros asume que la seccion es "header"
+```
+--> Adicionar al cuerpo de la funcion de Server Events/Global/All Pages/Page_Loading
+```sh
+	includePlg("loading");
+```
+--> Adicionar al cuerpo de la funcion de Server Events/Global/All Pages/Page_Rendering
+```sh
+	includePlg("rendering");
+```
+--> Adicionar al cuerpo de la funcion de Server Events/Global/All Pages/Page_Unloaded
+```sh
+	includePlg("unloaded");
 ```
 --> Adicionar al inicio de Client Scripts/Global/Pages with header|footer/Client Script
 ```sh

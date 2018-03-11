@@ -34,19 +34,19 @@ while ( list($key, $value) = each($_POST) ){
   	// Language object
   	if (!isset($Language)) $Language = new cLanguage();
   	if(strpos($opciones,"language")>-1){
-  			echo json_encode($Language);
-  			exit();
+  		echo json_encode($Language);
+  		exit();
   	}
 
   	if(!(strpos($opciones,"login")>-1) && !IsLoggedIn() && (@$_SESSION[EW_PROJECT_NAME . "_Username"] == "")){ //validando opciones de autologin
   			//autologin con parámetro 'session_key'
 			    
-			  $sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
+		$sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
   		if($sessionid){
   			if (session_id() != "") @session_destroy();
   			session_id($sessionid);
-			  session_start();
-			
+			session_start();
+			header('Access-Control-Allow-Origin: *'); //Permitir cross-domain		
   		}
   	}
   }
