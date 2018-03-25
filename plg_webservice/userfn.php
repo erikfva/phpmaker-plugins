@@ -39,16 +39,36 @@ while ( list($key, $value) = each($_POST) ){
   	}
 
   	if(!(strpos($opciones,"login")>-1) && !IsLoggedIn() && (@$_SESSION[EW_PROJECT_NAME . "_Username"] == "")){ //validando opciones de autologin
-  			//autologin con parámetro 'session_key'
-			    
-		$sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
+  		//autologin con parámetro 'session_key'		    
+			$sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
   		if($sessionid){
   			if (session_id() != "") @session_destroy();
   			session_id($sessionid);
-			session_start();
-			header('Access-Control-Allow-Origin: *'); //Permitir cross-domain		
+				session_start();
+				header('Access-Control-Allow-Origin: *'); //Permitir cross-domain		
+  		}
+  		
+  	}
+
+  	if(ew_CurrentPage() =="ewupload14.php"){
+  		if( @$_GET[@$_GET["id"]] != "" && @$_GET["rnd"] == ""){			
+  			$file_name = ew_UploadTempPath().$_GET[$_GET["id"]];
+  			$key = EW_RANDOM_KEY . session_id();
+        /*
+        $fn = $plgConf["plugins_path"]."plg_webservice/ewfile.php?t=" . ew_Encrypt($_GET["table"], $key) ."&fn=" . ew_Encrypt($file_name, $key).(@$_GET["version"]=="thumbnail"?"":"&width=0&height=0");	
+        header('Location: '.$fn); exit;
+        */
+        $_GET["t"]= ew_Encrypt($_GET["table"], $key);
+        $_GET["fn"]= ew_Encrypt($file_name, $key);
+        if(@$_GET["version"]!="thumbnail"){
+	        $_GET["width"] = 0;
+	        $_GET["height"] = 0;        	
+        }
+        include_once $plgConf["plugins_path"]."plg_webservice/ewfile.php";
+        exit;
   		}
   	}
+
   }
 
   //-------------------------//
