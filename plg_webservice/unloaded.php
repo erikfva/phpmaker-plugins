@@ -1,9 +1,10 @@
 <?php
 
 if (@$GLOBALS["_SERVER"]["REQUEST_METHOD"] == "OPTIONS"){
-  header('Access-Control-Allow-Origin: *'); //Permitir cross-domain
+	header('Access-Control-Allow-Origin: *'); //Permitir cross-domain
+	header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
   header("Content-Type: application/json");
-  header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method"); 
+  header("Access-Control-Allow-Headers: X-API-KEY, X-PINGARUNER, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method"); 
   exit();
 }
 

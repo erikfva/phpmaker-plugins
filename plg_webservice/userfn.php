@@ -49,8 +49,8 @@ while ( list($key, $value) = each($_POST) ){
   		}
   		
   	}
-
-  	if(ew_CurrentPage() =="ewupload14.php"){
+	  
+	if(ew_CurrentPage() =="ewupload14.php"){
   		if( @$_GET[@$_GET["id"]] != "" && @$_GET["rnd"] == ""){			
   			$file_name = ew_UploadTempPath().$_GET[$_GET["id"]];
   			$key = EW_RANDOM_KEY . session_id();
@@ -177,7 +177,8 @@ while ( list($key, $value) = each($_POST) ){
 				'fieldList'		=> $FieldList,
 				'orderField'	=> $orderField,
 				'orderType'		=> $orderType,
-				'rows'			=> $res
+				'rows'			=> $res,
+				'newRow'		=> $page->NewRow()
 			)
 		); 
 		 
