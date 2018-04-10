@@ -1,9 +1,13 @@
 <?php
+
+if (@$GLOBALS["_SERVER"]["REQUEST_METHOD"] == "POST" && empty($_POST)){
+	$_POST = json_decode(trim(file_get_contents('php://input')), true);
+}
+
 //-----------------------------------//
 //***FIX: limpiando 'amp;' en los indices de $_POST
 // cuando se llama el script desde file_get_content
 //-----------------------------------//
-
 if(!empty($_POST))
 while ( list($key, $value) = each($_POST) ){
 	//var_dump($key, $value);
@@ -18,10 +22,7 @@ while ( list($key, $value) = each($_POST) ){
 //--------------------------------------------------//
 //***procesando el parámetro de opciones adicionales
 //--------------------------------------------------//
-	global $opciones,$_GET,$_POST;
-	if (@$GLOBALS["_SERVER"]["REQUEST_METHOD"] == "POST" && empty($_POST)){
-	  $_POST = json_decode(trim(file_get_contents('php://input')), true);
-	}	
+	global $opciones,$_GET,$_POST;	
 	$opciones = isset($_GET["opciones"])?$_GET["opciones"]:( isset($_POST["opciones"])? $_POST["opciones"]:'');
 
   //----------------------------------------------------------------------//
@@ -38,16 +39,24 @@ while ( list($key, $value) = each($_POST) ){
   		exit();
   	}
 
-  	if(!(strpos($opciones,"login")>-1) && !IsLoggedIn() && (@$_SESSION[EW_PROJECT_NAME . "_Username"] == "")){ //validando opciones de autologin
+  	if(ew_CurrentPage() != "login.php" && !(strpos($opciones,"login")>-1) && !IsLoggedIn() && (@$_SESSION[EW_PROJECT_NAME . "_Username"] == "")){ //validando opciones de autologin
   		//autologin con parámetro 'session_key'		    
-			$sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
+		$sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
+
   		if($sessionid){
   			if (session_id() != "") @session_destroy();
   			session_id($sessionid);
-				session_start();
-				header('Access-Control-Allow-Origin: *'); //Permitir cross-domain		
-  		}
-  		
+			session_start();
+			header('Access-Control-Allow-Origin: *'); //Permitir cross-domain	
+			if (session_id() == ""){
+				echo '{success:0,msg:"' . ew_DeniedMsg() .'"}';
+				exit;				
+			}	
+  		} else {
+			header('Access-Control-Allow-Origin: *'); //Permitir cross-domain
+			echo '{success:0,msg:"' . ew_DeniedMsg() .'"}';
+			exit;
+		}
   	}
 	  
 	if(ew_CurrentPage() =="ewupload14.php"){
@@ -171,6 +180,7 @@ while ( list($key, $value) = each($_POST) ){
 			array(
 				'psearch'		=> $page->BasicSearch->Keyword,
 				'TableVar'		=> $page->TableVar,
+				'TableCaption'	=> $page->TableCaption(),
 				'Security'		=> $Allowed,
 				'PageUrl'		=> $page->PageUrl(),
 				'pager'			=> $Pager,

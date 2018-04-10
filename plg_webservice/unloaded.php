@@ -27,25 +27,27 @@ if(chkopt("webservice")){
 			  	global $_SESSION;
 			  	$_SESSION[CurrentPage()->PageObjName."_WSR"] = $usrJSON;
 				}
-				setWSR("success","1"); setWSR("session_key",session_id());        
+				setWSR("success",1); setWSR("session_key",session_id());        
 		}else {
 		  	global $Language;
-		  	setWSR("success","0"); setWSR("msg",$Language->Phrase("InvalidUidPwd")); 
+		  	setWSR("success",0); setWSR("msg",$Language->Phrase("InvalidUidPwd")); 
 		}		
 	}
+	$msg = CurrentPage()->getFailureMessage();
 
   if (ob_get_length()) ob_end_clean();// Clean output buffer
   header('Access-Control-Allow-Origin: *'); //Permitir cross-domain
   header("Content-Type: application/json");
   header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method"); 
-  $msg = CurrentPage()->getFailureMessage();
+
+
   if ($msg != "") {
     CurrentPage()->ClearFailureMessage();
-    echo json_encode(json_decode('{"success":"0","msg":"'.$msg.'"}'));
+    echo json_encode(json_decode('{"success":0,"msg":"'.$msg.'"}'));
   }
   $msg = CurrentPage()->getSuccessMessage();
   if ($msg != ""){
-    echo json_encode(json_decode('{"success":"1","msg":"'.$msg.'"}'));
+    echo json_encode(json_decode('{"success":1,"msg":"'.$msg.'"}'));
     CurrentPage()->ClearSuccessMessage();
   }
 

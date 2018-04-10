@@ -15,7 +15,6 @@
 		$_SESSION[CurrentPage()->PageObjName."_WSR"] = [];
 	}
 
-
 	//Completando parametros especiales de PHPMaker en llamadas por webservice.
 	if(chkopt("webservice")){ //Si se ha llamado como servicio.
 		global $_POST;
@@ -28,13 +27,22 @@
 			case "add" :
 				$_POST["t"] = CurrentPage()->TableName;
 				$_POST["a_add"] = "A";
+				CurrentPage()->CreateToken(); 
+				$_POST[EW_TOKEN_NAME] = CurrentPage()->Token;
+
 				break;
       case "edit" :
         $_POST["t"] = CurrentPage()->TableName;
 				$_POST["a_edit"] = "U";
 				CurrentPage()->CreateToken(); 
 				$_POST[EW_TOKEN_NAME] = CurrentPage()->Token;
-        break;
+				break;
+			case "delete":
+				$_POST["t"] = CurrentPage()->TableName;
+				$_POST["a_list"] = "";
+				CurrentPage()->CreateToken(); 
+				$_POST[EW_TOKEN_NAME] = CurrentPage()->Token;
+				break;			
 		}
 		//setWSR($res ? $res : ('{"success":"0","msg":"'.getMsg(113).'"}'));
 	}
