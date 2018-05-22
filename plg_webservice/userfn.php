@@ -102,120 +102,130 @@ while ( list($key, $value) = each($_POST) ){
   }
 
   function toJSON($page){
-	  global $Security;
-  	$utf8 = (strtolower(EW_CHARSET) == "utf-8");
-    if($page->PageID == 'list'){
-  		$bSelectLimit = $page->UseSelectLimit;
 
-  		// Load recordset
-  		if ($bSelectLimit) {
-  			$page->TotalRecs = $page->ListRecordCount();
-  		} else {
-  			if (!$page->Recordset)
-  				$page->Recordset = $page->LoadRecordset();
-  			$rs = &$page->Recordset;
-  			if ($rs)
-  				$page->TotalRecs = $rs->RecordCount();
-  		}
-  		$page->StartRec = 1;
+	//** Get Fields Info */
+	$FieldList = Array();
+	$orderField = "";     
+	$orderBy = $page->getSessionOrderBy();
+	$orderType = strpos($orderBy, "ASC")!==false?"ASC":"DESC";
+	foreach ($page->fields as $FldVar => $field) {
+	$FieldList[] = array('id'=>$field->FldVar,'name' => $FldVar,
+			'caption' => $field->FldCaption() ,
+			'sortable' => ($page->SortUrl($field) == ""?false:true),
+			'visible' => $field->Visible);
+			$orderField = strpos($orderBy, $FldVar)!==false? $FldVar: $orderField;
+	}
 
-  	  { // Export one $page only
-  		  $page->SetUpStartRec(); // Set up start record position
+	//** Get Security Info */
+	global $Security;
+	$Allowed = array(
+		'CanView'		=> $Security->CanView(),
+		'CanEdit'		=> $Security->CanEdit(),
+		'CanDelete'	=> $Security->CanDelete(),
+		'CanAdd'		=> $Security->CanAdd(),
+		'CanList'		=> $Security->CanList(),
+		'CanAdmin'	=> $Security->CanAdmin(),
+		'CanSearch'	=> $Security->CanSearch(),
+		'CanReport'	=> $Security->CanReport()
+	);
 
-  		  // Set the last record to display
-  		  if ($page->DisplayRecs <= 0) {
-  			  $page->StopRec = $this->TotalRecs;
-  		  } else {
-  			  $page->StopRec = $page->StartRec + $page->DisplayRecs - 1;
-  		  }
-  	  }
-  	  if ($bSelectLimit){
-  		  $sSql = !empty($page->customSQL)? $page->customSQL : $page->ListSQL();
-  		  $offset = $page->StartRec-1;
-  		  $rowcnt = $page->DisplayRecs <= 0 ? $page->TotalRecs : $page->DisplayRecs;
-  		  $sSql .= " LIMIT $rowcnt OFFSET $offset";
-  	global $ADODB_FETCH_MODE;
-  	$auxADODB_FETCH_MODE = $ADODB_FETCH_MODE;
-  	$ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
-  	error_reporting(~E_STRICT);
-  		  $rs = ew_LoadRecordset($sSql);
-  	$ADODB_FETCH_MODE = $auxADODB_FETCH_MODE;
-  	  }
-  	  if (!$rs) {
-  		  header("Content-Type:"); // Remove header
-  		  header("Content-Disposition:");
-  		  $page->ShowMessage();
-  		  return;
-  	  }
-  	  $Pager = new cPrevNextPager($page->StartRec, $page->DisplayRecs, $page->TotalRecs);
-  	  $res = $rs->GetRows();
-  	  $rs->Close();
-      $FieldList = Array();
+	$utf8 = (strtolower(EW_CHARSET) == "utf-8");
+	$bSelectLimit = $page->UseSelectLimit;
 
-      $orderField = "";     
-      $orderBy = $page->getSessionOrderBy();
-      $orderType = strpos($orderBy, "ASC")!==false?"ASC":"DESC";
-      foreach ($page->fields as $FldVar => $field) {
-        $FieldList[] = array('id'=>$field->FldVar,'name' => $FldVar,
-				'caption' => $field->FldCaption() ,
-				'sortable' => ($page->SortUrl($field) == ""?false:true),
-				'visible' => $field->Visible);
-				$orderField = strpos($orderBy, $FldVar)!==false? $FldVar: $orderField;
-      }
+  //** Load recordset
+	if ($bSelectLimit) {
+		$page->TotalRecs = $page->ListRecordCount();
+	} else {
+		if (!$page->Recordset)
+			$page->Recordset = $page->LoadRecordset();
+		$rs = &$page->Recordset;
+		if ($rs)
+			$page->TotalRecs = $rs->RecordCount();
+	}
+	$page->StartRec = 1;
+	
+  //** Export one page only
+	$page->SetupStartRec(); // Set up start record position
 
-		  $Allowed = array(
-			  'CanView'		=> $Security->CanView(),
-			  'CanEdit'		=> $Security->CanEdit(),
-			  'CanDelete'	=> $Security->CanDelete(),
-			  'CanAdd'		=> $Security->CanAdd(),
-			  'CanList'		=> $Security->CanList(),
-			  'CanAdmin'	=> $Security->CanAdmin(),
-			  'CanSearch'	=> $Security->CanSearch(),
-			  'CanReport'	=> $Security->CanReport()
-		  );
-		  //'{"CanView":"'.$Security->CanView().'","CanEdit":"'.$Security->CanEdit().'","CanDelete":"'.$Security->CanDelete().'","CanAdd":"'.$Security->CanAdd().'","CanList":"'.$Security->CanList().'","CanAdmin":"'.$Security->CanAdmin().'","CanSearch":"'.$Security->CanSearch().'","CanReport":"'.$Security->CanReport().'"}';
-		//$this->BasicSearch->Keyword = @$_GET[EW_TABLE_BASIC_SEARCH];
-		
-		return json_encode(
-			array(
-				'psearch'		=> $page->BasicSearch->Keyword,
-				'TableVar'		=> $page->TableVar,
-				'TableCaption'	=> $page->TableCaption(),
-				'Security'		=> $Allowed,
-				'PageUrl'		=> $page->PageUrl(),
-				'pager'			=> $Pager,
-				'fieldList'		=> $FieldList,
-				'orderField'	=> $orderField,
-				'orderType'		=> $orderType,
-				'rows'			=> $res,
-				'newRow'		=> $page->NewRow()
-			)
-		); 
-		 
-		//return "{\"TableVar\":\"".$page->TableVar."\",\"Security\":".$Allowed.",\"PageUrl\":\"".$page->PageUrl()."\",\"pager\":".json_encode($Pager).", \"fieldList\":".json_encode($FieldList).", \"orderField\":\"".$orderField."\", \"orderType\":\"".$orderType."\",\"rows\": ".json_encode($res)."}" ;
-    }
-    if($page->PageID == 'edit'){
-  		$sFilter = $page->KeyFilter();
+	// Set the last record to display
+	if ($page->DisplayRecs <= 0) {
+		$page->StopRec = $page->TotalRecs;
+	} else {
+		$page->StopRec = $page->StartRec + $page->DisplayRecs - 1;
+	}
 
-  		// Call Row Selecting event
-  		$page->Row_Selecting($sFilter);
+	if ($bSelectLimit){
+		$rs = $page->LoadRecordset($page->StartRec-1, $page->DisplayRecs <= 0 ? $page->TotalRecs : $page->DisplayRecs);
+	/*
+		$sSql = !empty($page->customSQL)? $page->customSQL : $page->ListSQL();
+		$offset = $page->StartRec-1;
+		$rowcnt = $page->DisplayRecs <= 0 ? $page->TotalRecs : $page->DisplayRecs;
+		$sSql .= " LIMIT $rowcnt OFFSET $offset";	
+		global $ADODB_FETCH_MODE;
+		$auxADODB_FETCH_MODE = $ADODB_FETCH_MODE;
+		$ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
+		error_reporting(~E_STRICT);
+		$rs = ew_LoadRecordset($sSql);
+		$ADODB_FETCH_MODE = $auxADODB_FETCH_MODE;
+	*/
+	}
+	
+	if (!$rs) {
+		header("Content-Type:"); // Remove header
+		header("Content-Disposition:");
+		$page->ShowMessage();
+		return;
+	}
 
-  		// Load SQL based on filter
-  		$page->CurrentFilter = $sFilter;
-  		$sSql = $page->SQL();
-  		$res = FALSE;
-  	global $ADODB_FETCH_MODE;
-  	$auxADODB_FETCH_MODE = $ADODB_FETCH_MODE;
-  	$ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
-  	error_reporting(~E_STRICT);
-  		$rs = ew_LoadRecordset($sSql);
-  	$ADODB_FETCH_MODE = $auxADODB_FETCH_MODE;
-  		if ($rs && !$rs->EOF) {
-  			$res = array($rs->fields);
-  			$rs->Close();
-  			return json_encode($res[0]);
-  		}
-    }
+	$Pager = new cPrevNextPager($page->StartRec, $page->DisplayRecs, $page->TotalRecs);
+
+//** Create Json Document */
+	$page->Export = "json";
+	$page->ExportDoc = ew_ExportDocument($page, "h");
+	$Doc = &$page->ExportDoc;
+
+//** Set range limits	
+	 if ($bSelectLimit) {
+	 	$page->StartRec = 1;
+	 	$page->StopRec = $page->DisplayRecs <= 0 ? $page->TotalRecs : $page->DisplayRecs;
+	 } 
+
+	// Call Page Exporting server event
+	//--	$page->ExportDoc->ExportCustom = !$page->Page_Exporting();
+	//--	$ParentTable = "";
+	//--	$page->Page_DataRendering($page->PageHeader);
+		$page->ExportDocument($Doc, $rs, $page->StartRec, $page->StopRec, "");
+	//--	$page->Page_DataRendered($page->PageFooter);
+
+		// Close recordset
+		$rs->Close();
+		// Call Page Exported server event
+	//--	$page->Page_Exported();
+
+		// Export header and footer
+	//--	$Doc->ExportHeaderAndFooter();
+
+		// Output data
+	//	return json_encode($Doc->Items, 0);
+
+
+
+	return json_encode(
+		array(
+			'psearch'		=> $page->BasicSearch->Keyword,
+			'TableVar'		=> $page->TableVar,
+			'TableCaption'	=> $page->TableCaption(),
+			'Security'		=> $Allowed,
+			'PageUrl'		=> $page->PageUrl(),
+			'pager'			=> $Pager,
+			'fieldList'		=> $FieldList,
+			'orderField'	=> $orderField,
+			'orderType'		=> $orderType,
+			'rows'			=> $Doc->Items,
+			'newRow'		=> $page->NewRow()
+		)
+	); 
+
   }
 
 ?>
