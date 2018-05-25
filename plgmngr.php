@@ -23,22 +23,40 @@
 										"userfn" => "plg_webservice/userfn.php")
 									);
 
-function addPlg($plgName, $page=""){
+function addPlg($plgNames, $page=""){
+	//echo "** addPlg **";
 	global $plgConf;
 	if(empty($page)) $page = CurrentPage()->PageObjName;
-	$plgConf["include"][$page]= (!empty($plgConf["include"][$page])? $plgConf["include"][CurrentPage()->PageObjName]	. "," : "").$plgName;
+
+	if(empty($plgConf["include"][$page]) && $page != "all"){
+		$plgList = explode(",",$plgNames);
+		foreach ($plgList as $plg) {
+			if(!empty($plgConf[$plg]["loading"])){
+				//echo "incluyendo:".$plgConf[$plg]["loading"]." posicion:loading page:".$page;
+				include_once $plgConf["plugins_path"].$plgConf[$plg]["loading"];
+			}
+		}
+	}
+
+
+	$plgConf["include"][$page]= (!empty($plgConf["include"][$page])? $plgConf["include"][CurrentPage()->PageObjName]	. "," : "").$plgNames;
+	//var_dump($plgConf);
 }
 
 function includePlg($posicion="header",$page=""){
+	//echo "** includePlg **";
 	global $plgConf;
 	$plgNames = !empty($plgConf["include"]["all"])? $plgConf["include"]["all"] : ""; //plugins para todas las paginas "all"
 	if(empty($page)) $page = CurrentPage()->PageObjName;
+	
+	
+
 	$plgNames.= (!empty($plgNames)?",":"") . (!empty($plgConf["include"][$page])? $plgConf["include"][$page] : "");
 	$plgList = explode(",",$plgNames);
- //var_dump($plgList,$posicion);
+// var_dump($plgList,$posicion);
 	foreach ($plgList as $plg) {
 		if (!empty($plgConf[$plg]) && !empty($plgConf[$plg][$posicion])) {
-			//echo "incluyendo:".$plgConf[$plg][$posicion];
+		//	echo "incluyendo:".$plgConf[$plg][$posicion]." posicion:".$posicion." page:".$page;
 			include_once $plgConf["plugins_path"].$plgConf[$plg][$posicion];
 		}
 	}
