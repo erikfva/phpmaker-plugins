@@ -11,7 +11,7 @@
 	';
 ?>
 <!-- Modal -->
-<div class="modal fade" id="frmColumns" tabindex="-1" role="dialog" aria-labelledby="frmColumnsLabel">
+<div class="ewModalDialog modal fade" id="frmColumns" tabindex="-1" role="dialog" aria-labelledby="frmColumnsLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 

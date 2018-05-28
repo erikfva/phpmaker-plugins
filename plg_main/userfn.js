@@ -10,7 +10,7 @@ function resizeIFRM(delay){
 	setTimeout(function(){
   	if(window.frameElement && $(window.frameElement).is(':visible') && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
   		w = mainwin(window);
-  		if( (CurrentPageID || '') == 'list')
+  		if( (typeof CurrentPageID != 'undefined') && (CurrentPageID == 'list'))
   			w.$(w).data('curscroll',w.$(w.document).scrollTop());
   		iframe = $(window.frameElement);
   		iframe.css({'width':'2000px'});
@@ -35,7 +35,7 @@ function resizeIFRM(delay){
   			}
   			iframe.removeClass('iframe-resizing');
   			//w = mainwin(window);
-  			if( (CurrentPageID || '') == 'list')
+  			if( (typeof CurrentPageID != 'undefined') && (CurrentPageID == 'list') )
   				w.$(w.document).scrollTop( w.$(w).data('curscroll') );
   			if (window.top !== window && window.parent.frameElement){
   				window.parent.resizeIFRM();
@@ -81,7 +81,22 @@ if(window.frameElement){
 			resizeIFRM();
 		});
 
-		$("#ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog").on("shown.bs.modal",function(){
+		$(".ewModalDialog,#ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog")
+		.on("show.bs.modal",function(){
+
+		})
+		.on("shown.bs.modal",function(){
+			if(window.frameElement){
+
+				var $dlg = $(this).find('.modal-content');
+				console.log($dlg.width());
+				if($dlg.width() > top.innerWidth) 
+					$dlg.width(top.innerWidth);
+	
+				$dlg.css('left',top.innerWidth - top.outerWidth + 'px' );
+				console.log($dlg, top);
+			}
+						
 			var $dlg = $(this).find('.modal-content');
 			resizeIFRMto($dlg ,{'y':70});
 		})
