@@ -5,7 +5,8 @@
 
 //tableheadfixer
 if(isset(CurrentPage()->PageID) && CurrentPage()->PageID == "list"){
-	ew_AddClientScript($plgConf["plugins_path"]."plg_coolui/tableheadfixer/jquery.tableheadfixer.js");	
+	if(file_exists($plgConf["plugins_path"]."plg_coolui/tableheadfixer/jquery.tableheadfixer.js"))
+		ew_AddClientScript($plgConf["plugins_path"]."plg_coolui/tableheadfixer/jquery.tableheadfixer.js");	
 }
 
 global $__css;
