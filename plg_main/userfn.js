@@ -86,21 +86,22 @@ if(window.frameElement){
 
 		})
 		.on("shown.bs.modal",function(){
+			var $dlg = $(this);
+			
 			if(window.frameElement){
+				if($dlg.width() > top.innerWidth){
+					var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;
+					$dlg.width( newwidth > 700 ? newwidth : 700);
+					console.log($dlg.width())
+				}
 
-				var $dlg = $(this).find('.modal-content');
-				console.log($dlg.width());
-				if($dlg.width() > top.innerWidth) 
-					$dlg.width(top.innerWidth);
-	
-				$dlg.css('left',top.innerWidth - top.outerWidth + 'px' );
-				console.log($dlg, top);
 			}
 						
 			var $dlg = $(this).find('.modal-content');
 			resizeIFRMto($dlg ,{'y':70});
 		})
 		.on("hidden.bs.modal",function(){
+			$(this).css('width','inherit');
 			resizeIFRM();
 		});
 
