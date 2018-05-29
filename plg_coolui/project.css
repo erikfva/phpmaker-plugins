@@ -45,7 +45,7 @@ body{background-color:transparent}
 .checkbox,.checkbox input,
 .checkbox-inline,.checkbox-inline input,
 .radio-inline, .radio-inline input {
-  visibility: hidden;
+  /*visibility: hidden;*/
 }
 .checkbox-inline.custom {
 	visibility: initial;

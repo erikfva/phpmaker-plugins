@@ -92,7 +92,6 @@ if(window.frameElement){
 				if($dlg.width() > top.innerWidth){
 					var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;
 					$dlg.width( newwidth > 700 ? newwidth : 700);
-					console.log($dlg.width())
 				}
 
 			}
@@ -127,6 +126,7 @@ ew_OnError = function (frm, el, msg) {
 	PHPMaker_ew_OnError(frm, el, msg);
 }
 
+/*
 PHPMaker_ew_ModalDialogShow =  ew_ModalDialogShow;
 ew_ModalDialogShow = function(args) {
 
@@ -267,6 +267,7 @@ ew_ModalDialogShow = function(args) {
 		$.get(url, success).fail(_fail).always(_always);
 	}
 }
+*/
 
 jQuery(window).on('load', function(){
 	splashLoadingOff();
@@ -342,25 +343,6 @@ function refreshTable(options){
 			setTimeout(function(){refreshTable(options)},options.time);
 	});
 		
-	/*
-	$(referencia).addClass('updating');
-	$.ajax({
-  	url: location.href + '&opciones=webservices',
-  	dataType: "json",
-  	cache: false
-	}).done(function( data ) {
-    
-   // ewVar.templateData.rows = data.rows;
-    var pageID = CurrentForm.ID.substring(1);
-    //console.log(pageID,ewVar.templateData, data);
-    //console.log( $( "#tpm_" + pageID).render(data) )
-    ew_ApplyTemplate("tpd_" + pageID, "tpm_" + pageID, pageID, "", data);
-
-    options.oncomplete.call();
-		$(referencia).removeClass('updating');
-		$('#ewpagerform').load(location.href + ' #ewpagerform .ewPager', function(){ $(this).form(); });
-  });
-		*/
 		
 	}else{
 	
