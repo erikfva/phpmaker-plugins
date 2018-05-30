@@ -15,6 +15,7 @@ if(chkopt("webservice")){
 		if (IsLoggedIn()){
 				$user =  isset($_GET["username"])?$_GET["username"]:( isset($_POST["username"])? $_POST["username"]:'');
 				if(EW_ADMIN_USER_NAME != $user){
+					/*
 					global $usuario, $Security;	
 					$usuario->CurrentFilter = ew_QuotedName("user", EW_USER_TABLE_DBID)."='".$Security->getCurrentUserName()."'";
 					global $ADODB_FETCH_MODE;
@@ -23,9 +24,12 @@ if(chkopt("webservice")){
 					error_reporting(~E_STRICT);
 			  	$usrJSON = json_decode( ew_ExecuteJson($usuario->SelectSQL()), true);
 			  	unset($usrJSON["password"]); //Quitando el campo "password" para la respuesta webservice.
-			  	$ADODB_FETCH_MODE = $auxADODB_FETCH_MODE;
-			  	global $_SESSION;
-			  	$_SESSION[CurrentPage()->PageObjName."_WSR"] = $usrJSON;
+					$ADODB_FETCH_MODE = $auxADODB_FETCH_MODE;
+					*/
+					global $UserProfile;
+					global $_SESSION;
+					//var_dump($usrJSON); exit;
+			  	$_SESSION[CurrentPage()->PageObjName."_WSR"] = (array) $UserProfile->Profile;
 				}
 				setWSR("success",1); setWSR("session_key",session_id());        
 		}else {
