@@ -25,6 +25,22 @@ while ( list($key, $value) = each($_POST) ){
 	global $opciones,$_GET,$_POST;	
 	$opciones = isset($_GET["opciones"])?$_GET["opciones"]:( isset($_POST["opciones"])? $_POST["opciones"]:'');
 
+//----------------------------------------------------------------------//
+//Login con key de session guardada en variable $_SESSION utilizado para integracion con otros sistemas.
+//----------------------------------------------------------------------//
+if(ew_CurrentPage() != "login.php" && !IsLoggedIn() && (@$_SESSION[EW_PROJECT_NAME . "_Username"] == "") ){ 
+	//var_dump($_SESSION); exit;
+	$sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
+
+	if($sessionid){
+		if (session_id() != "") @session_destroy();
+		session_id($sessionid);
+		session_start();
+
+	}	
+}
+
+
   //----------------------------------------------------------------------//
   //***procesando respuestas especiales por webservice o solicitudes json
   //----------------------------------------------------------------------//
