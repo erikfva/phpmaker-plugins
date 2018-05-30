@@ -8,7 +8,8 @@
 	global $gbSkipHeaderFooter;
 	if(@$gbSkipHeaderFooter){
 		echo "</script>";
-		Breadcrumb()->Render();
+			$bc = Breadcrumb();
+			if($bc) $bc->Render();
 		echo "<script>";
 	}
 ?>

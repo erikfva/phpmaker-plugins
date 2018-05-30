@@ -25,12 +25,24 @@
 				<input type="hidden" id="hide_export" name="hide_export" value="<?php echo @CurrentPage()->hide_export?implode(",", CurrentPage()->hide_export):""; ?>" />
 			<?php
 				foreach (CurrentPage()->fields as $FldVar => $field) {
+					if( (@$field->Selectable && $field->Selectable) || is_null(@$field->Selectable) ){
 			?>
 				<label class="checkbox-inline">
 					<input type="checkbox" class="chk_export" id="fld_export_<?php echo $FldVar;?>" <?php if(  !in_array($FldVar, @CurrentPage()->hide_export?CurrentPage()->hide_export:Array())  ) echo "checked";?> class="ewMultiSelect" value="<?php echo $FldVar;?>"> 
 					<?php echo $field->FldCaption(); ?>
 				</label>
-			<?php } ?>
+			<?php } } ?>
+				<h4>Opciones</h4>
+				<div class="row">
+					<label class="checkbox-inline">
+						<input name="pages" type="radio" class="ewMultiSelect" value="all"> 
+						Exportar Todas las páginas
+					</label>
+					<label class="checkbox-inline">
+						<input name="pages" type="radio" class="ewMultiSelect" value="current"> 
+						Exportar página actual
+					</label>					
+				</div>
 			</div>
 
 			<div class="modal-footer">
