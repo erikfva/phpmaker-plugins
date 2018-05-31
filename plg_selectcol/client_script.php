@@ -35,13 +35,14 @@
 				<h4>Opciones</h4>
 				<div class="row">
 					<label class="checkbox-inline">
-						<input name="pages" type="radio" class="ewMultiSelect" value="all"> 
+						<input name="export_page" type="radio" class="ewMultiSelect" value="current" <?php if(!CurrentPage()->ExportAll) echo "checked";?>> 
+						Exportar página actual
+					</label>				
+					<label class="checkbox-inline">
+						<input name="export_page" type="radio" class="ewMultiSelect" value="all" <?php if(CurrentPage()->ExportAll) echo "checked";?>> 
 						Exportar Todas las páginas
 					</label>
-					<label class="checkbox-inline">
-						<input name="pages" type="radio" class="ewMultiSelect" value="current"> 
-						Exportar página actual
-					</label>					
+					
 				</div>
 			</div>
 
