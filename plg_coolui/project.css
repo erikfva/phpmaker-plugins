@@ -306,21 +306,22 @@ overflow: hidden;
   background: linear-gradient(top, #008dfd 30%, #0370ea 100%);
   cursor: pointer;
 }
+
 /*placeholders*/
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: #008dfd !important;
+  color: #008dfd;
   opacity: 0.6;
 }
 ::-moz-placeholder { /* Firefox 19+ */
-  color: #008dfd !important;
+  color: #008dfd;
   opacity: 0.6;
 }
 :-ms-input-placeholder { /* IE 10+ */
-  color: #008dfd !important;
+  color: #008dfd;
   opacity: 0.6;
 }
 :-moz-placeholder { /* Firefox 18- */
-  color: #008dfd !important;
+  color: #008dfd;
   opacity: 0.6;
 }
 /**/
