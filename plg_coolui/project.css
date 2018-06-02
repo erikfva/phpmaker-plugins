@@ -21,7 +21,7 @@
     width: 85%;
 	}
 }
-body{background-color:transparent}
+body{background-color:transparent; padding-left:10px}
 .hide-empty{display:none}
 .ewAddEdit.ewAdd,
 .ewGridLink.ewInlineUpdate,
