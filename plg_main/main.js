@@ -187,7 +187,7 @@ ToggleBarTimer = 0;
 				clearTimeout(ToggleBarTimer);
 				ToggleBarTimer = top.setTimeout(doToggleBar, 1000);
 				//update top margin for iframe div.
-				$('#mainbody').css('margin-top',$('.navbar-static-top').height() ); 
+				//$('#mainbody').css('margin-top',$('.navbar-static-top').height() ); 
 	});
 
 var isScrolling = false;
@@ -222,7 +222,7 @@ function adjustAll(){
 	$('#mainbody').css('margin-left', leftmargin + 'px');
 	
 	$('.pivotItem.current iframe').each(function(){
-		this.contentWindow.resizeIFRM();
+		if(this.contentWindow.resizeIFRM) this.contentWindow.resizeIFRM();
 	})
 	
 	$('body').removeClass('adjusting');

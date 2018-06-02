@@ -1,4 +1,4 @@
-<?php if(comportamiento("100")){ ?>
+<?php if(function_exists("comportamiento") && comportamiento("100")){ ?>
 <!--
 **************************************
 	 Motor de busqueda estilo Google
@@ -58,22 +58,6 @@
 		</div>
 	</div>
 </div>
-<!--
-**************************************
-MENU ESTILO ANDROID
-**************************************
-
-<nav id="slidx_menu">
-<div id="user_info" style="display:none" class="well-sm media">
-  <div class="media-left media-middle">
-	  <img class="img-circle media-object" src="<?php echo $plgConf["plugins_path"]."plg_main/";?>images/foto.jpg" alt="..." style="width:64px">
-  </div>
-  <div class="media-middle media-body">
-	<span class="h4 media-heading"><?php echo CurrentUserInfo("nombre")?CurrentUserInfo("nombre"):(IsSysAdmin()?"Administrador":"???"); ?></span>
-  </div>
-</div>
-</nav>
-!-->
 
 <!--
 **************************************
@@ -93,7 +77,7 @@ MENU ESTILO ANDROID
 	$__Pages = isset($__Pages)?$__Pages:array();
 ?>
 
-<div id="mainbody" style="margin-top:25px;">
+<div id="mainbody">
 	<div class="metro-pivot">
 <?php
 	$scriptLoadPage = '';
@@ -120,13 +104,19 @@ MENU ESTILO ANDROID
 		} ?>
 
 	</div>
-<?php	}
+<?php	} ?>
+<!-- Pagina links del menu principal-->
+	<div class="pivot-item">
+		<h3>contenido</h3>
+		<iframe id="frame-content" data-url="" class="autosize empty" scrolling="no" src="" frameborder="0" marginheight="0" marginwidth="0"  ></iframe>
+	</div>
+	<script type="text/javascript">
+		ewLanguage.obj.label_contenido = 'contenido';
+<?php	
 	if(!empty($scriptLoadPage)){
-		echo "
-		<script>
-		$scriptLoadPage
-		</script>";
+		echo $scriptLoadPage;
 	}
 ?>
+	</script>
   </div>
 </div>
