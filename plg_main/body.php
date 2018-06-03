@@ -77,7 +77,7 @@
 	$__Pages = isset($__Pages)?$__Pages:array();
 ?>
 
-<div id="mainbody">
+<div id="mainbody" class="hide">
 	<div class="metro-pivot">
 <?php
 	$scriptLoadPage = '';
@@ -87,6 +87,9 @@
 			<?php if(!empty($__Page["button_imagen"])){ ?>
 			<img src="<?php echo $__Page["button_imagen"];?>" align="absmiddle" style="width:48px" border="0">
 			<?php } ?>
+			<?php if(!empty($__Page["button_html"])){
+				echo $__Page["button_html"];
+			} ?>			
 			<span style="display:none"><?php echo $__Page["nombre"];?></span>
 		</h3>
 
@@ -107,7 +110,7 @@
 <?php	} ?>
 <!-- Pagina links del menu principal-->
 	<div class="pivot-item">
-		<h3>contenido</h3>
+		<h3><span style="display:none">contenido</span></h3>
 		<iframe id="frame-content" data-url="" class="autosize empty" scrolling="no" src="" frameborder="0" marginheight="0" marginwidth="0"  ></iframe>
 	</div>
 	<script type="text/javascript">

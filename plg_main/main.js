@@ -1,6 +1,5 @@
 var EW_PAGE_ID = 'main';
 
-
 /**************************************
 	 Motor de busqueda estilo Google
 **************************************/
@@ -19,19 +18,7 @@ function leftbarToggle(el){
 	$('.btnleftmenu').toggleClass('open').addClass('busy');
 	$('#leftmenu').animate({left: $('.btnleftmenu').hasClass('open')?'0px':- ( $('#leftmenu').position().left + $('#leftmenu').width() ) + 'px' },'fast',function(){
 		adjustAll();
-		$('html, body').animate({scrollTop:0,scrollLeft:0}, 'fast');
-		/*
-		$('#mainbody').animate({'margin-left':($('.btnleftmenu').hasClass('open')?'90px':'0px')}, 200);
-		if($('.btnleftmenu').hasClass('open')){ 
-			$('html, body').animate({scrollTop:0,scrollLeft:0}, 'fast');
-			$('body').width( $('body').width() + 90 );
-		} else {
-			$('body').width( $('body').width() - 90 );
-		}
-		if( $('.btnleftmenu').hasClass('open') && $(window).width()<700 && $('.btnTopMenu').hasClass('open') )
-			$('.btnTopMenu').trigger('click');
-		*/
-		
+		$('html, body').animate({scrollTop:0,scrollLeft:0}, 'fast');	
 		$('.btnleftmenu').removeClass('busy');
 	});
 	return false;
@@ -54,7 +41,6 @@ function topbarToggle(el){
 	return false;
 }
 
-
 jQuery(document).ready(function(){
 	$('.main-header .navbar').addClass('navbar-fixed-top');
 })
@@ -64,23 +50,6 @@ jQuery(document).ready(function(){
 //**************************************
 
 jQuery(document).ready(function(){
-
-/*
-	ewLanguage.obj.label_paciente = 'pacientelist';
-	$('#marco-pacientelist').on('load',function(){	$(this).removeClass('empty') }).attr('src',$('#marco-pacientelist').data('url'));
-	//Pagina resultados de busqueda
-	$('#marco-resultado-busqueda').on('load',function(){
-					if($('div.metro-pivot').data('metro-pivot')) $('div.metro-pivot').data('metro-pivot').goToItemByName('Resultado');
-	});
-	//Pagina de solicitud de analisis
-	ewLanguage.obj.label_analisis_solicitud = 'analisis_solicitudlist';
-	$('#marco-analisis_solicitudlist').on('load',function(){ $(this).removeClass('empty') }).attr('src',$('#marco-analisis_solicitudlist').data('url'));
-	//Pagina de resultados de analisis
-	ewLanguage.obj.label_analisis_resultados = 'analisis_resultadoslist';
-	$('#marco-analisis_resultadoslist').on('load',function(){ $(this).removeClass('empty') }).attr('src',$('#marco-analisis_resultadoslist').data('url'));
-
-	ewLanguage.obj.label_listado_prueba = 'listado_pruebalist';
-*/
 
 	//Pagina links del menu principal
 	ewLanguage.obj.label_contenido = 'contenido';
@@ -136,7 +105,7 @@ jQuery(document).ready(function(){
 			$("div.metro-pivot").find('.headers').appendTo('.navbar.navbar-static-top');
 
 			$('.pivot-item iframe:not(.lazyload)').each(function(){ $(this).attr('src', $(this).data('url') ).removeClass('empty'); });
-			//$('.headers .header:last').addClass('hidden');
+			$('#mainbody').removeClass('hide');
 			
 			/**************************************
 			AdminLTE
@@ -163,16 +132,32 @@ jQuery(document).ready(function(){
 			$(window).trigger('resize');
 })
 
+//**************************************
+// Reacondicionando los links del menu 
+// para que se abran en el iframe de contenido
+//**************************************
 function urlContent(url){
-					if($('#frame-content').is(':visible')){
-						$('#frame-content').attr('src',url + '?cmd=resetall&opciones=reset');
-					}
-					$('#frame-content').data('url',url + '?cmd=resetall&opciones=reset');
-
-					$('div.metro-pivot').data('metro-pivot').goToItemByName('contenido');
-					$('[data-toggle="push-menu"]').pushMenu('toggle');
-					$('.pageload-overlay').show();
+	if($('#frame-content').is(':visible')){
+		$('#frame-content').attr('src',url + '?cmd=resetall&opciones=reset');
+	}
+	$('#frame-content').data('url',url + '?cmd=resetall&opciones=reset');
+	$('div.metro-pivot').data('metro-pivot').goToItemByName('contenido');
+	$('[data-toggle="push-menu"]').pushMenu('toggle');
+	$('.pageload-overlay').show();
 }
+$('#ewMenu a').each(function(){
+	var ref = $(this).attr('href');
+	$(this)
+	.click(function(){
+		if($('#frame-content').is(':visible')){ 
+			$('#frame-content').attr('src', ref + '?cmd=resetall&opciones=reset'); 
+		} 
+		$('#frame-content').data('url', ref + '?cmd=resetall&opciones=reset'); 
+		$('div.metro-pivot').data('metro-pivot').goToItemByName('contenido');
+		$('.pageload-overlay').show();
+	})
+	.attr('href','#');
+})
 
 resizeTimer = 0;
 ToggleBarTimer = 0;

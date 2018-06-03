@@ -19,9 +19,9 @@ body{
   width: 97%;
 }
 section.content, .pivot-item{padding:0px !important}
-#mainbody{padding-left:10px}
+
 /**************************************
-	Barra de men� izquierda
+	Barra de menu izquierda
 **************************************/
 
 #leftmenu .ui-state-hover{ background-color:black; background-image:none}
@@ -57,5 +57,6 @@ section.content, .pivot-item{padding:0px !important}
 AdminLTE
 **************************************/
 /* hide logo */
-.logo{ display: none !important;}
+.logo,.content-header{ display: none !important;}
 .main-header .navbar{margin-left: inherit;}
+.pivot-item{margin-top:50px}
