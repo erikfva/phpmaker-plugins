@@ -5,32 +5,60 @@ function mainwin(w){
 }
 
 function resizeIFRM(delay){
-	delay = typeof delay == "undefined"?0:delay;
+	var timedelay = typeof delay == "undefined"?0:delay;
 
 	setTimeout(function(){
   	if(window.frameElement && $(window.frameElement).is(':visible') && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
-  		w = mainwin(window);
-  		if( (typeof CurrentPageID != 'undefined') && (CurrentPageID == 'list'))
-  			w.$(w).data('curscroll',w.$(w.document).scrollTop());
-  		iframe = $(window.frameElement);
-  		iframe.css({'width':'2000px'});
-  		iframe.css({'height':'5px'});
+		var wwini = 2000;
+		var whini = 5;  
+		var iframe = $(window.frameElement);
+		if(typeof w == 'undefined')	w = mainwin(window);	
+		
+		if( typeof CurrentPageID != 'undefined' && CurrentPageID != 'list')
+		if(CurrentForm){
+			$(w.document.body).css('width','inherit');
+			iframe.css({'width':'100%'});
+			var maxheight = iframe[0].contentWindow.document.body.scrollHeight;
+			iframe.addClass('iframe-resizing');
+			iframe.css('height',maxheight + 10 + 'px');
+			iframe.removeClass('iframe-resizing');
+			if (window.top !== window && window.parent.frameElement){
+				window.parent.resizeIFRM();
+			}
+			return;			
+		}
+
+
+  		if( typeof CurrentPageID != 'undefined' && CurrentPageID == 'list'){
+			w.$(w).data('curscroll',w.$(w.document).scrollTop());
+		}
+
+  			
+		iframe.css({'width': wwini + 'px'});
+		iframe.css({'height': whini + 'px'});
   		
-  		maxheight = iframe[0].contentWindow.document.body.scrollHeight;
+  		
+  		var maxheight = iframe[0].contentWindow.document.body.scrollHeight;
   		if(maxheight > 5){
   			iframe.addClass('iframe-resizing');
-  			iframe.css('height',maxheight + 10 + 'px');
-  			maxwidth = $(iframe[0].contentWindow.document.body).find('.ewBox').width() || iframe[0].contentWindow.document.body.scrollWidth ;
+			iframe.css('height',maxheight + 10 + 'px');
+
+			var maxwidth = $(iframe[0].contentWindow.document.body).find('.ewBox').width() || iframe[0].contentWindow.document.body.scrollWidth ;
+
+			if( typeof CurrentPageID != 'undefined' && CurrentPageID != 'list'){
+				maxwidth = CurrentForm.$Element.width();
+			}
+			  
   			setTimeout(function(){ iframe.css('height',iframe[0].contentWindow.document.body.scrollHeight + 10 + 'px') },100);
   			if(!iframe.hasClass('fixedwidth') ){ 
   				$(w.document.body).each(function(){
-  					var leftbarspace = w.$('.main-sidebar').length && w.$('.main-sidebar').position().left >= 0 ? w.$('.main-sidebar').width() : 0;
-  					leftbarspace = leftbarspace == 0 
-  												&& w.$('#leftmenu').length 
-  												&& ( w.$('#leftmenu').position().left == 0 || w.$('#leftmenu').position().left == 230) ? w.$('#leftmenu').width() : leftbarspace;
-  					//console.log(maxwidth, leftbarspace );
-  					$(this).css('overflow-x','auto').css('width', maxwidth + leftbarspace + 50 + 'px');
-  				})
+					var leftbarspace = w.$('.main-sidebar').length && w.$('.main-sidebar').position().left >= 0 ? w.$('.main-sidebar').width() : 0;
+					leftbarspace = leftbarspace == 0 
+									&& w.$('#leftmenu').length 
+									&& ( w.$('#leftmenu').position().left == 0 || w.$('#leftmenu').position().left == 230) ? w.$('#leftmenu').width() : leftbarspace;
+					//console.log(maxwidth, leftbarspace );
+					$(this).css('overflow-x','auto').css('width', maxwidth + leftbarspace + 50 + 'px');
+				})
   				//console.log(maxwidth,w);
   			}
   			iframe.removeClass('iframe-resizing');
@@ -46,7 +74,7 @@ function resizeIFRM(delay){
   				},200);
   		}
   	}
-	},delay);
+	},timedelay);
 }
 
 function resizeIFRMto($el,deltaxy){

@@ -36,10 +36,12 @@ function coolTemplate(container){
 	if (typeof container == 'undefined') var container = window.$('body');
 
 //Personalizando botones de opciones
-container.find('.btn-primary,.ewAddEdit.ewAdd, .ewGridLink.ewInlineUpdate, .ewAddEdit.ewGridAdd, .ewAction.ewGridSave,.ewAction.ewGridInsert, .ewDetailAdd').removeClass('btn-default').addClass('goobutton').css({'visibility':'inherit','opacity':'1'});
+container.find('.btn-primary,.ewAddEdit.ewAdd, .ewGridLink.ewInlineUpdate, .ewAddEdit.ewGridAdd, .ewAction.ewGridSave,.ewAction.ewGridInsert, .ewDetailAdd')
+//.removeClass('btn-default').addClass('goobutton')
+.css({'visibility':'inherit','opacity':'1'});
 
 //container.find('.ewRowLink.ewEdit,.ewAddEdit.ewGridEdit,.ewAction.ewMultiUpdate,.ewAction.ewEdit').removeClass('btn-default').addClass('btn-info');
-container.find('.ewGridLink.ewGridDelete, .ewRowLink.ewDelete, .ewAction.ewMultiDelete, .ewGridLink.ewInlineCancel, .ewAction.ewGridCancel').removeClass('btn-default').addClass('btn-danger');
+container.find('.ewGridLink.ewGridDelete, .ewRowLink.ewDelete, .ewAction.ewMultiDelete, .ewGridLink.ewInlineCancel, .ewAction.ewGridCancel').removeClass('btn-default').addClass('text-danger');
 container.find('.ewAddOptBtn').removeClass('btn-default').addClass('btn-primary');
 container.find('.ewShowAll').removeClass('btn-default').addClass('btn-warning').css({'visibility':'inherit','opacity':'1'});
 container.find('.ewExportLink.ewPrint').attr('target','_blank');

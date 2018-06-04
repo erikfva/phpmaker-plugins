@@ -8,8 +8,8 @@
 	.ewSiteTitle{display:none}*/
 
 body{
-	background-image: url("images/top_bar.jpg"); background-position: 50% 0px; background-repeat: repeat-x;
 	padding-left: 0px !important;
+  background-image: url("images/top_bar.jpg"); background-position: 50% 0px; background-repeat: repeat-x;	
 }
 .ewContentColumn {background:transparent}
 .ewFooterRow {
@@ -57,6 +57,7 @@ section.content, .pivot-item{padding:0px !important}
 AdminLTE
 **************************************/
 /* hide logo */
+.skin-green .wrapper, .content-wrapper{background: transparent}
 .logo,.content-header{ display: none !important;}
 .main-header .navbar{margin-left: inherit;}
 .pivot-item{margin-top:50px}

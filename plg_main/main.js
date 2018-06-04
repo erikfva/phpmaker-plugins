@@ -149,6 +149,7 @@ $('#ewMenu a').each(function(){
 	var ref = $(this).attr('href');
 	$(this)
 	.click(function(){
+		$('[data-toggle="push-menu"]').pushMenu('toggle');
 		if($('#frame-content').is(':visible')){ 
 			$('#frame-content').attr('src', ref + '?cmd=resetall&opciones=reset'); 
 		} 

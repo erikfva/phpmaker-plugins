@@ -21,7 +21,10 @@
     width: 85%;
 	}
 }
-body{background-color:transparent; padding-left:10px}
+body{
+  background-color:transparent; 
+  padding-left:10px;
+}
 .hide-empty{display:none}
 .ewAddEdit.ewAdd,
 .ewGridLink.ewInlineUpdate,
@@ -327,4 +330,5 @@ overflow: hidden;
 /**/
 .text-del{color:red;text-decoration: line-through;}
 .ewBreadcrumbs{background-color:transparent;float:left}
-.ewEditForm, .ewAddForm{clear : left}
+.ewEditForm, .ewAddForm{clear : left;}
+.box{background: transparent}
