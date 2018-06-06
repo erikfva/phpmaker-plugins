@@ -9,7 +9,7 @@ function resizeIFRM(delay){
 
 	setTimeout(function(){
   	if(window.frameElement && $(window.frameElement).is(':visible') && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
-		var wwini = 2000;
+		var wwini = 5000;
 		var whini = 5;  
 		var iframe = $(window.frameElement);
 		if(typeof w == 'undefined')	w = mainwin(window);	
