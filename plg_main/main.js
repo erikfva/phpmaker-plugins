@@ -93,7 +93,9 @@ jQuery(document).ready(function(){
 								if(iframe[0].contentWindow && typeof iframe[0].contentWindow.refreshContent === 'function'){
 									iframe[0].contentWindow.refreshContent();
 								}
-  					}
+  						} else {
+							$("body").css("width", "inherit");
+						}
 					}
 				}
 			}

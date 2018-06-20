@@ -1,12 +1,10 @@
 function mainwin(w){
 	if(!w.frameElement) return w;
-	if(w.frameElement.className == 'ui-dialog-frame') return w;
 	return mainwin(w.parent);
 }
 
 function resizeIFRM(delay){
 	var timedelay = typeof delay == "undefined"?0:delay;
-
 	setTimeout(function(){
   	if(window.frameElement && $(window.frameElement).is(':visible') && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
 		var wwini = 5000;
@@ -83,11 +81,11 @@ function resizeIFRMto($el,deltaxy){
 
 			if (window.frameElement && window.innerHeight < $el.height() + deltay ) {
   				$(parent.document).find('iframe').each(function() {
-						if (this.contentWindow.document == window.document) {
-							$(this).css({ height: $el.height() + deltay + 'px'});
-						}
-					});
-  		}
+					if (this.contentWindow.document == window.document) {
+						$(this).css({ height: $el.height() + deltay + 'px'});
+					}
+				});
+  			}
 }
 //********
 //*Realizando el mejor ajuste del ancho del iframe basado en su contenido y el ancho del navegador
