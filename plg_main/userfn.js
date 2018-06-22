@@ -81,8 +81,14 @@ function resizeIFRMto($el,deltaxy){
 
 			if (window.frameElement && window.innerHeight < $el.height() + deltay ) {
   				$(parent.document).find('iframe').each(function() {
-					if (this.contentWindow.document == window.document) {
-						$(this).css({ height: $el.height() + deltay + 'px'});
+					var iframe = this;
+					if (iframe.contentWindow.document == window.document) {
+						
+						$(iframe).addClass('iframe-resizing');
+						$(iframe).css({ height: $el.height() + deltay + 'px'});
+						setTimeout(function(){
+							$(iframe).removeClass('iframe-resizing');
+						},300);
 					}
 				});
   			}

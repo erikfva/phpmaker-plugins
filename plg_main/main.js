@@ -164,20 +164,6 @@ $('#ewMenu a').each(function(){
 })
 
 resizeTimer = 0;
-ToggleBarTimer = 0;
-
-	function doToggleBar() {
-	/*
-					if($(window).width()<1024 && $('.btnleftmenu').hasClass('open')) $('.btnleftmenu').trigger('click');
-					if($(window).width()<700 && $('.btnTopMenu').hasClass('open') ) $('.btnTopMenu').trigger('click');
-	*/
-	};
-	$(window).bind('resize', function () {
-				clearTimeout(ToggleBarTimer);
-				ToggleBarTimer = top.setTimeout(doToggleBar, 1000);
-				//update top margin for iframe div.
-				//$('#mainbody').css('margin-top',$('.navbar-static-top').height() ); 
-	});
 
 var isScrolling = false;
 
