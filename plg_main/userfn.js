@@ -10,20 +10,24 @@ function resizeIFRM(delay){
 		var wwini = 5000;
 		var whini = 5;  
 		var iframe = $(window.frameElement);
+
 		if(typeof w == 'undefined')	w = mainwin(window);	
 		
-		if( typeof CurrentPageID != 'undefined' && CurrentPageID != 'list')
+		if( typeof CurrentForm != 'undefined' && typeof CurrentForm.PageID != 'undefined' && CurrentForm.PageID != 'list'){
+			console.log(CurrentForm, iframe);
 		if(CurrentForm){
+			iframe.addClass('iframe-resizing');
 			$(w.document.body).css('width','inherit');
 			iframe.css({'width':'100%'});
 			var maxheight = iframe[0].contentWindow.document.body.scrollHeight;
-			iframe.addClass('iframe-resizing');
+			
 			iframe.css('height',maxheight + 10 + 'px');
 			iframe.removeClass('iframe-resizing');
 			if (window.top !== window && window.parent.frameElement){
 				window.parent.resizeIFRM();
 			}
 			return;			
+		}
 		}
 
 
@@ -64,12 +68,10 @@ function resizeIFRM(delay){
   			if( (typeof CurrentPageID != 'undefined') && (CurrentPageID == 'list') )
   				w.$(w.document).scrollTop( w.$(w).data('curscroll') );
   			if (window.top !== window && window.parent.frameElement){
-  				window.parent.resizeIFRM();
+  				window.parent.resizeIFRM(200);
   			}
   		}else{
-  			setTimeout(function(){
-  					resizeIFRM();
-  				},200);
+  			resizeIFRM(200);
   		}
   	}
 	},timedelay);
@@ -80,6 +82,15 @@ function resizeIFRMto($el,deltaxy){
 	var deltay = typeof deltaxy == "undefined"?0:(typeof deltaxy.y == "undefined"?0: parseInt(deltaxy.y));
 
 			if (window.frameElement && window.innerHeight < $el.height() + deltay ) {
+				var ifrm = window.frameElement;
+
+				$(ifrm).addClass('iframe-resizing').removeClass('autosize');
+				$(ifrm).css({ height: $el.height() + deltay + 'px'});
+				
+				setTimeout(function(){
+					$(ifrm).removeClass('iframe-resizing').addClass('autosize');
+				},200);				
+/*
   				$(parent.document).find('iframe').each(function() {
 					var iframe = this;
 					if (iframe.contentWindow.document == window.document) {
@@ -88,9 +99,11 @@ function resizeIFRMto($el,deltaxy){
 						$(iframe).css({ height: $el.height() + deltay + 'px'});
 						setTimeout(function(){
 							$(iframe).removeClass('iframe-resizing');
-						},300);
+						},10000);
 					}
 				});
+*/
+
   			}
 }
 //********
@@ -126,14 +139,17 @@ if(window.frameElement){
 					$dlg.width( newwidth > 700 ? newwidth : 700);
 				}
 
-			}
+			}typeof CurrentForm != 'undefined'
 						
 			var $dlg = $(this).find('.modal-content');
-			resizeIFRMto($dlg ,{'y':70});
+			setTimeout(() => {
+				resizeIFRMto($dlg ,{'y':70});
+			}, 600);
+			
 		})
 		.on("hidden.bs.modal",function(){
 			$(this).css('width','inherit');
-			resizeIFRM();
+			// resizeIFRM();
 		});
 
 		$('.ewAddBlankRow').on('click',function(){ resizeIFRM(); });
