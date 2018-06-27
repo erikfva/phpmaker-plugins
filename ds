@@ -1,0 +1,54 @@
+[1mdiff --git a/README.md b/README.md[m
+[1mindex c288399..231b74f 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -1,9 +1,9 @@[m
+ # phpmaker-plugins[m
+ [m
+ ### Instalando[m
+[31m-1.- Crear una carpeta llamada "plugins" en la carpeta de su proyecto PHPMaker.[m
+[31m-2.- Copie el contenido del repositorio en la carpeta "plugins".[m
+[31m-3.- Realizar los siguientes ajustes a su proyecto PHPMaker:[m
+[32m+[m[32m- 1.- Crear una carpeta llamada "plugins" en la carpeta de su proyecto PHPMaker.[m
+[32m+[m[32m- 2.- Copie el contenido del repositorio en la carpeta "plugins".[m
+[32m+[m[32m- 3.- Realizar los siguientes ajustes a su proyecto PHPMaker:[m
+ [m
+ --> Adicionar al inicio de Server Events/Global/All Pages/Global Code[m
+ ```sh[m
+[36m@@ -42,7 +42,7 @@[m
+ ```[m
+ ### Uso[m
+ --> Para agregar el plugin "autosizetextarea" por ejemplo en la pagina Edit,[m
+[31m-	adicionar en la funcion de Server Events/Table-Specific/Edit Page/Page_Render[m
+[32m+[m	[32madicionar en la funcion de Server Events/Table-Specific/Edit Page/Page_Load[m
+ ```sh[m
+ 	addPlg("plg_autosizetextarea");[m
+ ```[m
+[1mdiff --git a/plg_main/userfn.js b/plg_main/userfn.js[m
+[1mindex 571a915..175a2bb 100644[m
+[1m--- a/plg_main/userfn.js[m
+[1m+++ b/plg_main/userfn.js[m
+[36m@@ -14,7 +14,7 @@[m [mfunction resizeIFRM(delay){[m
+ 		if(typeof w == 'undefined')	w = mainwin(window);	[m
+ 		[m
+ 		if( typeof CurrentForm != 'undefined' && typeof CurrentForm.PageID != 'undefined' && CurrentForm.PageID != 'list'){[m
+[31m-			console.log(CurrentForm, iframe);[m
+[32m+[m
+ 		if(CurrentForm){[m
+ 			iframe.addClass('iframe-resizing');[m
+ 			$(w.document.body).css('width','inherit');[m
+[36m@@ -134,12 +134,12 @@[m [mif(window.frameElement){[m
+ 			var $dlg = $(this);[m
+ 			[m
+ 			if(window.frameElement){[m
+[32m+[m
+ 				if($dlg.width() > top.innerWidth){[m
+ 					var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;[m
+ 					$dlg.width( newwidth > 700 ? newwidth : 700);[m
+ 				}[m
+[31m-[m
+[31m-			}typeof CurrentForm != 'undefined'[m
+[32m+[m			[32m}[m
+ 						[m
+ 			var $dlg = $(this).find('.modal-content');[m
+ 			setTimeout(() => {[m

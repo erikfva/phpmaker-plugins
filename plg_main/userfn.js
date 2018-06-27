@@ -14,7 +14,7 @@ function resizeIFRM(delay){
 		if(typeof w == 'undefined')	w = mainwin(window);	
 		
 		if( typeof CurrentForm != 'undefined' && typeof CurrentForm.PageID != 'undefined' && CurrentForm.PageID != 'list'){
-			console.log(CurrentForm, iframe);
+
 		if(CurrentForm){
 			iframe.addClass('iframe-resizing');
 			$(w.document.body).css('width','inherit');
@@ -134,12 +134,12 @@ if(window.frameElement){
 			var $dlg = $(this);
 			
 			if(window.frameElement){
+
 				if($dlg.width() > top.innerWidth){
 					var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;
 					$dlg.width( newwidth > 700 ? newwidth : 700);
 				}
-
-			}typeof CurrentForm != 'undefined'
+			}
 						
 			var $dlg = $(this).find('.modal-content');
 			setTimeout(() => {
