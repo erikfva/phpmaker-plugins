@@ -186,13 +186,13 @@ function adjustAll(){
 	$('body').addClass('adjusting');
   
   //leftmenu
-	if(  $('.main-sidebar').position().left >= 0 && ($('#leftmenu').position().left == 230 || $('#leftmenu').position().left == 0) ) //hide leftmenu
+	if( $('#leftmenu').length &&  $('.main-sidebar').position().left >= 0 && ($('#leftmenu').position().left == 230 || $('#leftmenu').position().left == 0) ) //hide leftmenu
 		leftbarToggle( $('.btnleftmenu').get(0) ); 	
 	$('#leftmenu').css('padding-top', $('.navbar-static-top').height() + 'px' );
 	
 	
 	//mainbody
-	var leftmargin = $('#leftmenu').position().left == 0 || $('#leftmenu').position().left == 230? $('#leftmenu').width() : 0;
+	var leftmargin = $('#leftmenu').length && ( $('#leftmenu').position().left == 0 || $('#leftmenu').position().left == 230) ? $('#leftmenu').width() : 0;
 	 
 	$('#mainbody').css('margin-left', leftmargin + 'px');
 	
