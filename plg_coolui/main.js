@@ -33,9 +33,12 @@ jQuery(document).on('newoption',function(e,a){
     				window.event.cancelBubble=true;  
     			if ($(event.target).is('input:radio')){ $(event.target).closest('.ewItemTable').find('input:radio:not(:checked)').parent().removeClass('active')  } 
     		})
-    		.css({'width':'0px'});
+			.css({'width':'0px'});
+			/*
     		setTimeout(function(){
-    			if(ctrl.length && ctrl[0].checked) ctrl.parent().addClass('active');
+				if(ctrl.length && ctrl[0].checked) ctrl.parent().addClass('active');
+				console.log('resize input:radio');
     			if(window.resizeIFRM) resizeIFRM();
-    		}, 50); 
+			}, 50); 
+			*/
 })

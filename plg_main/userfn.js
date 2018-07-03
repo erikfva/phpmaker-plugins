@@ -4,14 +4,17 @@ function mainwin(w){
 }
 
 function resizeIFRM(delay){
+	var winres = window;
+
 	var timedelay = typeof delay == "undefined"?0:delay;
 	setTimeout(function(){
-  	if(window.frameElement && $(window.frameElement).is(':visible') && $(window.frameElement).hasClass('autosize') && !$(window.frameElement).hasClass('iframe-resizing') ){
+  	if(winres.frameElement && $(winres.frameElement).is(':visible') && $(winres.frameElement).hasClass('autosize') && !$(winres.frameElement).hasClass('iframe-resizing') ){
+
 		var wwini = 5000;
 		var whini = 5;  
-		var iframe = $(window.frameElement);
+		var iframe = $(winres.frameElement);
 
-		if(typeof w == 'undefined')	w = mainwin(window);	
+		if(typeof w == 'undefined')	w = mainwin(winres);	
 		
 		if( typeof CurrentForm != 'undefined' && typeof CurrentForm.PageID != 'undefined' && CurrentForm.PageID != 'list'){
 
@@ -23,8 +26,8 @@ function resizeIFRM(delay){
 			
 			iframe.css('height',maxheight + 10 + 'px');
 			iframe.removeClass('iframe-resizing');
-			if (window.top !== window && window.parent.frameElement){
-				window.parent.resizeIFRM();
+			if (winres.top !== winres && winres.parent.frameElement){
+				winres.parent.resizeIFRM();
 			}
 			return;			
 		}
@@ -63,12 +66,17 @@ function resizeIFRM(delay){
 				})
   				//console.log(maxwidth,w);
   			}
-  			iframe.removeClass('iframe-resizing');
+			
+			setTimeout(function(){
+				iframe.removeClass('iframe-resizing');
+			}, timedelay);		
+			
+			  
   			//w = mainwin(window);
   			if( (typeof CurrentPageID != 'undefined') && (CurrentPageID == 'list') )
   				w.$(w.document).scrollTop( w.$(w).data('curscroll') );
-  			if (window.top !== window && window.parent.frameElement){
-  				window.parent.resizeIFRM(200);
+  			if (winres.top !== winres && winres.parent.frameElement){
+				winres.parent.resizeIFRM(200);
   			}
   		}else{
   			resizeIFRM(200);
@@ -84,26 +92,9 @@ function resizeIFRMto($el,deltaxy){
 			if (window.frameElement && window.innerHeight < $el.height() + deltay ) {
 				var ifrm = window.frameElement;
 
-				$(ifrm).addClass('iframe-resizing').removeClass('autosize');
+				$(ifrm).addClass('iframe-resizing');
 				$(ifrm).css({ height: $el.height() + deltay + 'px'});
-				
-				setTimeout(function(){
-					$(ifrm).removeClass('iframe-resizing').addClass('autosize');
-				},200);				
-/*
-  				$(parent.document).find('iframe').each(function() {
-					var iframe = this;
-					if (iframe.contentWindow.document == window.document) {
-						
-						$(iframe).addClass('iframe-resizing');
-						$(iframe).css({ height: $el.height() + deltay + 'px'});
-						setTimeout(function(){
-							$(iframe).removeClass('iframe-resizing');
-						},10000);
-					}
-				});
-*/
-
+				$(ifrm).removeClass('iframe-resizing');			
   			}
 }
 //********
@@ -143,13 +134,15 @@ if(window.frameElement){
 						
 			var $dlg = $(this).find('.modal-content');
 			setTimeout(() => {
+				
 				resizeIFRMto($dlg ,{'y':70});
-			}, 600);
+			}, 300);
 			
 		})
 		.on("hidden.bs.modal",function(){
 			$(this).css('width','inherit');
-			// resizeIFRM();
+			if($('.modal.in').length == 0)
+				resizeIFRM();
 		});
 
 		$('.ewAddBlankRow').on('click',function(){ resizeIFRM(); });
