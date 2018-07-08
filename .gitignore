@@ -1,4 +1,1 @@
 *.bak
-plg_coolui/tableheadfixer/*
-!/plg_coolui/tableheadfixer/dest
-!/plg_coolui/tableheadfixer/dest/*
