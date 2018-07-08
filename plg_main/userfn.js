@@ -117,7 +117,7 @@ if(window.frameElement){
 			resizeIFRM();
 		});
 
-		$(".ewModalDialog,#ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog")
+		$(".ewModalDialog,#ewPrompt,#ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog")
 		.on("show.bs.modal",function(){
 
 		})
@@ -125,7 +125,7 @@ if(window.frameElement){
 			var $dlg = $(this);
 			
 			if(window.frameElement){
-
+				top.scrollTo(0,top.scrollY);
 				if($dlg.width() > top.innerWidth){
 					var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;
 					$dlg.width( newwidth > 700 ? newwidth : 700);
