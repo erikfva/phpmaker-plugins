@@ -146,6 +146,9 @@ if(window.frameElement){
 		});
 
 		$('.ewAddBlankRow').on('click',function(){ resizeIFRM(); });
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			resizeIFRM();
+		})
 	});
 
 	//Ajustando el contenido de iframe al cambiar de tamanio la pantalla principal
