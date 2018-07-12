@@ -205,4 +205,5 @@ function adjustAll(){
 
 jQuery(document).ready(function(){
 	adjustAll();
+	leftbarToggle( $('.btnleftmenu').get(0) );
 })

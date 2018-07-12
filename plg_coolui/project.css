@@ -332,3 +332,10 @@ overflow: hidden;
 .ewBreadcrumbs{background-color:transparent;float:left}
 .ewEditForm, .ewAddForm{clear : left;}
 .box{background: transparent}
+
+/* tooltip link */
+.ewTooltipLink{
+  border-bottom: 1px dashed;
+  color: inherit;
+  cursor: default;
+}
