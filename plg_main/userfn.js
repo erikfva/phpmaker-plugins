@@ -172,7 +172,6 @@ ew_OnError = function (frm, el, msg) {
 
 jQuery(window).on('load', function(){
 	splashLoadingOff();
-	if(top.jQuery.fn.block) top.jQuery.unblockUI();
 })
 
 jQuery(document).ready(function(){
@@ -180,6 +179,16 @@ jQuery(document).ready(function(){
 	$("#ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog").on("hide.bs.modal",function(){
 		splashLoadingOff();
 	});
+
+	//FIX tooltip position when overflow-x is hidden
+	$('.ewTooltipLink').on("shown.bs.popover", function(e) {
+		var pw = this.parentElement.clientWidth || 0;
+		if(pw > 0 && pw < $(this).width()){
+			var $tip = $(this).data("bs.popover").tip();
+			var dx = $(this).width() - pw;
+			$tip.css('left',parseInt($tip.css('left')) - dx + 'px');
+		}
+	});	
 })
 
 //+++++ FUNCIONES PARA REFRESCAR EL CONTENIDO DEL LISTADO MEDIANTE AJAX
