@@ -21,12 +21,24 @@ function coolRadioCheckBtn(container ){
 
 				$(this).addClass('yes-no');
 				Ctrls.addClass('coolCtrl');
+				item.css({'visibility':'inherit','opacity':'1'});
 			} else {
+
+				$('<span class=" text-danger btn btn-xs fa fa-ban fa-2x">&nbsp;</span>')
+				.insertBefore(item)
+				.on('click',function(){
+					item.find('.radio-inline,.checkbox-inline')
+					.removeClass('active')
+					.find('input:checkbox,input:radio')
+					.each(function(index){ this.checked = false });
+				});
 				Ctrls.each(function(){
 					var args = {"option": $(this)};
 					//console.log(args);
 					$(document).trigger("newoption", [args]); // Fire "newoption" event for radio/checkbox list
-				})			
+				});
+				item.css({'visibility':'inherit','opacity':'1'});
+
 			}
 		}) 
 }
@@ -36,9 +48,6 @@ function coolTemplate(container){
 	if (typeof container == 'undefined') var container = window.$('body');
 
 //Personalizando botones de opciones
-container.find('.btn-primary,.ewAddEdit.ewAdd, .ewGridLink.ewInlineUpdate, .ewAddEdit.ewGridAdd, .ewAction.ewGridSave,.ewAction.ewGridInsert, .ewDetailAdd')
-//.removeClass('btn-default').addClass('goobutton')
-.css({'visibility':'inherit','opacity':'1'});
 
 //container.find('.ewRowLink.ewEdit,.ewAddEdit.ewGridEdit,.ewAction.ewMultiUpdate,.ewAction.ewEdit').removeClass('btn-default').addClass('btn-info');
 container.find('.ewGridLink.ewGridDelete, .ewRowLink.ewDelete, .ewAction.ewMultiDelete, .ewGridLink.ewInlineCancel, .ewAction.ewGridCancel').removeClass('btn-default').addClass('text-danger');
@@ -51,6 +60,13 @@ container.find('.ewExportLink.ewPrint').attr('target','_blank');
  	}
 
 coolRadioCheckBtn(container);
+
+//Mostrando botones personalizados
+container.find('.ewAddOptBtn, .btn-primary,.ewAddEdit.ewAdd, .ewGridLink.ewInlineUpdate, .ewAddEdit.ewGridAdd, .ewAction.ewGridSave,.ewAction.ewGridInsert, .ewDetailAdd')
+//.removeClass('btn-default').addClass('goobutton')
+.css({'visibility':'inherit','opacity':'1'});
+
+
 return true;
 }
 

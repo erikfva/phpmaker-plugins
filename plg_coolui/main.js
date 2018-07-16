@@ -11,12 +11,13 @@ jQuery(document).ready(function(){
 })
 
 jQuery(document).on('newoption',function(e,a){
-	//console.log(a);
 
-	if(a.option.is('.coolCtrl')) return;
-	
-	var ctrl = a.option.filter(':not(.custom)').addClass('btn alert-info').end()
-	.css({'visibility':'inherit'}).addClass('coolCtrl')
+	var opt = a.option;
+
+	if(opt.is('.coolCtrl')) return;
+	opt.filter(':not(.custom)').addClass('btn alert-info');
+
+	opt.css({'visibility':'inherit'}).addClass('coolCtrl')
 	.on('click', function(event ){ 
     			if (event && event.stopPropagation){ 
     				event.stopPropagation();
@@ -25,15 +26,27 @@ jQuery(document).on('newoption',function(e,a){
     			if($(this).find('input:radio').length) $(this).addClass('active')
     			else
     				$(this).toggleClass('active'); 
-  }).find('input:radio,input:checkbox')
-    		.on('click', function(event ){ 
-    			if (event && event.stopPropagation){ 
-    				event.stopPropagation();
-    			} else 
-    				window.event.cancelBubble=true;  
-    			if ($(event.target).is('input:radio')){ $(event.target).closest('.ewItemTable').find('input:radio:not(:checked)').parent().removeClass('active')  } 
-    		})
-			.css({'width':'0px'});
+	});
+
+	opt.find('input:radio,input:checkbox').each(
+	  function(index){
+		var $this = $(this);
+		$this.on('click', function(event ){ 
+			if (event && event.stopPropagation){ 
+				event.stopPropagation();
+			} else 
+				window.event.cancelBubble=true;  
+			if ($(event.target).is('input:radio')){ $(event.target).closest('.ewItemTable').find('input:radio:not(:checked)').parent().removeClass('active')  } 
+		})
+		.css({'width':'0px;','visibility':'hidden'});
+		setTimeout(() => {
+			if ($this[0].checked)
+				opt.addClass('active');
+		}, 100);
+
+	  }
+	)
+
 			/*
     		setTimeout(function(){
 				if(ctrl.length && ctrl[0].checked) ctrl.parent().addClass('active');

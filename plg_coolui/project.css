@@ -32,6 +32,8 @@ body{
 .ewAction.ewGridSave,
 .ewAction.ewGridInsert,
 .ewDetailAdd, /*Personalizando botones de opciones*/
+.ewAddOptBtn,
+.ewItemList,
 .btn-primary,.ewShowAll {
 	visibility:hidden;
 	opacity:0;
