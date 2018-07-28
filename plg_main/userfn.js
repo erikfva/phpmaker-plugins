@@ -157,10 +157,12 @@ if(window.frameElement){
 
 	//Ajustando el contenido de iframe al cambiar de tamanio la pantalla principal
 		top.$(top).bind('resize', function () {
-				if(top && top.resizeTimer) top.clearTimeout(top.resizeTimer);
+			doResize();
+			/*	if(top && top.resizeTimer) top.clearTimeout(top.resizeTimer);
 				if(top) top.resizeTimer = top.setTimeout(function(){
 							doResize();
 					}, 250);
+					*/
 		});
 }
 

@@ -9,7 +9,8 @@
 
 body{
 	padding-left: 0px !important;
-  background-image: url("images/top_bar.jpg"); background-position: 50% 0px; background-repeat: repeat-x;	
+	background-image: url("images/top_bar.jpg"); background-position: 50% 0px; background-repeat: repeat-x;	
+	overflow-x: auto;
 }
 .ewContentColumn {background:transparent}
 .ewFooterRow {

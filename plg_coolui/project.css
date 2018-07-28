@@ -342,3 +342,33 @@ overflow: hidden;
   color: inherit;
   cursor: default;
 }
+
+/*transform vertical tables */
+table.vertical-table { 
+  border-collapse: collapse; }
+.vertical-table > thead { 
+  display: none; }
+.vertical-table > thead > tr, .vertical-table > tbody > tr{ 
+  display: block; padding: 0.5em; 
+ 
+}
+.vertical-table > thead > tr > td,  .vertical-table > tbody > tr > td{ 
+  display: block; }
+.vertical-table > tbody > tr:nth-child(even) { 
+  background-color: #E0E0E0; }
+.vertical-table > tbody > td:not(:last-child) { 
+  border-bottom: 1px solid #DDD; }
+
+@media screen and (min-width: 300em) {
+  .vertical-table > thead { 
+    display: table-header-group; }
+  .vertical-table > thead > th:not(:last-child) { 
+    border-right: 1px solid #999; }
+  .vertical-table > thead > tr, .vertical-table > tbody tr { 
+    display: table-row; padding: 0; }
+  .vertical-table > thead > tr > td, .vertical-table > tbody > tr > td  { 
+    display: table-cell; }
+  .vertical-table > tbody > td:not(:last-child) { 
+    border-bottom: none; 
+    border-right: 1px solid #DDD; }
+}
