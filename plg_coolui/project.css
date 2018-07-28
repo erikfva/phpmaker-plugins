@@ -334,6 +334,7 @@ overflow: hidden;
 .ewBreadcrumbs{background-color:transparent;float:left}
 .ewEditForm, .ewAddForm{clear : left;}
 .box{background: transparent}
+.ewForm .form-control{max-width:98% !important;}
 
 /* tooltip link */
 .ewTooltipLink{

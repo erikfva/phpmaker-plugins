@@ -20,7 +20,7 @@ function resizeIFRM(delay){
 
 		if(CurrentForm){
 			iframe.addClass('iframe-resizing');
-			$(w.document.body).css('width','inherit');
+			$(w.document.body).css({'width':'inherit','height':'inherit'});
 			iframe.css({'width':'100%'});
 			var maxheight = iframe[0].contentWindow.document.body.scrollHeight;
 			
@@ -28,6 +28,9 @@ function resizeIFRM(delay){
 			iframe.removeClass('iframe-resizing');
 			if (winres.top !== winres && winres.parent.frameElement){
 				winres.parent.resizeIFRM();
+			} else {
+				maxheight = CurrentForm.$Element.height() >0 ? CurrentForm.$Element.height() : $('.ewForm:visible').height(); 
+				$(w.document.body).css('height',maxheight + 150 + 'px');
 			}
 			return;			
 		}
@@ -62,7 +65,8 @@ function resizeIFRM(delay){
 									&& w.$('#leftmenu').length 
 									&& ( w.$('#leftmenu').position().left == 0 || w.$('#leftmenu').position().left == 230) ? w.$('#leftmenu').width() : leftbarspace;
 					//console.log(maxwidth, leftbarspace );
-					$(this).css('overflow-x','auto').css('width', maxwidth + leftbarspace + 50 + 'px');
+					$(this).css('width', maxwidth + leftbarspace + 50 + 'px');//css('overflow-x','auto').
+					$(this).css('height',maxheight + 150 + 'px');
 				})
   				//console.log(maxwidth,w);
   			}
