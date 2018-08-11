@@ -61,15 +61,6 @@
 
 <!--
 **************************************
-	Barra de men� superior
-**************************************
-!-->
-<span style="z-index:1001;right:20px;top:0px;padding-bottom:5px" class="btnTopMenu close open affix outlookbutton" onclick="topbarToggle(this);">
-	<span class="glyphicon glyphicon-chevron-up"></span>
-</span>
-
-<!--
-**************************************
 	Cuerpo principal
 **************************************
 !-->
@@ -85,7 +76,7 @@
 	<div class="pivot-item">
 		<h3>
 			<?php if(!empty($__Page["button_imagen"])){ ?>
-			<img src="<?php echo $__Page["button_imagen"];?>" align="absmiddle" style="width:48px" border="0">
+			<img src="<?php echo $__Page["button_imagen"];?>" align="absmiddle" style="width:38px" border="0">
 			<?php } ?>
 			<?php if(!empty($__Page["button_html"])){
 				echo $__Page["button_html"];
@@ -97,7 +88,7 @@
 			echo ($__Page["content"]);
 		} else { ?>
 
-			<iframe id="frame-<?php echo $__Page["id"];?>" style="<?php if(!empty($__Page["iframe_style"])) echo $__Page["iframe_style"];?>" class="empty <?php if(!empty($__Page["iframe_class"])) echo $__Page["iframe_class"];?>" scrolling="no" src="" data-url="<?php if(!empty($__Page["iframe_url"])) echo $__Page["iframe_url"];?>" frameborder="0" marginheight="0" marginwidth="0"  ></iframe>
+			<iframe id="frame-<?php echo $__Page["id"];?>" style="<?php if(!empty($__Page["iframe_style"])) echo $__Page["iframe_style"];?>" class="empty <?php if(!empty($__Page["iframe_class"])) echo $__Page["iframe_class"];?>" scrolling="no" src="" data-url="<?php if(!empty($__Page["iframe_url"])) echo $__Page["iframe_url"];?>" frameborder="0" marginheight="0" marginwidth="0"  width="100%" height="100%"></iframe>
 
 		<?php
 			$scriptLoadPage .= "ewLanguage.obj.label_".$__Page["nombre"]." = '".$__Page["nombre"]."';";

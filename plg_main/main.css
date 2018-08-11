@@ -62,3 +62,6 @@ AdminLTE
 .skin-green .wrapper, .content-wrapper{background: transparent}
 .logo,.content-header{ display: none !important;}
 .main-header .navbar{margin-left: inherit;}
+.sidebar-menu li{
+	white-space: normal;
+}

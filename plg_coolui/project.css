@@ -334,7 +334,11 @@ overflow: hidden;
 .ewBreadcrumbs{background-color:transparent;float:left}
 .ewEditForm, .ewAddForm{clear : left;}
 .box{background: transparent}
-.ewForm .form-control{max-width:98% !important;}
+
+/* desktop */
+/* @media (min-width: 768px) {
+ .ewForm .form-control{max-width:98% !important;}
+} */
 
 /* tooltip link */
 .ewTooltipLink{
@@ -371,4 +375,15 @@ table.vertical-table {
   .vertical-table > tbody > td:not(:last-child) { 
     border-bottom: none; 
     border-right: 1px solid #DDD; }
+}
+
+/* float info labels */
+.float-info .label{
+  position: relative;
+  top: -10px;
+  right: 9px;
+  text-align: center;
+  font-size: 9px;
+  padding: 2px 3px;
+  line-height: .9;
 }

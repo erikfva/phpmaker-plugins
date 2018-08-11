@@ -48,6 +48,14 @@ jQuery(document).ready(function(){
 //**************************************
 //PANTALLAS ESTILO ANDROID
 //**************************************
+function changePage(op){
+	if( typeof op.url === "undefined" ) return;
+	var url = op.url; 
+	var iframe = $('#frame-' + op.id);
+	if(iframe.length == 0 ) return;
+	iframe.attr('src',url);
+	$('div.metro-pivot').data('metro-pivot').goToItemByName(op.nombre); 
+}
 
 jQuery(document).ready(function(){
 
@@ -70,6 +78,8 @@ jQuery(document).ready(function(){
 					//this.headers.children(":contains(Inicio)").hide();
 				},
 				beforeItemChanged: function(index){
+
+					$("body").css("width", "inherit").css("height", "inherit");
 
 					var iframe = this.find('.pivot-item:eq(' + index + ')').find('iframe');
 
@@ -94,7 +104,7 @@ jQuery(document).ready(function(){
 									iframe[0].contentWindow.refreshContent();
 								}
   						} else {
-							$("body").css("width", "inherit");
+						//	$("body").css("width", "inherit");
 						}
 					}
 				}
@@ -129,6 +139,9 @@ jQuery(document).ready(function(){
 				$('#mainbody').animate({'margin-left':($('.btnleftmenu').hasClass('open')?'90px':'0px')}, 200);
 				$('body').width( $('body').width() - 220 );
 				*/
+			})
+			$('.sidebar-menu.tree').on('expanded.tree', function(){ 
+				adjustAll(); 
 			})
 			
 			$(window).trigger('resize');

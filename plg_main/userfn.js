@@ -30,7 +30,8 @@ function resizeIFRM(delay){
 				winres.parent.resizeIFRM();
 			} else {
 				maxheight = CurrentForm.$Element.height() >0 ? CurrentForm.$Element.height() : $('.ewForm:visible').height(); 
-				$(w.document.body).css('height',maxheight + 150 + 'px');
+				var minheight = w.$('#ewMenu').height();
+				$(w.document.body).css('height',(minheight > maxheight ? minheight :  maxheight) + 150 + 'px');
 			}
 			return;			
 		}
@@ -66,7 +67,9 @@ function resizeIFRM(delay){
 									&& ( w.$('#leftmenu').position().left == 0 || w.$('#leftmenu').position().left == 230) ? w.$('#leftmenu').width() : leftbarspace;
 					//console.log(maxwidth, leftbarspace );
 					$(this).css('width', maxwidth + leftbarspace + 50 + 'px');//css('overflow-x','auto').
-					$(this).css('height',maxheight + 150 + 'px');
+					var minheight = w.$('#ewMenu').height();
+					$(this).css('height',(minheight > maxheight ? minheight :  maxheight) + 150 + 'px');
+					//$(this).css('height',maxheight + 150 + 'px');
 				})
   				//console.log(maxwidth,w);
   			}
@@ -110,9 +113,11 @@ function doResize(){
 	resizeIFRM();
 }
 
-if(window.frameElement){
-	$(window).on('load',function(){
-
+if(window.frameElement){ //-> Si es un iframe
+	$(window).on('load',function(){ //-> Se definen acciones realizadas al cargar el contenido del iframe
+		//Volviendo el scroll al inicio.
+		top.$("html, body").animate({scrollTop: 0, scrollLeft: 0 }, 500);
+		//Realizando autoajuste del alto del iframe despues de milisegundos
 		setTimeout(function(){
 			doResize();
 		},250)
@@ -139,7 +144,7 @@ if(window.frameElement){
 			var $dlg = $(this).find('.modal-content');
 			setTimeout(() => {
 				
-				resizeIFRMto($dlg ,{'y':70});
+				// resizeIFRMto($dlg ,{'y':70});
 			}, 300);
 			
 		})
@@ -157,12 +162,12 @@ if(window.frameElement){
 
 	//Ajustando el contenido de iframe al cambiar de tamanio la pantalla principal
 		top.$(top).bind('resize', function () {
-			doResize();
-			/*	if(top && top.resizeTimer) top.clearTimeout(top.resizeTimer);
+			//doResize();
+				if(top && top.resizeTimer) top.clearTimeout(top.resizeTimer);
 				if(top) top.resizeTimer = top.setTimeout(function(){
 							doResize();
 					}, 250);
-					*/
+					
 		});
 }
 
