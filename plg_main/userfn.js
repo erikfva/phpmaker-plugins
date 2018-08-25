@@ -42,8 +42,8 @@ function resizeIFRM(delay){
 			w.$(w).data('curscroll',w.$(w.document).scrollTop());
 		}
 
-  			
-		iframe.css({'width': wwini + 'px'});
+		if(!iframe.hasClass('fixedwidth') )	
+			iframe.css({'width': wwini + 'px'});
 		iframe.css({'height': whini + 'px'});
   		
   		

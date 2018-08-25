@@ -55,8 +55,14 @@ if(chkopt("webservice")){
     CurrentPage()->ClearSuccessMessage();
   }
 
-  if(@$_SESSION[CurrentPage()->PageObjName."_WSR"])
-    echo json_encode(@$_SESSION[CurrentPage()->PageObjName."_WSR"]); //$strJSON;
+	if(@$_SESSION[CurrentPage()->PageObjName."_WSR"])
+		if(is_array(@$_SESSION[CurrentPage()->PageObjName."_WSR"])){
+			echo json_encode(@$_SESSION[CurrentPage()->PageObjName."_WSR"]); //$strJSON;
+		} else {
+			echo @$_SESSION[CurrentPage()->PageObjName."_WSR"]; //$strJSON;
+		}
+			
+		
   exit();
 }
 ?>
