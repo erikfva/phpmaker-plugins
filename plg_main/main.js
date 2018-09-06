@@ -64,23 +64,37 @@ jQuery(document).ready(function(){
 
 			var defaults = {
 				animationDuration: 250,
-				headerOpacity: 0.25,
+				headerOpacity: 1, //sin disminucion del color cuando esta inactivo.
 				fixedHeaders: true,
-				headerSelector: function (item) { return item.children("h3").first(); },
+				headerSelector: function (item) { return item.children("h3").first();  },
 				itemSelector: function (item) { return item.children(".pivot-item"); },
-				headerItemTemplate: function () { return $("<span class='header'>"); },
+				headerItemTemplate: function () { return $("<span class='header btn btn-xs btn-link'>"); },
 				pivotItemTemplate: function () { return $("<div class='pivotItem'>"); },
 				itemsTemplate: function () { return $("<div class='items'>"); },
-				headersTemplate: function () { return $("<div class='headers'>"); },
+				headersTemplate: function () { return $("<div class='headers btn-group navbar-custom-menu'>"); },
 				controlInitialized: function(){
 					this.data('metro-pivot',this);
+					$(this).find('[onactive]').each(function(){
+						$(this).on('page:active',function(){
+							eval(this.getAttribute('onactive'));
+						})
+					});
 
 					//this.headers.children(":contains(Inicio)").hide();
 				},
 				beforeItemChanged: function(index){
 
-					$("body").css("width", "inherit").css("height", "inherit");
+					var page = this.find('.pivot-item:eq(' + index + ')').find('.metro-page');
+					if(page.length){
+						page.trigger('page:active');
+					}
+					
 
+					this.headers.find('.header').removeClass('bg-aqua-gradient shadow-b')
+					.filter('.current').addClass('bg-aqua-gradient shadow-b');
+
+					$("body").css("width", "inherit").css("height", "inherit");
+					
 					var iframe = this.find('.pivot-item:eq(' + index + ')').find('iframe');
 
 					if(iframe.length && ( iframe.attr('id')=='frame-content' || iframe.is('.empty')) ){ //load left menu content					
@@ -88,15 +102,17 @@ jQuery(document).ready(function(){
 						iframe.attr('src', iframe.data('url') ).removeClass('empty');
 						
 					}
-
 				},
 				selectedItemChanged: function(index){
-
+					
 
 					if(this.items != undefined){
 						var iframe = this.find('.pivot-item:eq(' + index + ')').find('iframe');
 
 						if(iframe.length){
+							if(iframe.onactive){
+								console.log('onactive');
+							}
 
 								if(iframe[0].contentWindow && iframe[0].contentWindow.doResize)
 									iframe[0].contentWindow.doResize();

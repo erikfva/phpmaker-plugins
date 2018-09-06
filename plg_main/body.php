@@ -73,7 +73,7 @@
 <?php
 	$scriptLoadPage = '';
 	foreach($__Pages as $__Page){ ?>
-	<div class="pivot-item">
+	<div class="pivot-item" data-onselect="">
 		<h3>
 			<?php if(!empty($__Page["button_imagen"])){ ?>
 			<img src="<?php echo $__Page["button_imagen"];?>" align="absmiddle" style="width:38px" border="0">
@@ -83,7 +83,7 @@
 			} ?>			
 			<span style="display:none"><?php echo $__Page["nombre"];?></span>
 		</h3>
-
+		<div class="metro-page" <?php if(!empty($__Page["onactive"])) echo 'onactive="'.$__Page["onactive"].'"';?>>
 		<?php if(!empty($__Page["content"])){
 			echo ($__Page["content"]);
 		} else { ?>
@@ -96,6 +96,7 @@
 			if(!empty($__Page["iframe_onload"]))
 				$scriptLoadPage .= $scriptLoadPage .= "$('#frame-".$__Page["id"]."').on('load',function(){ ".$__Page["iframe_onload"]." });";
 		} ?>
+		</div>
 
 	</div>
 <?php	} ?>

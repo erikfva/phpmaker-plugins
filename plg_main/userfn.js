@@ -59,20 +59,22 @@ function resizeIFRM(delay){
 			}
 			  
   			setTimeout(function(){ iframe.css('height',iframe[0].contentWindow.document.body.scrollHeight + 10 + 'px') },100);
-  			if(!iframe.hasClass('fixedwidth') ){ 
-  				$(w.document.body).each(function(){
+  			
+  			$(w.document.body).each(function(){
+				if(!iframe.hasClass('fixedwidth') ){ 
 					var leftbarspace = w.$('.main-sidebar').length && w.$('.main-sidebar').position().left >= 0 ? w.$('.main-sidebar').width() : 0;
 					leftbarspace = leftbarspace == 0 
 									&& w.$('#leftmenu').length 
 									&& ( w.$('#leftmenu').position().left == 0 || w.$('#leftmenu').position().left == 230) ? w.$('#leftmenu').width() : leftbarspace;
 					//console.log(maxwidth, leftbarspace );
 					$(this).css('width', maxwidth + leftbarspace + 50 + 'px');//css('overflow-x','auto').
-					var minheight = w.$('#ewMenu').height();
-					$(this).css('height',(minheight > maxheight ? minheight :  maxheight) + 150 + 'px');
-					//$(this).css('height',maxheight + 150 + 'px');
-				})
+				}
+				var minheight = w.$('#ewMenu').height();
+				$(this).css('height',(minheight > maxheight ? minheight :  maxheight) + 150 + 'px');
+				//$(this).css('height',maxheight + 150 + 'px');
+			})
   				//console.log(maxwidth,w);
-  			}
+  			
 			
 			setTimeout(function(){
 				iframe.removeClass('iframe-resizing');

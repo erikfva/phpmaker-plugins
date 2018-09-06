@@ -21,7 +21,8 @@ body{
 }
 section.content, .pivot-item{padding:0px !important; overflow: auto;}
 .pivot-item{margin-top:50px;padding:0px !important; overflow:hidden}
-.ewLayout{overflow-y:hidden}
+.headers .header{cursor: pointer}
+/*.ewLayout{overflow-y:hidden}
 /**************************************
 	Barra de menu izquierda
 **************************************/

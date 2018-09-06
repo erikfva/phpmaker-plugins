@@ -93,6 +93,9 @@
             },
             setCurrentHeader: function(header){
                 var pivot = this;
+                
+                //save previous header
+                this.headers.prevheader = this.headers.children(".header.current");
 
                 // make current header a normal one
                 this.headers.children(".header.current").removeClass("current").fadeTo(0, this.headerOpacity);
