@@ -1,0 +1,101 @@
+
+	<div id="calc-coord-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="calc-coord-label">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="calc-coord-label">Conversor de coordenadas GEO &lt;=&gt; UTM</h4>
+				</div>
+				<div class="modal-body">
+						<div class="row">
+							<div class="col-sm-5">
+								<div class="panel panel-primary">
+									<div class="panel-heading"><strong>Geograficas</strong> </div>
+									<div class="panel-body">
+										<div class="form-horizontal">
+											<div class="form-group">
+												<label for="lontxt" class="col-sm-2 control-label">Longitud</label>
+												<div class="col-sm-10">
+													<input id="lontxt" type="text" class="form-control" value="-63.236453124439">
+												</div>								
+											</div>
+											<div class="form-group">
+												<label for="lattxt" class="col-sm-2 control-label">Latitud</label>
+												<div class="col-sm-10">
+													<input id="lattxt" type="text" class="form-control" value="-17.8262905287931">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-2 hidden-xs">
+								<div class="form-group col-xs-1">
+									<br><br>
+									<button class="btn btn-default btn-lg" onclick="Lat2UTM()"><i class="glyphicon glyphicon-chevron-right"></i></button>
+									<button class="btn btn-default btn-lg" onclick="UTM2Lat()"><i class="glyphicon glyphicon-chevron-left"></i></button>				
+								</div>
+							</div>
+				
+							<div class="col-sm-1 visible-xs-block text-center">
+									<div class="form-group">
+										<button class="btn btn-default btn-lg"><i class="glyphicon glyphicon-chevron-down"></i></button>
+										<button class="btn btn-default btn-lg"><i class="glyphicon glyphicon-chevron-up"></i></button>					
+									</div>
+							</div>					
+				
+				
+				
+							<div class="col-sm-5">
+								<div class="panel panel-warning">
+									<div class="panel-heading"><strong>UTM</strong> </div>
+									<div class="panel-body">
+										<div class="form-horizontal">
+											<div class="form-group">
+												<label for="xtxt" class="col-sm-2 control-label">X</label>
+												<div class="col-sm-10">
+													<input id="xtxt" type="text" class="form-control">
+												</div>								
+											</div>
+											<div class="form-group">
+												<label for="ytxt" class="col-sm-2 control-label">Y</label>
+												<div class="col-sm-10">
+													<input id="ytxt" type="text" class="form-control">
+												</div>
+											</div>
+											<div class="for-group">
+												<dt>Zona</dt>
+												<dd>
+													<div class="btn-group" data-toggle="buttons">
+														<label class="btn btn-primary active">
+															<input type="radio" name="zona" id="zona19" value="19" autocomplete="off" checked>19
+														</label>
+														<label class="btn btn-primary">
+															<input type="radio" name="zona" id="zona20" value="20" autocomplete="off">20
+														</label>
+														<label class="btn btn-primary">
+															<input type="radio" name="zona" id="zona21" value="21" autocomplete="off">21
+														</label>
+													</div>
+												</dd>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="alert alert-info text-justify">
+									Las coordenadas geográficas deben ser ingresadas y serán mostradas en grados decimales. Los números negativos indican
+									longitudes de Oeste y latitudes de Sur. Las coordenadas UTM deben ser ingresadas y serán mostradas en metros. El modelo
+									de elipsoide utilizado es el WGS84.				
+							</div>
+						</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" >Aceptar</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->

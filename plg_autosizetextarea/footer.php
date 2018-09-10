@@ -2,7 +2,11 @@
 echo "
 				<script type=\"text/javascript\">
 				jQuery(document).ready(function(){
-					autosize($('textarea.autosize'));
+					$('textarea.autosize').each(function(){
+						autosize(this);
+					  }).on('autosize:resized', function(){
+						if(typeof resizeIFRM == 'function') resizeIFRM();
+					});
 				});
 				</script>
 				";

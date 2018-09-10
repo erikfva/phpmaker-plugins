@@ -16,6 +16,8 @@
 										"footer"=>"plg_uidatetime/footer.php"),
 		"plg_autosizetextarea"	=> array("header" => "plg_autosizetextarea/header.php",
 										"footer"=>"plg_autosizetextarea/footer.php"),
+		"plg_utm"				=> array("header" => "plg_utm/header.php",
+										"footer"=>"plg_utm/footer.php"),
 		"plg_webservice"		=> array("header" => "plg_webservice/header.php",
 										"loading"=>"plg_webservice/loading.php",
 										"rendering" => "plg_webservice/rendering.php",
@@ -31,6 +33,7 @@ function addPlg($plgNames, $page=""){
 	if(empty($plgConf["include"][$page]) && $page != "all"){
 		$plgList = explode(",",$plgNames);
 		foreach ($plgList as $plg) {
+			$plg = trim($plg);
 			if(!empty($plgConf[$plg]["loading"])){
 				//echo "incluyendo:".$plgConf[$plg]["loading"]." posicion:loading page:".$page;
 				include_once $plgConf["plugins_path"].$plgConf[$plg]["loading"];

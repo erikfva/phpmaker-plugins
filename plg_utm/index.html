@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	 crossorigin="anonymous">
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="main.min.js"></script>
+</head>
+
+<body>
+
+
+<button id="btn-calc-coord" type="button" class="btn btn-primary">Small modal</button>
+<input id="longitud" type="text" value="-63.236453124439">
+<input id="latitud" type="text" value="-17.8262905287931">
+
+<script>
+	var onsave = function(){
+		alert('cerrado!!');
+	}
+	
+	$('#btn-calc-coord').click(function(){
+		calcUTMCoord({
+			onsave: onsave,
+			lonel: $('#longitud'),
+			latel: $('#latitud')
+		});
+		//dlg.data('onsave',onsave);
+		//dlg.modal('show');
+	});
+	$('<div/>').appendTo('body').load('dialog.min.html',function(){
+		buildUTMDialog();
+	})
+</script>
+
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	 crossorigin="anonymous"></script>
+	 <script src="utm2lat.min.js"></script>
+
+</body>
+
+</html>
