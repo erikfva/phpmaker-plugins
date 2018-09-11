@@ -66,3 +66,4 @@ AdminLTE
 .sidebar-menu li{
 	white-space: normal;
 }
+.wrapper.ewLayout{ overflow: auto hidden;}

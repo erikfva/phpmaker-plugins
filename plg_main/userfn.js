@@ -5,7 +5,6 @@ function mainwin(w){
 
 function resizeIFRM(delay){
 	var winres = window;
-
 	var timedelay = typeof delay == "undefined"?0:delay;
 	setTimeout(function(){
   	if(winres.frameElement && $(winres.frameElement).is(':visible') && $(winres.frameElement).hasClass('autosize') && !$(winres.frameElement).hasClass('iframe-resizing') ){

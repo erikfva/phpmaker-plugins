@@ -8,6 +8,10 @@ jQuery(document).ready(function(){
 	});
 
 	hideEmpty();
+	if(!window.frameElement){
+		//console.log('esta solo', $('body'));
+		$('body').attr('style','overflow-x:auto');
+	} 
 })
 
 jQuery(document).on('newoption',function(e,a){

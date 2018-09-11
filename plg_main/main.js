@@ -110,10 +110,6 @@ jQuery(document).ready(function(){
 						var iframe = this.find('.pivot-item:eq(' + index + ')').find('iframe');
 
 						if(iframe.length){
-							if(iframe.onactive){
-								console.log('onactive');
-							}
-
 								if(iframe[0].contentWindow && iframe[0].contentWindow.doResize)
 									iframe[0].contentWindow.doResize();
 								if(iframe[0].contentWindow && typeof iframe[0].contentWindow.refreshContent === 'function'){

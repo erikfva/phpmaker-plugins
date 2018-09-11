@@ -1,9 +1,12 @@
 <?php
 echo "
 				<script type=\"text/javascript\">
-				$('<div/>').appendTo('body').load('".$plgConf["plugins_path"]."plg_utm/dialog.min.html',function(){
-					buildUTMDialog();
-				})
+				coolTemplate(
+					$('<div/>').appendTo('body').load('".$plgConf["plugins_path"]."plg_utm/dialog.min.html',function(){
+						buildUTMDialog();
+					})
+				);
+
 				</script>
 				";
 
