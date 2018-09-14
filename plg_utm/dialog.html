@@ -1,4 +1,8 @@
 
+	<style>
+		.visible{opacity:1; visibility:visible}
+	</style>
+
 	<div id="calc-coord-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="calc-coord-label">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
@@ -67,13 +71,13 @@
 												<dt>Zona</dt>
 												<dd>
 													<div class="btn-group" data-toggle="buttons">
-														<label class="btn btn-primary active">
+														<label class="btn btn-primary active visible">
 															<input type="radio" name="zona" id="zona19" value="19" autocomplete="off" checked>19
 														</label>
-														<label class="btn btn-primary">
+														<label class="btn btn-primary visible">
 															<input type="radio" name="zona" id="zona20" value="20" autocomplete="off">20
 														</label>
-														<label class="btn btn-primary">
+														<label class="btn btn-primary visible">
 															<input type="radio" name="zona" id="zona21" value="21" autocomplete="off">21
 														</label>
 													</div>
@@ -94,7 +98,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" >Aceptar</button>
+					<button type="button" class="btn btn-primary visible" data-dismiss="modal">Aceptar</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
