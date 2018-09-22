@@ -12,15 +12,20 @@ if(isset($Breadcrumb->Links)){
 	//Agregando los botones de accion en la misma fila del path
 	if(isset(CurrentPage()->PageID) && (CurrentPage()->PageID == "edit" || CurrentPage()->PageID == "add" ) ){
 		global $customstyle;
-		$PageCaption = $Language->Phrase("EditBtn");
+		//$PageCaption = $Language->Phrase("EditBtn");
 		array_splice( $Breadcrumb->Links, count($Breadcrumb->Links)-1, 0, array(array("editbtn","SaveBtn" , "javascript:$('#btnAction').trigger('click');\" class=\"btn btn-sm btn-primary", "", CurrentPage()->TableVar, false) ) );
-		$customstyle.= ".breadcrumb .active{display:none !important}";
+		css(".breadcrumb .active{display:none !important}");
 	}
-
+	if(isset(CurrentPage()->PageID) && CurrentPage()->PageID == "search" ){
+		global $customstyle;
+		//$PageCaption = $Language->Phrase("SearchBtn");
+		array_splice( $Breadcrumb->Links, count($Breadcrumb->Links)-1, 0, array(array("searchbtn","SearchBtn" , "javascript:$('#btnAction').trigger('click');\" class=\"btn btn-sm btn-primary", "", CurrentPage()->TableVar, false) ) );
+		css(".breadcrumb .active{display:none !important}");
+	}
 	//En algunos casos es necesario adicionar el link para volver atras
 	if( (empty($opciones) || !strpos($opciones,"hidebkmainpage")) && isset(CurrentPage()->TableVar) && !empty($_SESSION[EW_PROJECT_NAME . "_" . CurrentPage()->TableVar . "_" . EW_TABLE_MASTER_TABLE]) && count($Breadcrumb->Links) == 1 ) {
 		$masterTbl = $_SESSION[EW_PROJECT_NAME . "_" . CurrentPage()->TableVar . "_" . EW_TABLE_MASTER_TABLE];
-		$PageLnk = $_SESSION[EW_PROJECT_NAME ."_".$_SESSION[EW_PROJECT_NAME . "_" . CurrentPage()->TableVar . "_" . EW_TABLE_MASTER_TABLE]."_exportreturn"];
+		$PageLnk = @$_SESSION[EW_PROJECT_NAME ."_".$_SESSION[EW_PROJECT_NAME . "_" . CurrentPage()->TableVar . "_" . EW_TABLE_MASTER_TABLE]."_exportreturn"];
 		array_splice( $Breadcrumb->Links, count($Breadcrumb->Links)-1, 0, array(array(
 		$masterTbl,
 		$masterTbl ,

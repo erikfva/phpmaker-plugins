@@ -43,7 +43,7 @@ section.content, .pivot-item{padding:0px !important; overflow: auto;}
 	@media only screen and (min-height: 500px) {
 	  #leftmenu { position:fixed}
 	}
-
+ 
 
 /**************************************
 	 Motor de busqueda estilo Google
@@ -66,4 +66,7 @@ AdminLTE
 .sidebar-menu li{
 	white-space: normal;
 }
+/*************************************
+Correcciones de barra de scrooll en iframe
+**************************************/
 .wrapper.ewLayout{ overflow: auto hidden;}

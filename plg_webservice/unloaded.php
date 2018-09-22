@@ -46,12 +46,16 @@ if(chkopt("webservice")){
 
 
   if ($msg != "") {
-    CurrentPage()->ClearFailureMessage();
-    echo json_encode(json_decode('{"success":0,"msg":"'.$msg.'"}'));
+		CurrentPage()->ClearFailureMessage();
+		setWSR("success",0);
+		setWSR("msg",$msg);
+    //echo json_encode(json_decode('{"success":0,"msg":"'.$msg.'"}'));
   }
   $msg = CurrentPage()->getSuccessMessage();
   if ($msg != ""){
-    echo json_encode(json_decode('{"success":1,"msg":"'.$msg.'"}'));
+		setWSR("success",1);
+		setWSR("msg",$msg);		
+    //echo json_encode(json_decode('{"success":1,"msg":"'.$msg.'"}'));
     CurrentPage()->ClearSuccessMessage();
   }
 

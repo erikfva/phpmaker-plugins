@@ -29,6 +29,7 @@ while ( list($key, $value) = each($_POST) ){
 //Login con key de session guardada en variable $_SESSION utilizado para integracion con otros sistemas.
 //----------------------------------------------------------------------//
 if(ew_CurrentPage() != "login.php" && !IsLoggedIn() && (@$_SESSION[EW_PROJECT_NAME . "_Username"] == "") ){ 
+	
 	//var_dump($_SESSION); exit;
 	$sessionid = @$_POST["session_key"] .  @$_GET["session_key"];
 
@@ -39,7 +40,6 @@ if(ew_CurrentPage() != "login.php" && !IsLoggedIn() && (@$_SESSION[EW_PROJECT_NA
 
 	}	
 }
-
 
   //----------------------------------------------------------------------//
   //***procesando respuestas especiales por webservice o solicitudes json
@@ -70,8 +70,42 @@ if(ew_CurrentPage() != "login.php" && !IsLoggedIn() && (@$_SESSION[EW_PROJECT_NA
 			}	
   		} else {
 			header('Access-Control-Allow-Origin: *'); //Permitir cross-domain
-			echo '{success:0,msg:"' . ew_DeniedMsg() .'"}';
-			exit;
+
+			//***verificando acceso anonimo
+			global $UserProfile, $Security;
+			// User profile
+			$UserProfile = new cUserProfile();
+			// Security
+			$Security = new cAdvancedSecurity();
+			$TableName = ew_CurrentPage();
+			$action = "";
+			if(strpos($TableName, "list") !== false) $action = "list";
+			if(strpos($TableName, "edit") !== false) $action = "edit";
+			if(strpos($TableName, "add") !== false) $action = "add";
+			if(strpos($TableName, "delete") !== false) $action = "delete";
+
+			$find = array("list","edit", "add", "delete", ".php");
+			$TableName = str_replace($find,"",$TableName);
+			$Security->LoadCurrentUserLevel(CurrentProjectID() . $TableName);
+			$authorized = false;
+			switch ($action) {
+				case "list":
+					$authorized = $Security->CanList();
+					break;
+				case "edit":
+					$authorized = $Security->CanEdit();
+					break;
+				case "add":
+					$authorized = $Security->CanAdd();
+					break;
+				case "delete":
+					$authorized = $Security->CanDelete();
+					break;
+			}
+			if( !$authorized ){
+				echo '{success:0,msg:"' . ew_DeniedMsg() .'"}';
+				exit;
+			}
 		}
   	}
 	  

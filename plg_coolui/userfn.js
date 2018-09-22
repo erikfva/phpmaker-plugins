@@ -56,7 +56,7 @@ container.find('.ewShowAll').removeClass('btn-default').addClass('btn-warning').
 container.find('.ewExportLink.ewPrint').attr('target','_blank');
 
 	if(typeof $.fn.tableHeadFixer === 'function' ){ //If table-fixed-header load?
-   	container.find('.ewTable:not(.hidden)').find('thead').addClass('well').end().tableHeadFixer()
+   	container.find('.ewTable').not('.hidden, .ewMasterTable').find('thead').addClass('well').end().tableHeadFixer()
  	}
 
 coolRadioCheckBtn(container);
@@ -75,4 +75,74 @@ function hideEmpty(){
 		if($(this).text().trim() != '')
 			 $(this).css('display','table-cell')
 	}) 
+}
+
+function addOpt(o){
+	var ewItemList = $('#dsl_' + o.x_fld);	
+	var idx = ewItemList.find('label.radio-inline').length + 1;
+	var radioTpl = $('#tp_' + o.x_fld + ' input').clone().attr('id', o.x_fld + '_' + idx).attr('value', o.value);
+	var newLabel = $('<label class="radio-inline">' + o.caption + '</label>').append(radioTpl);
+	radioTpl.option = newLabel;
+	var td = ewItemList.find('td:empty').first();
+	if(!td.length){ //Agregar nueva fila
+		var tr = $('<tr></tr>');
+		for(var i = 0; i < parseInt(ewItemList.data('repeatcolumn')); i++ ){
+			tr.append('<td></td>');
+		}
+		ewItemList.find('.ewItemTable').append(tr);
+		td = ewItemList.find('td:empty').first();
+	}
+	td.append(newLabel);
+	$(document).trigger("newoption", [radioTpl]);
+	return radioTpl;
+}
+
+function ModalDialogShow(o) {
+
+    var $dlg = $("#ewModalDialog");
+	var frm,form;
+	
+	if(!$dlg.length) return;
+
+	// parse JSON
+	var _parse = function(data) {
+		if ($.isString(data)) {
+			try {
+				data = $.parseJSON(data);
+			} catch(e) {}
+		}
+		if ($.isArray(data) && data.length > 0)
+			data = data[0];
+		return data;
+	}
+
+	// fail
+	var _fail = function(o) {
+		$dlg.modal("hide");
+		if (o.status)
+			ew_Alert("Server Error " + o.status + ": " + o.statusText);
+	}
+	
+	var _submitsuccess = function(data) {
+		if(typeof o.onsubmit == 'function'){
+			var result = _parse(data);
+			o.onsubmit(result);
+		}
+		$dlg.modal("hide");
+	}
+	
+    var _submit = function(e){
+    	if (frm.CanSubmit()) {
+			$.post(form.action, $(form).serialize() + '&opciones=webservice,getresult', _submitsuccess).fail(_fail);
+		}
+		return false;
+    }
+    
+    $dlg.one("load.ew",function(){
+    	form = $dlg.find(".modal-body form")[0];
+    	frm = ewForms[form.id];
+    	$dlg.find(".modal-footer .btn-primary").off('click').click(_submit).focus();
+	}); // div#ewModalDialog always exists
+	
+	ew_ModalDialogShow(o);
 }

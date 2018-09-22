@@ -7,6 +7,7 @@ function resizeIFRM(delay){
 	var winres = window;
 	var timedelay = typeof delay == "undefined"?0:delay;
 	setTimeout(function(){
+
   	if(winres.frameElement && $(winres.frameElement).is(':visible') && $(winres.frameElement).hasClass('autosize') && !$(winres.frameElement).hasClass('iframe-resizing') ){
 
 		var wwini = 5000;
@@ -20,7 +21,25 @@ function resizeIFRM(delay){
 		if(CurrentForm){
 			iframe.addClass('iframe-resizing');
 			$(w.document.body).css({'width':'inherit','height':'inherit'});
-			iframe.css({'width':'100%'});
+			//Si es fixedwidth hay que volver a resetear el valor al recargar el listado.
+			if(iframe.hasClass('fixedwidth') ){
+				var oldwidth = iframe.attr('width') || iframe.width(); 
+				iframe.one('load',function(){  
+					iframe.css({'width': oldwidth + 'px'});
+					if(iframe[0].contentWindow.parent && iframe[0].contentWindow.parent.frameElement)
+						iframe[0].contentWindow.parent.frameElement.style.width = oldwidth + 'px';
+				});
+			}
+
+			var gridaddedit = CurrentForm.$Element.find('.ewGridAddEdit');
+			var	maxwidth = gridaddedit.length && top.$('html').width() < gridaddedit.width()? gridaddedit.width() + 'px' : '100%';
+			//console.log(top.$('html').width(), gridaddedit.width());
+			iframe.css({'width':maxwidth});
+
+			if(iframe[0].contentWindow.parent && iframe[0].contentWindow.parent.frameElement){
+				iframe[0].contentWindow.parent.frameElement.style.width = maxwidth;
+			}						
+
 			var maxheight = iframe[0].contentWindow.document.body.scrollHeight;
 			
 			iframe.css('height',maxheight + 10 + 'px');
@@ -28,9 +47,13 @@ function resizeIFRM(delay){
 			if (winres.top !== winres && winres.parent.frameElement){
 				winres.parent.resizeIFRM();
 			} else {
-				maxheight = CurrentForm.$Element.height() >0 ? CurrentForm.$Element.height() : $('.ewForm:visible').height(); 
+				
+				maxheight = CurrentForm.$Element && CurrentForm.$Element.height() >0 ? CurrentForm.$Element.height() : $('.ewForm:visible').height() || 0; 
 				var minheight = w.$('#ewMenu').height();
-				$(w.document.body).css('height',(minheight > maxheight ? minheight :  maxheight) + 150 + 'px');
+				$(w.document.body).css({
+					height : (minheight > maxheight ? minheight :  maxheight) + 150 + 'px',
+					width : maxwidth
+				});
 			}
 			return;			
 		}
@@ -55,6 +78,9 @@ function resizeIFRM(delay){
 
 			if( typeof CurrentPageID != 'undefined' && CurrentPageID != 'list'){
 				maxwidth = CurrentForm.$Element.width();
+			}
+			if( $('.ewMasterTable').length &&  $('.ewMasterTable').width() > maxwidth){
+				maxwidth = $('.ewMasterTable').width()
 			}
 			  
   			setTimeout(function(){ iframe.css('height',iframe[0].contentWindow.document.body.scrollHeight + 10 + 'px') },100);
@@ -83,7 +109,7 @@ function resizeIFRM(delay){
   			//w = mainwin(window);
   			if( (typeof CurrentPageID != 'undefined') && (CurrentPageID == 'list') )
   				w.$(w.document).scrollTop( w.$(w).data('curscroll') );
-  			if (winres.top !== winres && winres.parent.frameElement){
+  			if (winres.top !== winres && winres.parent.frameElement && winres.parent.resizeIFRM){
 				winres.parent.resizeIFRM(200);
   			}
   		}else{
@@ -134,20 +160,31 @@ if(window.frameElement){ //-> Si es un iframe
 		.on("shown.bs.modal",function(){
 			var $dlg = $(this);
 			
-			if(window.frameElement){
-				top.scrollTo(0,top.scrollY);
-				if($dlg.width() > top.innerWidth){
-					var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;
-					$dlg.width( newwidth > 700 ? newwidth : 700);
-				}
-			}
-						
-			var $dlg = $(this).find('.modal-content');
-			setTimeout(() => {
-				
-				// resizeIFRMto($dlg ,{'y':70});
-			}, 300);
 			
+			if(window.frameElement){
+				
+				setTimeout(() => {
+					if( $(window.frameElement).height() < $dlg.find('.modal-content').height() ){
+						$(window.frameElement).height(
+							$dlg.find('.modal-content').height() + 50
+						)
+					}		
+				
+					$dlg.scrollTop(0);
+					top.$("html, body").animate({scrollTop: 0, scrollLeft: 0 }, 500);
+
+					if( $dlg.width() > top.innerWidth){
+						var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;
+						$dlg.width( newwidth > 700 ? newwidth : 700);
+					}
+
+					if($dlg.parent() && $dlg.parent().parent() && top.$('body').width() < $dlg.parent().parent().width())
+						top.$('body').width($dlg.parent().parent().width()-20);
+				}, 200);
+					
+
+			}
+								
 		})
 		.on("hidden.bs.modal",function(){
 			$(this).css('width','inherit');
@@ -176,11 +213,15 @@ function splashLoadingOff(){
 	if(top) top.$('.pageload-overlay').fadeOut();
 	 $('.pageload-overlay').fadeOut();
 }
-PHPMaker_ew_OnError =  ew_OnError;
-ew_OnError = function (frm, el, msg) {
-	setTimeout(function(){ splashLoadingOff(); }, 200);
-	PHPMaker_ew_OnError(frm, el, msg);
+
+if(typeof ew_OnError == 'function'){
+	PHPMaker_ew_OnError =  ew_OnError;
+	ew_OnError = function (frm, el, msg) {
+		setTimeout(function(){ splashLoadingOff(); }, 200);
+		PHPMaker_ew_OnError(frm, el, msg);
+	}
 }
+
 
 jQuery(window).on('load', function(){
 	splashLoadingOff();
