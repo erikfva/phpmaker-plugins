@@ -6,6 +6,7 @@ function mainwin(w){
 function resizeIFRM(delay){
 	var winres = window;
 	var timedelay = typeof delay == "undefined"?0:delay;
+	//console.log('resize');
 	setTimeout(function(){
 
   	if(winres.frameElement && $(winres.frameElement).is(':visible') && $(winres.frameElement).hasClass('autosize') && !$(winres.frameElement).hasClass('iframe-resizing') ){
@@ -20,6 +21,8 @@ function resizeIFRM(delay){
 
 		if(CurrentForm){
 			iframe.addClass('iframe-resizing');
+
+			//resetenado el width en caso de que haya sido ajustado a una pagina anterior
 			$(w.document.body).css({'width':'inherit','height':'inherit'});
 			//Si es fixedwidth hay que volver a resetear el valor al recargar el listado.
 			if(iframe.hasClass('fixedwidth') ){
@@ -29,9 +32,13 @@ function resizeIFRM(delay){
 					if(iframe[0].contentWindow.parent && iframe[0].contentWindow.parent.frameElement)
 						iframe[0].contentWindow.parent.frameElement.style.width = oldwidth + 'px';
 				});
+			}else{
+				iframe.css({'width':'inherit'});
 			}
 
-			var gridaddedit = CurrentForm.$Element.find('.ewGridAddEdit');
+			//console.log(CurrentForm);
+
+			var gridaddedit = CurrentForm.$Element? CurrentForm.$Element.find('.ewGridAddEdit') : $('#' + CurrentForm.ID);
 			var	maxwidth = gridaddedit.length && top.$('html').width() < gridaddedit.width()? gridaddedit.width() + 'px' : '100%';
 			//console.log(top.$('html').width(), gridaddedit.width());
 			iframe.css({'width':maxwidth});
@@ -42,7 +49,13 @@ function resizeIFRM(delay){
 
 			var maxheight = iframe[0].contentWindow.document.body.scrollHeight;
 			
-			iframe.css('height',maxheight + 10 + 'px');
+			iframe.css('height',maxheight + 50 + 'px');
+
+			var $dlg = $('.modal.in');
+			if($dlg.length){ //Si hay una ventana de dialogo abierta. 
+				doResizeDlg($dlg);
+			}
+
 			iframe.removeClass('iframe-resizing');
 			if (winres.top !== winres && winres.parent.frameElement){
 				winres.parent.resizeIFRM();
@@ -140,6 +153,31 @@ function doResize(){
 	resizeIFRM();
 }
 
+function doResizeDlg($dlg){
+	if(!window.frameElement) return;
+
+	setTimeout(() => {
+
+		if( $(window.frameElement).height() < $dlg.find('.modal-content').height() ){
+			$dlg.height( $dlg.find('.modal-content').height() + 150 );
+			$(window.frameElement).height(
+				$dlg.height() + 150
+			)
+		}		
+	
+		$dlg.scrollTop(0);
+		top.$("html, body").animate({scrollTop: 0, scrollLeft: 0 }, 500);
+
+		if( $dlg.width() > top.innerWidth){
+			var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;
+			$dlg.width( newwidth > 700 ? newwidth : 700);
+		}
+
+		if($dlg.parent() && $dlg.parent().parent() && top.$('body').width() < $dlg.parent().parent().width())
+			top.$('body').width($dlg.parent().parent().width()-20);
+	}, 800);
+}
+
 if(window.frameElement){ //-> Si es un iframe
 	$(window).on('load',function(){ //-> Se definen acciones realizadas al cargar el contenido del iframe
 		//Volviendo el scroll al inicio.
@@ -159,32 +197,14 @@ if(window.frameElement){ //-> Si es un iframe
 		})
 		.on("shown.bs.modal",function(){
 			var $dlg = $(this);
-			
-			
-			if(window.frameElement){
-				
-				setTimeout(() => {
-					if( $(window.frameElement).height() < $dlg.find('.modal-content').height() ){
-						$(window.frameElement).height(
-							$dlg.find('.modal-content').height() + 50
-						)
-					}		
-				
-					$dlg.scrollTop(0);
-					top.$("html, body").animate({scrollTop: 0, scrollLeft: 0 }, 500);
 
-					if( $dlg.width() > top.innerWidth){
-						var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;
-						$dlg.width( newwidth > 700 ? newwidth : 700);
-					}
-
-					if($dlg.parent() && $dlg.parent().parent() && top.$('body').width() < $dlg.parent().parent().width())
-						top.$('body').width($dlg.parent().parent().width()-20);
-				}, 200);
-					
-
+			//Fix: habilitando el boton guardar nuevamente.
+			var actionBtn = $dlg.find('button.btn-primary.ewButton');
+			if(actionBtn.length){
+				actionBtn.prop('disabled', false);
 			}
-								
+
+			doResizeDlg($dlg);								
 		})
 		.on("hidden.bs.modal",function(){
 			$(this).css('width','inherit');
@@ -211,7 +231,7 @@ if(window.frameElement){ //-> Si es un iframe
 
 function splashLoadingOff(){
 	if(top) top.$('.pageload-overlay').fadeOut();
-	 $('.pageload-overlay').fadeOut();
+	$('.pageload-overlay').fadeOut();
 }
 
 if(typeof ew_OnError == 'function'){
@@ -228,7 +248,10 @@ jQuery(window).on('load', function(){
 })
 
 jQuery(document).ready(function(){
+
+	//Mostrar la pantalla de cargando... al dar click en los sgtes elementos:
 	$('.ewDetailAddGroup , .ewBreadcrumbs a, .ewListOptionBody .btn:not(.ewGridLink)').on('click',function(){ $('.pageload-overlay').show(); });
+	//Ocultar la pantalla de cargando... al cerrar los siguientes dialogos modal:
 	$("#ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog").on("hide.bs.modal",function(){
 		splashLoadingOff();
 	});

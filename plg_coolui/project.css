@@ -27,7 +27,17 @@
     min-width: inherit;
     width : 95%;
   }
+  #fuserpriv,.form-control {
+      width: inherit;
+  }
+
 }
+
+@media only screen and (max-width: 700px) {
+  .modal { left:initial;margin-left:4%; max-width:90%; top:40px;height:80%;overflow:auto;min-height:505px}
+ }
+
+
 body{
   background-color:transparent; 
   padding-left:10px;
@@ -339,6 +349,7 @@ overflow: hidden;
 /**/
 .text-del{color:red;text-decoration: line-through;}
 .ewBreadcrumbs{background-color:transparent;float:left}
+#fuserpriv{ clear: left}
 .ewEditForm, .ewAddForm, .ewSearchForm {clear : left;}
 .box{background: transparent}
 

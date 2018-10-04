@@ -103,7 +103,11 @@ function ModalDialogShow(o) {
 	var frm,form;
 	
 	if(!$dlg.length) return;
-
+/*
+	$dlg.one("shown.bs.modal",function(){
+		doResizeDlg($dlg);								
+	});
+*/
 	// parse JSON
 	var _parse = function(data) {
 		if ($.isString(data)) {
@@ -141,7 +145,7 @@ function ModalDialogShow(o) {
     $dlg.one("load.ew",function(){
     	form = $dlg.find(".modal-body form")[0];
     	frm = ewForms[form.id];
-    	$dlg.find(".modal-footer .btn-primary").off('click').click(_submit).focus();
+		$dlg.find(".modal-footer .btn-primary").off('click').click(_submit).focus();
 	}); // div#ewModalDialog always exists
 	
 	ew_ModalDialogShow(o);

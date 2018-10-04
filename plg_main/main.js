@@ -53,6 +53,15 @@ function changePage(op){
 	var url = op.url; 
 	var iframe = $('#frame-' + op.id);
 	if(iframe.length == 0 ) return;
+
+	//ocultando el componente indicador de 'pagina cargando...' del iframe actual
+	var currIframe = $('div.metro-pivot').find('.pivotItem.current .metro-page>iframe');
+	if(currIframe.length && currIframe[0].contentWindow.splashLoadingOff){
+		setTimeout(() => {
+			currIframe[0].contentWindow.splashLoadingOff();			
+		}, 200);
+	} 
+
 	iframe.attr('src',url);
 	$('div.metro-pivot').data('metro-pivot').goToItemByName(op.nombre); 
 }
@@ -100,7 +109,6 @@ jQuery(document).ready(function(){
 					if(iframe.length && ( iframe.attr('id')=='frame-content' || iframe.is('.empty')) ){ //load left menu content					
 						$('.pageload-overlay').show();
 						iframe.attr('src', iframe.data('url') ).removeClass('empty');
-						
 					}
 				},
 				selectedItemChanged: function(index){

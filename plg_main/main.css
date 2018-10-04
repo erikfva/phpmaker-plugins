@@ -1,8 +1,4 @@
-﻿	@media only screen and (max-width: 700px) {
-	 .modal { left:initial;margin-left:4%; max-width:90%; top:40px;height:80%;overflow:auto;min-height:505px}
-	}
-
-	/*ocultando el encabezado y columna de menu*/
+﻿	/*ocultando el encabezado y columna de menu*/
 	/*#ewHeaderRow,#ewMenuColumn,.ewToolbar{display:none}
 	.ewContentColumn{padding:0px}
 	.ewSiteTitle{display:none}*/

@@ -78,10 +78,10 @@ function calcUTMCoord(op){
 function buildUTMDialog(){
     $('body').append($('#tpl-calc-coord').html());
     var dlg = $('#calc-coord-dialog').on('show.bs.modal', function(){
-        if(dlg.data('lonel')){
+        if(dlg.data('lonel')){ //longitud element
             dlg.find('#lontxt').val( parseFloat($(dlg.data('lonel')).val()).toFixed(8) )
         }
-        if(dlg.data('latel')){
+        if(dlg.data('latel')){ //latitud element
             dlg.find('#lattxt').val( parseFloat($(dlg.data('latel')).val()).toFixed(8) )			
         }			
         
