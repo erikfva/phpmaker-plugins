@@ -104,8 +104,9 @@ function resizeIFRM(delay){
 					leftbarspace = leftbarspace == 0 
 									&& w.$('#leftmenu').length 
 									&& ( w.$('#leftmenu').position().left == 0 || w.$('#leftmenu').position().left == 230) ? w.$('#leftmenu').width() : leftbarspace;
-					//console.log(maxwidth, leftbarspace );
+
 					$(this).css('width', maxwidth + leftbarspace + 50 + 'px');//css('overflow-x','auto').
+					iframe.css({'width': maxwidth + leftbarspace + 50 + 'px' });
 				}
 				var minheight = w.$('#ewMenu').height();
 				$(this).css('height',(minheight > maxheight ? minheight :  maxheight) + 150 + 'px');
@@ -166,14 +167,14 @@ function doResizeDlg($dlg){
 		}		
 	
 		$dlg.scrollTop(0);
-		top.$("html, body").animate({scrollTop: 0, scrollLeft: 0 }, 500);
+		(!isCrossOrigin()) && top.$("html, body").animate({scrollTop: 0, scrollLeft: 0 }, 500);
 
-		if( $dlg.width() > top.innerWidth){
+		if( !isCrossOrigin() && $dlg.width() > top.innerWidth){
 			var newwidth = top.innerWidth - window.frameElement.offsetLeft - window.frameElement.offsetParent.offsetLeft;
 			$dlg.width( newwidth > 700 ? newwidth : 700);
 		}
 
-		if($dlg.parent() && $dlg.parent().parent() && top.$('body').width() < $dlg.parent().parent().width())
+		if(!isCrossOrigin() && $dlg.parent() && $dlg.parent().parent() && top.$('body').width() < $dlg.parent().parent().width())
 			top.$('body').width($dlg.parent().parent().width()-20);
 	}, 800);
 }
@@ -181,7 +182,7 @@ function doResizeDlg($dlg){
 if(window.frameElement){ //-> Si es un iframe
 	$(window).on('load',function(){ //-> Se definen acciones realizadas al cargar el contenido del iframe
 		//Volviendo el scroll al inicio.
-		top.$("html, body").animate({scrollTop: 0, scrollLeft: 0 }, 500);
+		(!isCrossOrigin()) && top.$("html, body").animate({scrollTop: 0, scrollLeft: 0 }, 500);
 		//Realizando autoajuste del alto del iframe despues de milisegundos
 		setTimeout(function(){
 			doResize();
@@ -219,6 +220,7 @@ if(window.frameElement){ //-> Si es un iframe
 	});
 
 	//Ajustando el contenido de iframe al cambiar de tamanio la pantalla principal
+	if(!isCrossOrigin()){
 		top.$(top).bind('resize', function () {
 			//doResize();
 				if(top && top.resizeTimer) top.clearTimeout(top.resizeTimer);
@@ -226,12 +228,35 @@ if(window.frameElement){ //-> Si es un iframe
 							doResize();
 					}, 250);
 					
-		});
+		})
+	}
+
 }
 
+function isCrossOrigin() {
+    try{
+        //try to access the document object
+        if (top.document || top.document.domain){
+          //we have the same document.domain value!
+        }
+    }catch(e) {
+      //We don't have access, it's cross-origin!
+        return true;
+    }
+    return false;
+};
+
 function splashLoadingOff(){
-	if(top) top.$('.pageload-overlay').fadeOut();
-	$('.pageload-overlay').fadeOut();
+	//if(top) top.$('.pageload-overlay').fadeOut();
+	try {
+		// ...but not to the document inside it
+		if(top) top.$('.pageload-overlay').hide();
+		//$('.pageload-overlay').fadeOut();
+		$('.pageload-overlay').hide();
+	} catch(e) {
+		//alert(e); // Security Error (another origin)
+	}
+
 }
 
 if(typeof ew_OnError == 'function'){
@@ -250,7 +275,13 @@ jQuery(window).on('load', function(){
 jQuery(document).ready(function(){
 
 	//Mostrar la pantalla de cargando... al dar click en los sgtes elementos:
-	$('.ewDetailAddGroup , .ewBreadcrumbs a, .ewListOptionBody .btn:not(.ewGridLink)').on('click',function(){ $('.pageload-overlay').show(); });
+	$('.ewDetailAddGroup , .ewBreadcrumbs a, .ewListOptionBody .btn:not(.ewGridLink), .ewPager .btn').on('click',function(){ 
+		//$('.pageload-overlay').show(); 
+		//console.log('show');
+		if(!isCrossOrigin())
+			if(top) top.$('.pageload-overlay').show();
+
+	});
 	//Ocultar la pantalla de cargando... al cerrar los siguientes dialogos modal:
 	$("#ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog").on("hide.bs.modal",function(){
 		splashLoadingOff();

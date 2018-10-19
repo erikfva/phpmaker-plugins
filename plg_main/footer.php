@@ -13,6 +13,6 @@ if($Page && $Page->PageObjName == "main_php"){
 	$("#fchangepwd").attr("target","_top");
 <?php } ?>
 <?php if(CurrentPageID() != "list"){  ?>
-	top.$('html, body').animate({scrollTop:0,scrollLeft:0}, 'fast');
+	(!isCrossOrigin()) && top.$('html, body').animate({scrollTop:0,scrollLeft:0}, 'fast');
 <?php } ?>	
 </script>
