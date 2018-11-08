@@ -275,7 +275,7 @@ jQuery(window).on('load', function(){
 jQuery(document).ready(function(){
 
 	//Mostrar la pantalla de cargando... al dar click en los sgtes elementos:
-	$('.ewDetailAddGroup , .ewBreadcrumbs a, .ewListOptionBody .btn:not(.ewGridLink), .ewPager .btn').on('click',function(){ 
+	$('.ewDetailAddGroup , .ewBreadcrumbs a, .ewListOptionBody .btn:not(.ewGridLink):not(.dropdown-toggle), .ewPager .btn').on('click',function(){ 
 		//$('.pageload-overlay').show(); 
 		//console.log('show');
 		if(!isCrossOrigin())
