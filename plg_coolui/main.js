@@ -3,8 +3,14 @@ $(function(){
 });
 
 jQuery(document).ready(function(){
-	$("#ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog").on("show.bs.modal",function(){
+	$("#ewMsgBox, #ewModalDialog,#ewModalLookupDialog,#ewAddOptDialog").on("show.bs.modal",function(){
+		//window.scrollTo(0,0);	
 		coolTemplate($(this));
+	}).on("shown.bs.modal",function(){
+		$("html, body, .ewLayout").animate({ scrollTop: 0 }, "slow");
+		if(top && top.$){
+			top.$("html, body, .ewLayout").animate({ scrollTop: 0 }, "slow");
+		}		
 	});
 
 	hideEmpty();

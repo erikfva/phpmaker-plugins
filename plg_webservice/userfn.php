@@ -9,7 +9,8 @@ if (@$GLOBALS["_SERVER"]["REQUEST_METHOD"] == "POST" && empty($_POST)){
 // cuando se llama el script desde file_get_content
 //-----------------------------------//
 if(!empty($_POST))
-while ( list($key, $value) = each($_POST) ){
+foreach($_POST as $key => $value){ 
+//while ( list($key, $value) = each($_POST) ){
 	//var_dump($key, $value);
 	$newkey = str_replace('amp;', '', $key);
 	if ($newkey != $key) {
